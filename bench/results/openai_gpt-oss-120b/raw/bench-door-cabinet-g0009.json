@@ -1,0 +1,19 @@
+{
+  "content": "```xml\n<?xml version=\"1.0\"?>\n<robot name=\"cabinet_with_one_hinged_door\">\n\n  <!-- Base link: the cabinet body -->\n  <link name=\"cabinet_body\">\n    <!-- Inertial properties (approximate) -->\n    <inertial>\n      <origin xyz=\"0 0 0.79\" rpy=\"0 0 0\"/>\n      <!-- Mass of a typical empty cabinet of this size -->\n      <mass value=\"30.0\"/>\n      <!-- Approximate inertia of a rectangular solid (width x depth x height) -->\n      <inertia ixx=\"5.0\" ixy=\"0.0\" ixz=\"0.0\"\n               iyy=\"7.5\" iyz=\"0.0\"\n               izz=\"9.0\"/>\n    </inertial>\n\n    <!-- Visual geometry -->\n    <visual>\n      <origin xyz=\"0 0 0.79\" rpy=\"0 0 0\"/>\n      <geometry>\n        <box size=\"0.62 0.54 1.58\"/>\n      </geometry>\n      <material name=\"light_wood\">\n        <color rgba=\"0.8 0.7 0.5 1.0\"/>\n      </material>\n    </visual>\n\n    <!-- Collision geometry -->\n    <collision>\n      <origin xyz=\"0 0 0.79\" rpy=\"0 0 0\"/>\n      <geometry>\n        <box size=\"0.62 0.54 1.58\"/>\n      </geometry>\n    </collision>\n  </link>\n\n  <!-- Door link -->\n  <link name=\"cabinet_door\">\n    <inertial>\n      <!-- Door centre is at its geometric centre; offset from hinge is handled by joint origin -->\n      <origin xyz=\"0.155 0 0.79\" rpy=\"0 0 0\"/>\n      <mass value=\"8.0\"/>\n      <!-- Inertia of a thin rectangular plate (width x height x thickness\u22480.02m) -->\n      <inertia ixx=\"0.12\" ixy=\"0.0\" ixz=\"0.0\"\n               iyy=\"0.30\" iyz=\"0.0\"\n               izz=\"0.33\"/>\n    </inertial>\n\n    <visual>\n      <origin xyz=\"0.155 0 0.79\" rpy=\"0 0 0\"/>\n      <geometry>\n        <box size=\"0.31 0.02 1.58\"/>\n      </geometry>\n      <material name=\"door_wood\">\n        <color rgba=\"0.7 0.6 0.4 1.0\"/>\n      </material>\n    </visual>\n\n    <collision>\n      <origin xyz=\"0.155 0 0.79\" rpy=\"0 0 0\"/>\n      <geometry>\n        <box size=\"0.31 0.02 1.58\"/>\n      </geometry>\n    </collision>\n  </link>\n\n  <!-- Revolute joint for the door -->\n  <joint name=\"door_hinge\" type=\"revolute\">\n    <!-- Hinge is on the left vertical edge of the cabinet (negative X side) -->\n    <parent link=\"cabinet_body\"/>\n    <child link=\"cabinet_door\"/>\n    <origin xyz=\"-0.31 0 0.79\" rpy=\"0 0 0\"/>\n    <axis xyz=\"0 0 1\"/>\n    <limit effort=\"50.0\" velocity=\"0.5\" lower=\"0.0\" upper=\"1.5708\"/>\n    <dynamics damping=\"0.1\" friction=\"0.2\"/>\n  </joint>\n\n</robot>\n```",
+  "finish_reason": "stop",
+  "id": "bench-door-cabinet-g0009",
+  "model": "openai/gpt-oss-120b",
+  "urdf_found": true,
+  "usage": {
+    "completion_time": 1.858397462,
+    "completion_tokens": 898,
+    "completion_tokens_details": {
+      "reasoning_tokens": 106
+    },
+    "prompt_time": 0.009424621,
+    "prompt_tokens": 185,
+    "queue_time": 0.210784741,
+    "total_time": 1.867822083,
+    "total_tokens": 1083
+  }
+}

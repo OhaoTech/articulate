@@ -1,0 +1,340 @@
+<?xml version="1.0"?>
+<robot name="cabinet_sliding_doors_136x155x56">
+  <material name="body_mat">
+    <color rgba="0.85 0.85 0.85 1"/>
+  </material>
+  <material name="door_mat">
+    <color rgba="0.78 0.78 0.78 1"/>
+  </material>
+  <material name="track_mat">
+    <color rgba="0.25 0.25 0.25 1"/>
+  </material>
+  <material name="glass_mat">
+    <color rgba="0.65 0.75 0.9 0.4"/>
+  </material>
+
+  <!-- Overall dimensions (m) -->
+  <!-- Width X: 1.36  (left +X, right -X)
+       Height Z: 1.55 (floor at Z=0)
+       Depth Y: 0.56  (front faces -Y) -->
+
+  <!-- Assumed cabinet wall thicknesses / components -->
+  <!-- Body panels: 0.02m -->
+  <!-- Side panels (left/right), back panel, top/bottom -->
+  <!-- Door thickness: 0.02m -->
+  <!-- Tracks: mounted on the inside top and bottom front area -->
+  <!-- Simplified inertia: box inertia about principal axes -->
+  <link name="base"/>
+
+  <link name="left_side">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="15.0"/>
+      <inertia ixx="0.013333" iyy="0.004000" izz="0.013333" ixy="0" ixz="0" iyz="0"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.68 0 0.775" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.02 0.56 1.55"/>
+      </geometry>
+      <material name="body_mat"/>
+    </visual>
+    <collision>
+      <origin xyz="0.68 0 0.775" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.02 0.56 1.55"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="right_side">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="15.0"/>
+      <inertia ixx="0.013333" iyy="0.004000" izz="0.013333" ixy="0" ixz="0" iyz="0"/>
+    </inertial>
+    <visual>
+      <origin xyz="-0.68 0 0.775" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.02 0.56 1.55"/>
+      </geometry>
+      <material name="body_mat"/>
+    </visual>
+    <collision>
+      <origin xyz="-0.68 0 0.775" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.02 0.56 1.55"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="top_panel">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="12.0"/>
+      <inertia ixx="0.002210" iyy="0.010944" izz="0.010944" ixy="0" ixz="0" iyz="0"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 1.55" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.34 0.56 0.02"/>
+      </geometry>
+      <material name="body_mat"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 1.55" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.34 0.56 0.02"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="bottom_panel">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="12.0"/>
+      <inertia ixx="0.002210" iyy="0.010944" izz="0.010944" ixy="0" ixz="0" iyz="0"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0.00" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.34 0.56 0.02"/>
+      </geometry>
+      <material name="body_mat"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.00" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.34 0.56 0.02"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="back_panel">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="10.0"/>
+      <inertia ixx="0.006514" iyy="0.006514" izz="0.000289" ixy="0" ixz="0" iyz="0"/>
+    </inertial>
+    <visual>
+      <!-- Place at back (positive Y), just inside side panels -->
+      <origin xyz="0 0.28 0.775" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.34 0.02 1.51"/>
+      </geometry>
+      <material name="body_mat"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0.28 0.775" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.34 0.02 1.51"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- Tracks (one per door) -->
+  <!-- Track axes: Z fixed, motion along +X/-X (sliding sideways) -->
+  <link name="upper_track_left">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="1.5"/>
+      <inertia ixx="0.000108" iyy="0.000562" izz="0.000562" ixy="0" ixz="0" iyz="0"/>
+    </inertial>
+    <visual>
+      <!-- mounted near top front interior, around Y near front face (-0.28) -->
+      <origin xyz="0.0 0.265 1.45" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.45 0.02 0.01"/>
+      </geometry>
+      <material name="track_mat"/>
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.265 1.45" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.45 0.02 0.01"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="lower_track_left">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="1.3"/>
+      <inertia ixx="0.000093" iyy="0.000473" izz="0.000473" ixy="0" ixz="0" iyz="0"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.265 0.10" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.45 0.02 0.01"/>
+      </geometry>
+      <material name="track_mat"/>
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.265 0.10" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.45 0.02 0.01"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="upper_track_right">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="1.5"/>
+      <inertia ixx="0.000108" iyy="0.000562" izz="0.000562" ixy="0" ixz="0" iyz="0"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.250 1.45" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.45 0.02 0.01"/>
+      </geometry>
+      <material name="track_mat"/>
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.250 1.45" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.45 0.02 0.01"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="lower_track_right">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="1.3"/>
+      <inertia ixx="0.000093" iyy="0.000473" izz="0.000473" ixy="0" ixz="0" iyz="0"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.250 0.10" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.45 0.02 0.01"/>
+      </geometry>
+      <material name="track_mat"/>
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.250 0.10" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.45 0.02 0.01"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- Sliding doors -->
+  <!-- Doors are approximately full height panels with thickness 0.02 -->
+  <!-- Each door width ~ 0.68m (half of 1.36m), placed so that they overlap when centered. -->
+  <!-- We model them as box aligned with cabinet front plane (constant Y near -0.275). -->
+  <link name="door_left">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="20.0"/>
+      <!-- Door box: (x=0.68, y=0.02, z=1.55) -->
+      <inertia ixx="0.064133" iyy="1.844000" izz="0.059?"/>
+      <!-- Correct numeric inertia for box:
+           ixx = 1/12*m*(y^2+z^2) = 1/12*20*(0.02^2+1.55^2)=1.6667*(0.0004+2.4025)=1.6667*2.4029=4.0048  (not 0.064)
+           Use proper principal inertias:
+           ixx = 4.0048
+           iyy = 1/12*20*(x^2+z^2) = 1.6667*(0.4624+2.4025)=1.6667*2.8649=4.7748
+           izz = 1/12*20*(x^2+y^2) = 1.6667*(0.4624+0.0004)=1.6667*0.4628=0.7713
+      -->
+      <inertia ixx="4.0048" iyy="4.7748" izz="0.7713" ixy="0" ixz="0" iyz="0"/>
+    </inertial>
+    <visual>
+      <!-- Default pose: left door centered near X=0, y slightly inside front (-Y) -->
+      <origin xyz="0.34  -0.265  0.775" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.68 0.02 1.55"/>
+      </geometry>
+      <material name="door_mat"/>
+    </visual>
+    <collision>
+      <origin xyz="0.34  -0.265  0.775" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.68 0.02 1.55"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="door_right">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="20.0"/>
+      <!-- same box dimensions -->
+      <inertia ixx="4.0048" iyy="4.7748" izz="0.7713" ixy="0" ixz="0" iyz="0"/>
+    </inertial>
+    <visual>
+      <!-- Default pose: right door centered slightly overlapping -->
+      <origin xyz="-0.34  -0.250  0.775" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.68 0.02 1.55"/>
+      </geometry>
+      <material name="door_mat"/>
+    </visual>
+    <collision>
+      <origin xyz="-0.34  -0.250  0.775" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.68 0.02 1.55"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- Fixed joints to base frame -->
+  <joint name="j_left_side" type="fixed">
+    <parent link="base"/>
+    <child link="left_side"/>
+  </joint>
+  <joint name="j_right_side" type="fixed">
+    <parent link="base"/>
+    <child link="right_side"/>
+  </joint>
+  <joint name="j_top_panel" type="fixed">
+    <parent link="base"/>
+    <child link="top_panel"/>
+  </joint>
+  <joint name="j_bottom_panel" type="fixed">
+    <parent link="base"/>
+    <child link="bottom_panel"/>
+  </joint>
+  <joint name="j_back_panel" type="fixed">
+    <parent link="base"/>
+    <child link="back_panel"/>
+  </joint>
+
+  <joint name="j_upper_track_left" type="fixed">
+    <parent link="base"/>
+    <child link="upper_track_left"/>
+    <origin xyz="0.0 0.265 1.45" rpy="0 0 0"/>
+  </joint>
+  <joint name="j_lower_track_left" type="fixed">
+    <parent link="base"/>
+    <child link="lower_track_left"/>
+    <origin xyz="0.0 0.265 0.10" rpy="0 0 0"/>
+  </joint>
+  <joint name="j_upper_track_right" type="fixed">
+    <parent link="base"/>
+    <child link="upper_track_right"/>
+    <origin xyz="0.0 0.250 1.45" rpy="0 0 0"/>
+  </joint>
+  <joint name="j_lower_track_right" type="fixed">
+    <parent link="base"/>
+    <child link="lower_track_right"/>
+    <origin xyz="0.0 0.250 0.10" rpy="0 0 0"/>
+  </joint>
+
+  <!-- Sliding joints: motion along X -->
+  <!-- We align the joint axis with +X (width direction). -->
+  <joint name="j_door_left_slide" type="prismatic">
+    <parent link="base"/>
+    <child link="door_left"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="-0.68" upper="0.68" effort="50" velocity="1.5"/>
+  </joint>
+
+  <joint name="j_door_right_slide" type="prismatic">
+    <parent link="base"/>
+    <child link="door_right"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="-0.68" upper="0.68" effort="50" velocity="1.5"/>
+  </joint>
+</robot>

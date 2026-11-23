@@ -1,0 +1,98 @@
+<?xml version="1.0"?>
+<robot name="cabinet">
+
+  <!-- Base cabinet body -->
+  <link name="cabinet_body">
+    <visual>
+      <origin xyz="0 0 0.475" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.91 0.36 0.95"/>
+      </geometry>
+      <material name="light_wood">
+        <color rgba="0.8 0.7 0.5 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.475" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.91 0.36 0.95"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="30.0"/>
+      <!-- Inertia of a solid box: Ixx = 1/12*m*(h^2 + d^2), Iyy = 1/12*m*(w^2 + d^2), Izz = 1/12*m*(w^2 + h^2) -->
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0"
+               iyy="2.5" iyz="0.0"
+               izz="2.6"/>
+    </inertial>
+  </link>
+
+  <!-- Left door -->
+  <link name="left_door">
+    <visual>
+      <origin xyz="0.2275 0 0.475" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.455 0.02 0.95"/>
+      </geometry>
+      <material name="dark_wood">
+        <color rgba="0.4 0.3 0.2 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.2275 0 0.475" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.455 0.02 0.95"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="5.0"/>
+      <inertia ixx="0.12" ixy="0.0" ixz="0.0"
+               iyy="0.30" iyz="0.0"
+               izz="0.31"/>
+    </inertial>
+  </link>
+
+  <joint name="left_door_hinge" type="revolute">
+    <!-- Hinge located at the outer vertical edge of the left door -->
+    <origin xyz="-0.455 0 0" rpy="0 0 0"/>
+    <parent link="cabinet_body"/>
+    <child link="left_door"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="10.0" velocity="1.0" lower="0" upper="1.5708"/>
+  </joint>
+
+  <!-- Right door -->
+  <link name="right_door">
+    <visual>
+      <origin xyz="-0.2275 0 0.475" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.455 0.02 0.95"/>
+      </geometry>
+      <material name="dark_wood">
+        <color rgba="0.4 0.3 0.2 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.2275 0 0.475" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.455 0.02 0.95"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="5.0"/>
+      <inertia ixx="0.12" ixy="0.0" ixz="0.0"
+               iyy="0.30" iyz="0.0"
+               izz="0.31"/>
+    </inertial>
+  </link>
+
+  <joint name="right_door_hinge" type="revolute">
+    <!-- Hinge located at the outer vertical edge of the right door -->
+    <origin xyz="0.455 0 0" rpy="0 0 0"/>
+    <parent link="cabinet_body"/>
+    <child link="right_door"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="10.0" velocity="1.0" lower="-1.5708" upper="0"/>
+  </joint>
+
+</robot>

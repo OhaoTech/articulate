@@ -1,0 +1,19 @@
+{
+  "content": "```xml\n<?xml version=\"1.0\"?>\n<robot name=\"chest_with_lid\">\n\n  <!-- Base link: the chest body -->\n  <link name=\"chest_body\">\n    <visual>\n      <origin xyz=\"0 0 0.275\" rpy=\"0 0 0\"/>\n      <geometry>\n        <box size=\"0.72 0.41 0.55\"/>\n      </geometry>\n      <material name=\"brown\">\n        <color rgba=\"0.55 0.27 0.07 1\"/>\n      </material>\n    </visual>\n    <collision>\n      <origin xyz=\"0 0 0.275\" rpy=\"0 0 0\"/>\n      <geometry>\n        <box size=\"0.72 0.41 0.55\"/>\n      </geometry>\n    </collision>\n    <inertial>\n      <mass value=\"30.0\"/>\n      <origin xyz=\"0 0 0.275\" rpy=\"0 0 0\"/>\n      <inertia ixx=\"1.1765\" ixy=\"0.0\" ixz=\"0.0\"\n               iyy=\"2.0523\" iyz=\"0.0\"\n               izz=\"1.7163\"/>\n    </inertial>\n  </link>\n\n  <!-- Lid link -->\n  <link name=\"chest_lid\">\n    <visual>\n      <origin xyz=\"0 -0.205 0.01\" rpy=\"0 0 0\"/>\n      <geometry>\n        <box size=\"0.72 0.41 0.02\"/>\n      </geometry>\n      <material name=\"brown_dark\">\n        <color rgba=\"0.4 0.2 0.05 1\"/>\n      </material>\n    </visual>\n    <collision>\n      <origin xyz=\"0 -0.205 0.01\" rpy=\"0 0 0\"/>\n      <geometry>\n        <box size=\"0.72 0.41 0.02\"/>\n      </geometry>\n    </collision>\n    <inertial>\n      <mass value=\"3.0\"/>\n      <origin xyz=\"0 -0.205 0.01\" rpy=\"0 0 0\"/>\n      <inertia ixx=\"0.042125\" ixy=\"0.0\" ixz=\"0.0\"\n               iyy=\"0.1297\" iyz=\"0.0\"\n               izz=\"0.1716\"/>\n    </inertial>\n  </link>\n\n  <!-- Hinge joint: rotates lid up around the back edge -->\n  <joint name=\"lid_hinge\" type=\"revolute\">\n    <parent link=\"chest_body\"/>\n    <child link=\"chest_lid\"/>\n    <!-- Joint origin at the back top edge of the chest -->\n    <origin xyz=\"0 0.205 0.55\" rpy=\"0 0 0\"/>\n    <axis xyz=\"1 0 0\"/>\n    <limit effort=\"10.0\" velocity=\"1.0\" lower=\"0.0\" upper=\"1.5708\"/>\n    <dynamics damping=\"0.1\" friction=\"0.1\"/>\n  </joint>\n\n</robot>\n```",
+  "finish_reason": "stop",
+  "id": "bench-chest-g0010",
+  "model": "openai/gpt-oss-120b",
+  "urdf_found": true,
+  "usage": {
+    "completion_time": 3.454750136,
+    "completion_tokens": 1658,
+    "completion_tokens_details": {
+      "reasoning_tokens": 963
+    },
+    "prompt_time": 0.007357441,
+    "prompt_tokens": 184,
+    "queue_time": 0.170058654,
+    "total_time": 3.462107577,
+    "total_tokens": 1842
+  }
+}

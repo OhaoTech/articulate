@@ -1,0 +1,11 @@
+{
+  "content": "```xml\n<robot name=\"chest_with_lid\">\n  <link name=\"base\">\n    <inertial>\n      <origin xyz=\"0 0.0 0.1305\" rpy=\"0 0 0\"/>\n      <mass value=\"8.0\"/>\n      <inertia ixx=\"0.040\" ixy=\"0.0\" ixz=\"0.0\" iyy=\"0.020\" iyz=\"0.0\" izz=\"0.040\"/>\n    </inertial>\n    <visual>\n      <origin xyz=\"0 0.0 0.1305\" rpy=\"0 0 0\"/>\n      <geometry>\n        <box size=\"0.62 0.26 0.26\"/>\n      </geometry>\n      <material name=\"wood_dark\"/>\n    </visual>\n    <collision>\n      <origin xyz=\"0 0.0 0.1305\" rpy=\"0 0 0\"/>\n      <geometry>\n        <box size=\"0.62 0.26 0.26\"/>\n      </geometry>\n    </collision>\n  </link>\n\n  <link name=\"lid\">\n    <inertial>\n      <origin xyz=\"0 -0.13 0.26\" rpy=\"0 0 0\"/>\n      <mass value=\"3.0\"/>\n      <inertia ixx=\"0.005\" ixy=\"0.0\" ixz=\"0.0\" iyy=\"0.025\" iyz=\"0.0\" izz=\"0.025\"/>\n    </inertial>\n\n    <visual>\n      <origin xyz=\"0 0.13 0.26\" rpy=\"0 0 0\"/>\n      <geometry>\n        <box size=\"0.62 0.26 0.04\"/>\n      </geometry>\n      <material name=\"wood_light\"/>\n    </visual>\n    <collision>\n      <origin xyz=\"0 0.13 0.26\" rpy=\"0 0 0\"/>\n      <geometry>\n        <box size=\"0.62 0.26 0.04\"/>\n      </geometry>\n    </collision>\n  </link>\n\n  <joint name=\"lid_hinge\" type=\"revolute\">\n    <parent link=\"base\"/>\n    <child link=\"lid\"/>\n    <origin xyz=\"0 -0.13 0.26\" rpy=\"0 0 0\"/>\n    <axis xyz=\"1 0 0\"/>\n    <limit lower=\"-1.57079632679\" upper=\"1.57079632679\" effort=\"50\" velocity=\"2.0\"/>\n  </joint>\n</robot>\n```",
+  "finish_reason": "stop",
+  "id": "bench-chest-g0009",
+  "model": "openai/gpt-5.4-nano",
+  "urdf_found": true,
+  "usage": {
+    "completion_tokens": 570,
+    "prompt_tokens": 121
+  }
+}

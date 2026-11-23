@@ -1,0 +1,105 @@
+<?xml version="1.0"?>
+<robot name="chest_lidded">
+  <!-- Dimensions (meters) -->
+  <!-- Width X: 0.95 (extends from -0.475 to +0.475) -->
+  <!-- Depth Z? no: Depth along Y: 0.36 (front faces -Y; origin at center so Y from -0.18 to +0.18) -->
+  <!-- Height Z: 0.60 (origin on floor, so base at Z=0 and top at Z=0.60) -->
+
+  <!-- ===== Materials ===== -->
+  <material name="wood_dark">
+    <color rgba="0.55 0.35 0.20 1"/>
+  </material>
+  <material name="wood_medium">
+    <color rgba="0.65 0.45 0.25 1"/>
+  </material>
+  <material name="wood_light">
+    <color rgba="0.75 0.58 0.35 1"/>
+  </material>
+
+  <!-- =======================
+       Link: Chest Base
+       ======================= -->
+  <link name="base">
+    <!-- Mass -->
+    <inertial>
+      <origin xyz="0 0 0.265" rpy="0 0 0"/>
+      <mass value="25.0"/>
+      <!-- Approximate cuboid: width 0.95, depth 0.36, height 0.53 (base thickness) -->
+      <!-- Ixx = 1/12*m*(y^2+z^2) where y=0.36, z=0.53 -->
+      <!-- Iyy = 1/12*m*(x^2+z^2) where x=0.95, z=0.53 -->
+      <!-- Izz = 1/12*m*(x^2+y^2) where x=0.95, y=0.36 -->
+      <inertia ixx="3.91" iyy="7.01" izz="6.51" ixy="0" ixz="0" iyz="0"/>
+    </inertial>
+
+    <visual>
+      <origin xyz="0 0 0.265" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.95 0.36 0.53"/>
+      </geometry>
+      <material name="wood_medium"/>
+    </visual>
+
+    <collision>
+      <origin xyz="0 0 0.265" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.95 0.36 0.53"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- =======================
+       Link: Lid
+       ======================= -->
+  <link name="lid">
+    <!-- Lid is a flat plate; thickness 0.03 m -->
+    <!-- Hinged along the back edge: back edge at +Y(+0.18), lid spans width in X -->
+    <!-- Lid swings up to open, rotating about hinge axis along X (right-left) -->
+    <!-- Lid COM centered at Y = +0.18 (hinge line) + t/2 (toward front) if thickness is in Y -->
+    <!-- We model lid thickness along Y with size (x=0.95, y=0.03, z=0.60?) -->
+    <!-- Real chest: lid thickness negligible; use lid as a plate: x by depth thickness, with negligible height -->
+    <!-- We'll model lid as a plate of dimensions: width (0.95) in X, thickness (0.03) in Y, and height (0.06) in Z for collision/visual -->
+    <!-- Position: lid bottom edge at Z=0.60 when closed; hinge along back edge at Z=0.60 -->
+    <!-- Choose lid plate center at Z=0.60 - 0.03 (half plate thickness in Z), and center at Y=+0.18 - 0.015 (so it overlaps base back edge) -->
+    <inertial>
+      <origin xyz="0 0.165 0.585" rpy="0 0 0"/>
+      <!-- Approximate mass of a lid plate -->
+      <mass value="4.5"/>
+      <!-- Approximate cuboid for inertia: x=0.95, y=0.03, z=0.06 -->
+      <!-- Ixx = 1/12*m*(y^2+z^2) -->
+      <!-- Iyy = 1/12*m*(x^2+z^2) -->
+      <!-- Izz = 1/12*m*(x^2+y^2) -->
+      <inertia ixx="0.04" iyy="0.18" izz="0.20" ixy="0" ixz="0" iyz="0"/>
+    </inertial>
+
+    <visual>
+      <!-- Visual plate -->
+      <origin xyz="0 0.165 0.585" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.95 0.03 0.06"/>
+      </geometry>
+      <material name="wood_dark"/>
+    </visual>
+
+    <collision>
+      <origin xyz="0 0.165 0.585" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.95 0.03 0.06"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- =======================
+       Joint: Lid hinge at back edge
+       ======================= -->
+  <!-- Joint frame at hinge line: along X axis at back edge (Y=+0.18),
+       at top surface Z=0.60. Lid rotates about X axis. -->
+  <joint name="lid_hinge" type="revolute">
+    <origin xyz="0 0.18 0.60" rpy="0 0 0"/>
+    <!-- Rotation axis along X -->
+    <axis xyz="1 0 0" />
+    <parent link="base"/>
+    <child link="lid"/>
+    <!-- Allow opening upward; closed at 0 rad. Limit to 0..pi/2 typical -->
+    <limit lower="0.0" upper="1.57079632679" effort="30.0" velocity="2.0"/>
+  </joint>
+</robot>

@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<robot name="chest_with_lid">
+
+  <!-- Base link: the chest body -->
+  <link name="chest_body">
+    <visual>
+      <origin xyz="0 0 0.265" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.45 0.38 0.53"/>
+      </geometry>
+      <material name="brown">
+        <color rgba="0.55 0.27 0.07 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.265" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.45 0.38 0.53"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="10.0"/>
+      <origin xyz="0 0 0.265" rpy="0 0 0"/>
+      <inertia ixx="0.354" ixy="0.0" ixz="0.0"
+               iyy="0.403" iyz="0.0"
+               izz="0.289"/>
+    </inertial>
+  </link>
+
+  <!-- Lid link -->
+  <link name="chest_lid">
+    <visual>
+      <origin xyz="0 0 0.01" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.45 0.38 0.02"/>
+      </geometry>
+      <material name="dark_brown">
+        <color rgba="0.4 0.2 0.0 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.01" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.45 0.38 0.02"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="2.0"/>
+      <origin xyz="0 0 0.01" rpy="0 0 0"/>
+      <inertia ixx="0.02413" ixy="0.0" ixz="0.0"
+               iyy="0.03382" iyz="0.0"
+               izz="0.05782"/>
+    </inertial>
+  </link>
+
+  <!-- Hinge joint for the lid -->
+  <joint name="lid_hinge" type="revolute">
+    <!-- Joint origin is at the back top edge of the chest -->
+    <origin xyz="0 0.19 0.53" rpy="0 0 0"/>
+    <parent link="chest_body"/>
+    <child link="chest_lid"/>
+    <axis xyz="1 0 0"/>
+    <limit effort="10.0" velocity="1.0" lower="0.0" upper="1.5708"/>
+    <dynamics damping="0.1" friction="0.0"/>
+  </joint>
+
+</robot>

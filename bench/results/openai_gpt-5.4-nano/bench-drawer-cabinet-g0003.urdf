@@ -1,0 +1,413 @@
+<?xml version="1.0"?>
+<robot name="drawer_cabinet_0">
+  <!-- Units: meters -->
+
+  <!-- Base dimensions -->
+  <!-- Width (X): 0.75, Height (Z): 0.94, Depth (Y): 0.38 -->
+  <!-- Origin at floor under middle of object: X across width, Y toward back, front faces -Y, Z up -->
+
+  <!-- Cabinet parameters -->
+  <!-- Wall thicknesses -->
+  <material name="wood" value=""/>
+  <material name="drawer_wood" value=""/>
+  <material name="guide_metal" value=""/>
+
+  <!-- Common inertial helper: approximate as uniform density boxes -->
+  <!-- Inertia for box (mass m, dimensions a,b,c):
+       Ixx = (1/12)*m*(b^2 + c^2), Iyy = (1/12)*m*(a^2 + c^2), Izz = (1/12)*m*(a^2 + b^2)
+       with axes aligned to link frame: X right/left, Y back/front, Z up. -->
+
+  <!-- ===================== -->
+  <!-- Link: Cabinet Frame -->
+  <!-- ===================== -->
+  <link name="cabinet_frame">
+    <!-- Collision geometry: back + sides + top + bottom with reasonable thickness -->
+    <!-- We'll approximate cabinet shell as three main boxes:
+         1) Back panel
+         2) Left/right side panels
+         3) Top and bottom panels
+         plus an internal void is not explicitly modeled (URDF doesn't support booleans).
+         This is a physical proxy. -->
+    <inertial>
+      <origin xyz="0 0 0.47" rpy="0 0 0"/>
+      <mass value="38.0"/>
+      <inertia ixx="0.17" ixy="0.0" ixz="0.0" iyy="0.17" iyz="0.0" izz="0.12"/>
+    </inertial>
+
+    <visual>
+      <origin xyz="0 0 -0.19" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.75 0.02 0.19"/>
+      </geometry>
+      <material name="wood"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 -0.19" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.75 0.02 0.19"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0.19 0.285" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.75 0.02 0.57"/>
+      </geometry>
+      <material name="wood"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0.19 0.285" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.75 0.02 0.57"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0.365 0 0.285" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.02 0.38 0.57"/>
+      </geometry>
+      <material name="wood"/>
+    </visual>
+    <collision>
+      <origin xyz="0.365 0 0.285" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.02 0.38 0.57"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="-0.365 0 0.285" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.02 0.38 0.57"/>
+      </geometry>
+      <material name="wood"/>
+    </visual>
+    <collision>
+      <origin xyz="-0.365 0 0.285" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.02 0.38 0.57"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0.83" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.75 0.38 0.02"/>
+      </geometry>
+      <material name="wood"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.83" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.75 0.38 0.02"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0.06" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.75 0.38 0.02"/>
+      </geometry>
+      <material name="wood"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.06" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.75 0.38 0.02"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- ===================== -->
+  <!-- Drawer definitions -->
+  <!-- ===================== -->
+  <!-- Drawer sizing:
+       Cabinet inside clearances (approx):
+       Side thickness 0.02; back thickness 0.02; top/bottom 0.02.
+       We'll set drawer width slightly smaller than cabinet outer:
+       drawer_width = 0.75 - 2*0.02 = 0.71
+       drawer_depth = 0.34 (proxy; slides inside cabinet, leaving front/back clearances)
+       drawer_height per drawer segment:
+         total clear height approx 0.94 - top/bottom 0.02 - 0.02 = 0.90
+         stacked 3 drawers => about 0.30 each, with internal guides thickness ignored.
+       We'll use drawer box height 0.28 and leave gap for bottom panels between drawers via frame.
+  -->
+
+  <!-- Drawer travel:
+       slide out toward front (-Y). We'll define joint axis along Y (prismatic).
+       Parent frame is at cabinet origin.
+       We'll set drawer link frames such that at q=0 the drawer is inside:
+       i.e., its center is at Y = -0.02 (slightly into the cabinet).
+       Prismatic joint moves along +Y in URDF joint axis; to move out toward front (-Y),
+       we set axis = -1 in Y (so positive joint value moves toward -Y).
+  -->
+
+  <!-- Drawer 1 (bottom) -->
+  <link name="drawer_1">
+    <inertial>
+      <origin xyz="0 0 0.14" rpy="0 0 0"/>
+      <mass value="7.5"/>
+      <inertia ixx="0.018" ixy="0.0" ixz="0.0" iyy="0.020" iyz="0.0" izz="0.008"/>
+    </inertial>
+
+    <visual>
+      <!-- Outer drawer body -->
+      <origin xyz="0 0 0.14" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.71 0.34 0.28"/>
+      </geometry>
+      <material name="drawer_wood"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.14" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.71 0.34 0.28"/>
+      </geometry>
+    </collision>
+
+    <!-- Drawer bottom panel / rail proxy (thin slab) -->
+    <visual>
+      <origin xyz="0 0 0.04" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.71 0.30 0.02"/>
+      </geometry>
+      <material name="drawer_wood"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.04" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.71 0.30 0.02"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- Drawer 2 (middle) -->
+  <link name="drawer_2">
+    <inertial>
+      <origin xyz="0 0 0.14" rpy="0 0 0"/>
+      <mass value="7.5"/>
+      <inertia ixx="0.018" ixy="0.0" ixz="0.0" iyy="0.020" iyz="0.0" izz="0.008"/>
+    </inertial>
+
+    <visual>
+      <origin xyz="0 0 0.14" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.71 0.34 0.28"/>
+      </geometry>
+      <material name="drawer_wood"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.14" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.71 0.34 0.28"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0.04" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.71 0.30 0.02"/>
+      </geometry>
+      <material name="drawer_wood"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.04" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.71 0.30 0.02"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- Drawer 3 (top) -->
+  <link name="drawer_3">
+    <inertial>
+      <origin xyz="0 0 0.14" rpy="0 0 0"/>
+      <mass value="7.5"/>
+      <inertia ixx="0.018" ixy="0.0" ixz="0.0" iyy="0.020" iyz="0.0" izz="0.008"/>
+    </inertial>
+
+    <visual>
+      <origin xyz="0 0 0.14" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.71 0.34 0.28"/>
+      </geometry>
+      <material name="drawer_wood"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.14" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.71 0.34 0.28"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0.04" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.71 0.30 0.02"/>
+      </geometry>
+      <material name="drawer_wood"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.04" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.71 0.30 0.02"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- ===================== -->
+  <!-- Prismatic joints (slides toward front: -Y) -->
+  <!-- ===================== -->
+
+  <!-- Joint locations:
+       Cabinet origin: floor under middle.
+       Drawer centers at:
+         Bottom drawer center Z ~ 0.02 + 0.28/2 + gap? We'll use:
+           bottom drawer link frame Z origin at its bottom? We set link frame at drawer bottom center in Z? No: we set link inertial origin at z=0.14 meaning link frame origin is at drawer bottom plane.
+           In link geometry, drawer box from z=0 to z=0.28.
+       So joint origin for each drawer should place drawer bottom plane at appropriate Z.
+  -->
+
+  <!-- Bottom drawer: bottom plane Z = 0.02 (cabinet bottom thickness) + 0.02 spacing -->
+  <!-- Use Z positions:
+       bottom drawer bottom z = 0.04
+       middle drawer bottom z = 0.34
+       top drawer bottom z = 0.64
+       Each drawer height 0.28 => centers at 0.18, 0.48, 0.78 respectively.
+  -->
+  <!-- At q=0, drawer is slightly inside: drawer frame origin Y= -0.02 + (joint displacement along axis). -->
+  <!-- Since link geometry spans y from -0.17..+0.17 around link origin,
+       set link origin Y so that drawer back isn't penetrating the cabinet back panel too much.
+       Cabinet back panel is at Y=+0.19 (thickness 0.02) with inner void starting near +0.18.
+       Drawer back at link_origin_y - 0.17 should be <= 0.18 => link_origin_y <= 0.35. We'll use -0.02 comfortably inside. -->
+  <!-- Travel: allow 0.30 m out. axis moves toward front (-Y), so joint positive increases front extension. -->
+
+  <joint name="joint_drawer_1" type="prismatic">
+    <parent link="cabinet_frame"/>
+    <child link="drawer_1"/>
+    <origin xyz="0 -0.02 0.04" rpy="0 0 0"/>
+    <axis xyz="0 -1 0"/>
+    <limit lower="0.0" upper="0.30" effort="120.0" velocity="1.5"/>
+  </joint>
+
+  <joint name="joint_drawer_2" type="prismatic">
+    <parent link="cabinet_frame"/>
+    <child link="drawer_2"/>
+    <origin xyz="0 -0.02 0.34" rpy="0 0 0"/>
+    <axis xyz="0 -1 0"/>
+    <limit lower="0.0" upper="0.30" effort="120.0" velocity="1.5"/>
+  </joint>
+
+  <joint name="joint_drawer_3" type="prismatic">
+    <parent link="cabinet_frame"/>
+    <child link="drawer_3"/>
+    <origin xyz="0 -0.02 0.64" rpy="0 0 0"/>
+    <axis xyz="0 -1 0"/>
+    <limit lower="0.0" upper="0.30" effort="120.0" velocity="1.5"/>
+  </joint>
+
+  <!-- ===================== -->
+  <!-- Guide rails proxy as extra collisions on frame (no joints) -->
+  <!-- ===================== -->
+  <!-- Rails on sides to constrain collision behavior using fixed geometry -->
+  <link name="guide_rails_proxy">
+    <inertial>
+      <origin xyz="0 0 0.47" rpy="0 0 0"/>
+      <mass value="2.0"/>
+      <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.010" iyz="0.0" izz="0.010"/>
+    </inertial>
+
+    <!-- Left rails -->
+    <visual>
+      <origin xyz="0.335 0 0.18" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.005 0.30 0.02"/>
+      </geometry>
+      <material name="guide_metal"/>
+    </visual>
+    <collision>
+      <origin xyz="0.335 0 0.18" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.005 0.30 0.02"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0.335 0 0.48" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.005 0.30 0.02"/>
+      </geometry>
+      <material name="guide_metal"/>
+    </visual>
+    <collision>
+      <origin xyz="0.335 0 0.48" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.005 0.30 0.02"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0.335 0 0.78" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.005 0.30 0.02"/>
+      </geometry>
+      <material name="guide_metal"/>
+    </visual>
+    <collision>
+      <origin xyz="0.335 0 0.78" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.005 0.30 0.02"/>
+      </geometry>
+    </collision>
+
+    <!-- Right rails -->
+    <visual>
+      <origin xyz="-0.335 0 0.18" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.005 0.30 0.02"/>
+      </geometry>
+      <material name="guide_metal"/>
+    </visual>
+    <collision>
+      <origin xyz="-0.335 0 0.18" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.005 0.30 0.02"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="-0.335 0 0.48" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.005 0.30 0.02"/>
+      </geometry>
+      <material name="guide_metal"/>
+    </visual>
+    <collision>
+      <origin xyz="-0.335 0 0.48" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.005 0.30 0.02"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="-0.335 0 0.78" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.005 0.30 0.02"/>
+      </geometry>
+      <material name="guide_metal"/>
+    </visual>
+    <collision>
+      <origin xyz="-0.335 0 0.78" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.005 0.30 0.02"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="fixed_guide_rails" type="fixed">
+    <parent link="cabinet_frame"/>
+    <child link="guide_rails_proxy"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+</robot>

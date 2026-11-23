@@ -1,0 +1,11 @@
+{
+  "content": "```xml\n<?xml version=\"1.0\"?>\n<robot name=\"cabinet\">\n  <link name=\"cabinet_body\">\n    <visual>\n      <origin xyz=\"0 0 0.295\" rpy=\"0 0 0\"/>\n      <geometry>\n        <box size=\"0.67 0.47 0.59\"/>\n      </geometry>\n      <material name=\"wood\">\n        <color rgba=\"0.6 0.4 0.2 1\"/>\n      </material>\n    </visual>\n    <collision>\n      <origin xyz=\"0 0 0.295\" rpy=\"0 0 0\"/>\n      <geometry>\n        <box size=\"0.67 0.47 0.59\"/>\n      </geometry>\n    </collision>\n    <inertial>\n      <origin xyz=\"0 0 0.295\" rpy=\"0 0 0\"/>\n      <mass value=\"20\"/>\n      <inertia ixx=\"0.9483\" ixy=\"0\" ixz=\"0\" iyy=\"1.3283\" iyz=\"0\" izz=\"1.1163\"/>\n    </inertial>\n  </link>\n\n  <link name=\"door\">\n    <visual>\n      <origin xyz=\"0.335 0 0\" rpy=\"0 0 0\"/>\n      <geometry>\n        <box size=\"0.67 0.02 0.59\"/>\n      </geometry>\n      <material name=\"wood\">\n        <color rgba=\"0.6 0.4 0.2 1\"/>\n      </material>\n    </visual>\n    <collision>\n      <origin xyz=\"0.335 0 0\" rpy=\"0 0 0\"/>\n      <geometry>\n        <box size=\"0.67 0.02 0.59\"/>\n      </geometry>\n    </collision>\n    <inertial>\n      <origin xyz=\"0.335 0 0\" rpy=\"0 0 0\"/>\n      <mass value=\"3\"/>\n      <inertia ixx=\"0.087125\" ixy=\"0\" ixz=\"0\" iyy=\"0.19925\" iyz=\"0\" izz=\"0.112325\"/>\n    </inertial>\n  </link>\n\n  <joint name=\"door_hinge\" type=\"revolute\">\n    <parent link=\"cabinet_body\"/>\n    <child link=\"door\"/>\n    <origin xyz=\"-0.335 -0.245 0.295\" rpy=\"0 0 0\"/>\n    <axis xyz=\"0 0 1\"/>\n    <limit lower=\"-1.57\" upper=\"0\" effort=\"10\" velocity=\"1.0\"/>\n  </joint>\n</robot>\n```",
+  "finish_reason": "stop",
+  "id": "bench-door-cabinet-g0010",
+  "model": "deepseek/deepseek-v4.1-flash",
+  "urdf_found": true,
+  "usage": {
+    "completion_tokens": 4021,
+    "prompt_tokens": 144
+  }
+}

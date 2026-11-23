@@ -1,0 +1,136 @@
+<?xml version="1.0"?>
+<robot name="drawer_cabinet">
+  <!-- Base link: cabinet carcass -->
+  <link name="cabinet">
+    <inertial>
+      <origin xyz="0 0 0.39" rpy="0 0 0"/>
+      <mass value="30"/>
+      <inertia ixx="2.146" ixy="0" ixz="0" iyy="1.983" iyz="0" izz="1.087"/>
+    </inertial>
+
+    <!-- Left side panel -->
+    <visual>
+      <origin xyz="-0.206 0 0.39" rpy="0 0 0"/>
+      <geometry><box size="0.018 0.50 0.78"/></geometry>
+    </visual>
+    <collision>
+      <origin xyz="-0.206 0 0.39" rpy="0 0 0"/>
+      <geometry><box size="0.018 0.50 0.78"/></geometry>
+    </collision>
+
+    <!-- Right side panel -->
+    <visual>
+      <origin xyz="0.206 0 0.39" rpy="0 0 0"/>
+      <geometry><box size="0.018 0.50 0.78"/></geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.206 0 0.39" rpy="0 0 0"/>
+      <geometry><box size="0.018 0.50 0.78"/></geometry>
+    </collision>
+
+    <!-- Top panel -->
+    <visual>
+      <origin xyz="0 0 0.771" rpy="0 0 0"/>
+      <geometry><box size="0.394 0.50 0.018"/></geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.771" rpy="0 0 0"/>
+      <geometry><box size="0.394 0.50 0.018"/></geometry>
+    </collision>
+
+    <!-- Bottom panel -->
+    <visual>
+      <origin xyz="0 0 0.009" rpy="0 0 0"/>
+      <geometry><box size="0.394 0.50 0.018"/></geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.009" rpy="0 0 0"/>
+      <geometry><box size="0.394 0.50 0.018"/></geometry>
+    </collision>
+
+    <!-- Back panel -->
+    <visual>
+      <origin xyz="0 0.241 0.39" rpy="0 0 0"/>
+      <geometry><box size="0.394 0.018 0.744"/></geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0.241 0.39" rpy="0 0 0"/>
+      <geometry><box size="0.394 0.018 0.744"/></geometry>
+    </collision>
+  </link>
+
+  <!-- Drawer 1 (bottom) -->
+  <link name="drawer_1">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="5"/>
+      <inertia ixx="0.1084" ixy="0" ixz="0" iyy="0.0874" iyz="0" izz="0.1478"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><box size="0.39 0.45 0.24"/></geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><box size="0.39 0.45 0.24"/></geometry>
+    </collision>
+  </link>
+
+  <joint name="drawer_1_joint" type="prismatic">
+    <parent link="cabinet"/>
+    <child link="drawer_1"/>
+    <origin xyz="0 -0.025 0.142" rpy="0 0 0"/>
+    <axis xyz="0 -1 0"/>
+    <limit lower="0" upper="0.40" effort="50" velocity="0.5"/>
+  </joint>
+
+  <!-- Drawer 2 (middle) -->
+  <link name="drawer_2">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="5"/>
+      <inertia ixx="0.1084" ixy="0" ixz="0" iyy="0.0874" iyz="0" izz="0.1478"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><box size="0.39 0.45 0.24"/></geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><box size="0.39 0.45 0.24"/></geometry>
+    </collision>
+  </link>
+
+  <joint name="drawer_2_joint" type="prismatic">
+    <parent link="cabinet"/>
+    <child link="drawer_2"/>
+    <origin xyz="0 -0.025 0.390" rpy="0 0 0"/>
+    <axis xyz="0 -1 0"/>
+    <limit lower="0" upper="0.40" effort="50" velocity="0.5"/>
+  </joint>
+
+  <!-- Drawer 3 (top) -->
+  <link name="drawer_3">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="5"/>
+      <inertia ixx="0.1084" ixy="0" ixz="0" iyy="0.0874" iyz="0" izz="0.1478"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><box size="0.39 0.45 0.24"/></geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><box size="0.39 0.45 0.24"/></geometry>
+    </collision>
+  </link>
+
+  <joint name="drawer_3_joint" type="prismatic">
+    <parent link="cabinet"/>
+    <child link="drawer_3"/>
+    <origin xyz="0 -0.025 0.638" rpy="0 0 0"/>
+    <axis xyz="0 -1 0"/>
+    <limit lower="0" upper="0.40" effort="50" velocity="0.5"/>
+  </joint>
+</robot>

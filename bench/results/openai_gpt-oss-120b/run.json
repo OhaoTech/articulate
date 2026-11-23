@@ -1,0 +1,8 @@
+{
+  "max_tokens": 7000,
+  "model": "openai/gpt-oss-120b",
+  "provider": "groq",
+  "reasoning_effort": "low",
+  "system": "You write robot description files. Reply with exactly one complete URDF document inside a single ```xml code block and nothing else.",
+  "temperature": 0
+}

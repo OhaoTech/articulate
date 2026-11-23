@@ -1,0 +1,105 @@
+<?xml version="1.0"?>
+<robot name="sliding_cabinet">
+
+  <!-- Base cabinet body -->
+  <link name="cabinet_body">
+    <visual>
+      <origin xyz="0 0 0.97" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.77 0.41 1.94"/>
+      </geometry>
+      <material name="light_wood">
+        <color rgba="0.8 0.7 0.5 1.0"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.97" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.77 0.41 1.94"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <!-- Approximate mass 80 kg, uniform density -->
+      <mass value="80.0"/>
+      <origin xyz="0 0 0.97" rpy="0 0 0"/>
+      <inertia ixx="30.0" ixy="0.0" ixz="0.0"
+               iyy="45.0" iyz="0.0"
+               izz="55.0"/>
+    </inertial>
+  </link>
+
+  <!-- Left sliding door -->
+  <link name="door_left">
+    <visual>
+      <origin xyz="-0.4425 0 0.97" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.885 0.41 1.94"/>
+      </geometry>
+      <material name="door_material">
+        <color rgba="0.9 0.9 0.9 1.0"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.4425 0 0.97" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.885 0.41 1.94"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <!-- Approximate mass 20 kg -->
+      <mass value="20.0"/>
+      <origin xyz="-0.4425 0 0.97" rpy="0 0 0"/>
+      <inertia ixx="5.0" ixy="0.0" ixz="0.0"
+               iyy="8.0" iyz="0.0"
+               izz="9.5"/>
+    </inertial>
+  </link>
+
+  <!-- Right sliding door -->
+  <link name="door_right">
+    <visual>
+      <origin xyz="0.4425 0 0.97" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.885 0.41 1.94"/>
+      </geometry>
+      <material name="door_material">
+        <color rgba="0.9 0.9 0.9 1.0"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.4425 0 0.97" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.885 0.41 1.94"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <!-- Approximate mass 20 kg -->
+      <mass value="20.0"/>
+      <origin xyz="0.4425 0 0.97" rpy="0 0 0"/>
+      <inertia ixx="5.0" ixy="0.0" ixz="0.0"
+               iyy="8.0" iyz="0.0"
+               izz="9.5"/>
+    </inertial>
+  </link>
+
+  <!-- Joint for left door sliding along X -->
+  <joint name="joint_left_door" type="prismatic">
+    <parent link="cabinet_body"/>
+    <child link="door_left"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="-0.885" upper="0.0" effort="200" velocity="0.5"/>
+    <dynamics damping="0.1" friction="0.2"/>
+  </joint>
+
+  <!-- Joint for right door sliding along X -->
+  <joint name="joint_right_door" type="prismatic">
+    <parent link="cabinet_body"/>
+    <child link="door_right"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <axis xyz="-1 0 0"/>
+    <limit lower="-0.885" upper="0.0" effort="200" velocity="0.5"/>
+    <dynamics damping="0.1" friction="0.2"/>
+  </joint>
+
+</robot>

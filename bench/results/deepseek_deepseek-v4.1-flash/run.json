@@ -1,0 +1,8 @@
+{
+  "max_tokens": 32000,
+  "model": "deepseek/deepseek-v4.1-flash",
+  "provider": "pollinations",
+  "reasoning_effort": null,
+  "system": "Output a complete URDF file inside a single ```xml code block. Do not explain or comment. Start the code block immediately.",
+  "temperature": 0
+}

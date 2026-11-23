@@ -1,0 +1,19 @@
+{
+  "content": "```xml\n<?xml version=\"1.0\"?>\n<robot name=\"cabinet_with_one_hinged_door\">\n\n  <!-- Cabinet body -->\n  <link name=\"cabinet_body\">\n    <visual>\n      <origin xyz=\"0 0 0.49\" rpy=\"0 0 0\"/>\n      <geometry>\n        <box size=\"0.47 0.55 0.98\"/>\n      </geometry>\n      <material name=\"gray\">\n        <color rgba=\"0.6 0.6 0.6 1\"/>\n      </material>\n    </visual>\n    <collision>\n      <origin xyz=\"0 0 0.49\" rpy=\"0 0 0\"/>\n      <geometry>\n        <box size=\"0.47 0.55 0.98\"/>\n      </geometry>\n    </collision>\n    <inertial>\n      <mass value=\"30.0\"/>\n      <origin xyz=\"0 0 0.49\" rpy=\"0 0 0\"/>\n      <inertia ixx=\"3.1573\" ixy=\"0.0\" ixz=\"0.0\"\n               iyy=\"2.9533\" iyz=\"0.0\"\n               izz=\"1.3085\"/>\n    </inertial>\n  </link>\n\n  <!-- Door -->\n  <link name=\"door\">\n    <visual>\n      <!-- Door visual is centered relative to its own frame -->\n      <origin xyz=\"0.235 0 0\" rpy=\"0 0 0\"/>\n      <geometry>\n        <box size=\"0.47 0.02 0.98\"/>\n      </geometry>\n      <material name=\"brown\">\n        <color rgba=\"0.4 0.2 0.1 1\"/>\n      </material>\n    </visual>\n    <collision>\n      <origin xyz=\"0.235 0 0\" rpy=\"0 0 0\"/>\n      <geometry>\n        <box size=\"0.47 0.02 0.98\"/>\n      </geometry>\n    </collision>\n    <inertial>\n      <mass value=\"5.0\"/>\n      <origin xyz=\"0.235 0 0\" rpy=\"0 0 0\"/>\n      <inertia ixx=\"0.4003\" ixy=\"0.0\" ixz=\"0.0\"\n               iyy=\"0.4922\" iyz=\"0.0\"\n               izz=\"0.0922\"/>\n    </inertial>\n  </link>\n\n  <!-- Hinge joint -->\n  <joint name=\"door_hinge\" type=\"revolute\">\n    <!-- Joint origin is at the left vertical edge of the cabinet front face -->\n    <origin xyz=\"-0.235 -0.275 0.49\" rpy=\"0 0 0\"/>\n    <parent link=\"cabinet_body\"/>\n    <child link=\"door\"/>\n    <axis xyz=\"0 0 1\"/>\n    <limit effort=\"10.0\" velocity=\"1.0\" lower=\"0.0\" upper=\"1.5708\"/>\n    <dynamics damping=\"0.1\" friction=\"0.2\"/>\n  </joint>\n\n</robot>\n```",
+  "finish_reason": "stop",
+  "id": "bench-door-cabinet-g0007",
+  "model": "openai/gpt-oss-120b",
+  "urdf_found": true,
+  "usage": {
+    "completion_time": 3.085501731,
+    "completion_tokens": 1469,
+    "completion_tokens_details": {
+      "reasoning_tokens": 779
+    },
+    "prompt_time": 0.007826123,
+    "prompt_tokens": 185,
+    "queue_time": 0.221925419,
+    "total_time": 3.093327854,
+    "total_tokens": 1654
+  }
+}

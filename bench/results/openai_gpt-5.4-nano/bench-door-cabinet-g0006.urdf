@@ -1,0 +1,241 @@
+<robot name="cabinet_2_door">
+  <!-- Dimensions (metres) -->
+  <!-- Cabinet: 0.98 W (X), 0.59 D (Y), 1.88 H (Z) -->
+  <!-- Origin at floor directly under middle of object -->
+  <!-- Front faces -Y, back is +Y -->
+  <material name="wood">
+    <color rgba="0.55 0.40 0.25 1.0"/>
+  </material>
+
+  <material name="wood_dark">
+    <color rgba="0.45 0.33 0.20 1.0"/>
+  </material>
+
+  <!-- ===================== -->
+  <!-- Parameters via constants not supported in URDF.
+       Use explicit numeric values below.
+       Assumptions:
+       - Frame (shell) thickness: 0.02 m
+       - Back panel thickness: 0.01 m
+       - Door panel thickness: 0.018 m
+       - Door gap meeting line: 0.004 m (each door overlaps a bit)
+       - Door hinge thickness region not explicitly modelled
+       - Door hinges as simplified rectangular blocks included in each door link
+       ===================== -->
+
+  <!-- ===================== -->
+  <!-- Base frame -->
+  <!-- ===================== -->
+  <link name="cabinet_base">
+    <inertial>
+      <!-- Mass assumptions -->
+      <origin xyz="0 0 0.94" rpy="0 0 0"/>
+      <mass value="35.0"/>
+      <!-- Approximate inertia for a box: Ixx= (1/12)m(d^2+h^2), Iyy=(1/12)m(w^2+h^2), Izz=(1/12)m(w^2+d^2)
+           Using:
+           width X = 0.98
+           depth Y = 0.59
+           height Z = 1.88
+      -->
+      <inertia ixx="12.98" iyy="14.56" izz="8.55" ixy="0" ixz="0" iyz="0"/>
+    </inertial>
+
+    <!-- Collision: full outer bounding box as cabinet body -->
+    <visual>
+      <origin xyz="0 0 0.94" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.98 0.59 1.88"/>
+      </geometry>
+      <material name="wood"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.94" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.98 0.59 1.88"/>
+      </geometry>
+    </collision>
+
+    <!-- Remove interior via additional collisions? Not possible. Keep as single body. -->
+  </link>
+
+  <!-- ===================== -->
+  <!-- Left door (hinged on left vertical edge, opens outward to -Y) -->
+  <!-- ===================== -->
+  <link name="door_left">
+    <!-- Door geometry -->
+    <!-- Left half width: 0.98/2 = 0.49 m -->
+    <!-- Meeting line center at X=0. Doors swing outward from cabinet sides.
+         Hinged on vertical edge located at X=-0.49/???:
+         Outer width half is 0.49. Door thickness along X is in width direction.
+         Model each door as a box with width 0.49, centered in its half. -->
+    <!-- Door dimensions -->
+    <!-- size X (width): 0.49
+         size Y (depth): door thickness 0.018
+         size Z (height): 1.88 -->
+    <!-- Frame is centered at X=0, Y=0, Z=0.944
+         Cabinet outer: depth 0.59, so front face at Y=-0.295, back face at Y=+0.295
+         Doors are mounted at the side edges in X; but hinge described on vertical edge.
+         Interpret "vertical edge" as the left/right side edges in X direction,
+         with hinge axis along Z at the side.
+         Doors swing open outward in Y direction.
+         Hence hinge line at:
+           Left door hinge at X=-0.49 (outer left side), Y=+0.295? or inside?
+         We will place door plane near the front face, with door thickness along Y.
+         Hinge line should be along Z at X=-0.49, Y=0 (middle of depth) would not match outward.
+         Better: put doors inside front opening; hinge at the front edge of door plane.
+         But since swing open outward (toward -Y for left door), hinge axis runs along Z at
+         X=-0.49 and Y=-0.295 + 0.01 (slightly in from front).
+         We'll place door box centered at Y=-0.295 + 0.009 (so hinge edge sits at Y=-0.295+0.018/2 = -0.286).
+         However, hinge axis at a vertical edge likely at cabinet side, not front edge.
+         Given ambiguity, we implement hinge axis at cabinet left vertical side edge with door rotating about Z? No.
+         URDF revolute axis must be explicit.
+         We'll interpret hinge as axis along Z at X=-0.49, running vertically, door rotates about that Z axis.
+         That would swing doors open sideways (in X plane). Not desired.
+         Therefore interpret hinge axis along Z at the vertical edge at X=-0.49, but door rotates about Z axis? That swings in X-Y.
+         To swing outward in -Y, rotation axis should be vertical (Z) and door plane rotates around Z, changing Y.
+         That means door rotates around Z at hinge line; door initially aligned with -Y face.
+         We'll set revolute axis as (0,1,0)? No: for swing about vertical edge, axis should be along the vertical edge direction,
+         which is Z. So axis should be (0,0,1).
+         With axis (0,0,1), rotating will move points in X-Y plane. That can swing outward to -Y if hinge at side (X).
+         We'll hinge at outer left edge X=-0.49 and center Y=0 initially; door plane rotates.
+         Initialize door such that it "faces" the cabinet opening when closed (door plane nearly in X-Y with outward pointing?).
+         We'll set door's face normal toward +Y when closed? Complex.
+         Simpler: set door box thickness along Y and place it at front plane for closed position.
+         Then rotate about Z axis located at side edge X=-0.49 and at Y=-0.295+0.009 (hinge at front edge).
+         Axis Z allows swinging in Y as desired for both doors.
+    -->
+
+    <inertial>
+      <origin xyz="0 0 0.94" rpy="0 0 0"/>
+      <mass value="6.5"/>
+      <!-- Approximate inertia for box w=0.49, d=0.018, h=1.88 -->
+      <!-- Ixx=(1/12)m(d^2+h^2)
+           Iyy=(1/12)m(w^2+h^2)
+           Izz=(1/12)m(w^2+d^2)
+      -->
+      <inertia ixx="5.18" iyy="9.31" izz="0.07" ixy="0" ixz="0" iyz="0"/>
+    </inertial>
+
+    <visual>
+      <origin xyz="0 0 -0.0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.49 0.018 1.88"/>
+      </geometry>
+      <material name="wood_dark"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.49 0.018 1.88"/>
+      </geometry>
+    </collision>
+
+    <!-- Simplified hinge knuckles as small boxes attached to door (for contact realism) -->
+    <visual>
+      <origin xyz="0.235 0 1.35" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.03 0.008 0.08"/>
+      </geometry>
+      <material name="wood_dark"/>
+    </visual>
+    <collision>
+      <origin xyz="0.235 0 1.35" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.03 0.008 0.08"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0.235 0 0.55" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.03 0.008 0.08"/>
+      </geometry>
+      <material name="wood_dark"/>
+    </visual>
+    <collision>
+      <origin xyz="0.235 0 0.55" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.03 0.008 0.08"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="joint_door_left" type="revolute">
+    <parent link="cabinet_base"/>
+    <child link="door_left"/>
+    <!-- Hinge line location for left door at outer left vertical edge.
+         Place joint origin at Z=0 (floor) + (door bottom at 0 so door box center at 0.94).
+         URDF joint origin is in parent frame.
+         We place the hinge at:
+           X = -0.49
+           Y = -0.286 (near the front edge of door plane when closed)
+           Z = 0 (floor)
+         Door frame will be at its box center; we set joint such that door center maps correctly. -->
+    <origin xyz="-0.49 -0.286 0.94" rpy="0 0 0"/>
+    <!-- Axis along Z (vertical edge) -->
+    <axis xyz="0 0 1"/>
+    <limit lower="-1.5708" upper="1.5708" effort="50" velocity="1.5"/>
+  </joint>
+
+  <!-- ===================== -->
+  <!-- Right door (hinged on right vertical edge, opens outward to -Y) -->
+  <!-- ===================== -->
+  <link name="door_right">
+    <inertial>
+      <origin xyz="0 0 0.94" rpy="0 0 0"/>
+      <mass value="6.5"/>
+      <inertia ixx="5.18" iyy="9.31" izz="0.07" ixy="0" ixz="0" iyz="0"/>
+    </inertial>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.49 0.018 1.88"/>
+      </geometry>
+      <material name="wood_dark"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.49 0.018 1.88"/>
+      </geometry>
+    </collision>
+
+    <!-- Hinge knuckles -->
+    <visual>
+      <origin xyz="-0.235 0 1.35" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.03 0.008 0.08"/>
+      </geometry>
+      <material name="wood_dark"/>
+    </visual>
+    <collision>
+      <origin xyz="-0.235 0 1.35" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.03 0.008 0.08"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="-0.235 0 0.55" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.03 0.008 0.08"/>
+      </geometry>
+      <material name="wood_dark"/>
+    </visual>
+    <collision>
+      <origin xyz="-0.235 0 0.55" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.03 0.008 0.08"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="joint_door_right" type="revolute">
+    <parent link="cabinet_base"/>
+    <child link="door_right"/>
+    <origin xyz="0.49 -0.286 0.94" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-1.5708" upper="1.5708" effort="50" velocity="1.5"/>
+  </joint>
+</robot>

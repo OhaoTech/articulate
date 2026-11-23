@@ -1,0 +1,153 @@
+<?xml version="1.0"?>
+<robot name="cabinet">
+  <!-- Materials -->
+  <material name="wood">
+    <color rgba="0.6 0.4 0.2 1.0"/>
+  </material>
+  <material name="door_wood">
+    <color rgba="0.7 0.5 0.3 1.0"/>
+  </material>
+
+  <!-- Base link: cabinet carcass -->
+  <link name="base_link">
+    <inertial>
+      <mass value="60.0"/>
+      <inertia ixx="65.53" ixy="0.0" ixz="0.0" iyy="72.98" iyz="-5.73" izz="12.79"/>
+    </inertial>
+
+    <!-- Left side panel -->
+    <visual>
+      <origin xyz="-0.536 0.018 0.84" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.018 0.544 1.68"/>
+      </geometry>
+      <material name="wood"/>
+    </visual>
+    <collision>
+      <origin xyz="-0.536 0.018 0.84" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.018 0.544 1.68"/>
+      </geometry>
+    </collision>
+
+    <!-- Right side panel -->
+    <visual>
+      <origin xyz="0.536 0.018 0.84" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.018 0.544 1.68"/>
+      </geometry>
+      <material name="wood"/>
+    </visual>
+    <collision>
+      <origin xyz="0.536 0.018 0.84" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.018 0.544 1.68"/>
+      </geometry>
+    </collision>
+
+    <!-- Top panel -->
+    <visual>
+      <origin xyz="0.0 0.018 1.671" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.09 0.544 0.018"/>
+      </geometry>
+      <material name="wood"/>
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.018 1.671" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.09 0.544 0.018"/>
+      </geometry>
+    </collision>
+
+    <!-- Bottom panel -->
+    <visual>
+      <origin xyz="0.0 0.018 0.009" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.09 0.544 0.018"/>
+      </geometry>
+      <material name="wood"/>
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.018 0.009" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.09 0.544 0.018"/>
+      </geometry>
+    </collision>
+
+    <!-- Back panel -->
+    <visual>
+      <origin xyz="0.0 0.281 0.84" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.054 0.018 1.644"/>
+      </geometry>
+      <material name="wood"/>
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.281 0.84" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.054 0.018 1.644"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- Left sliding door (rear track) -->
+  <link name="left_door_link">
+    <inertial>
+      <mass value="11.3"/>
+      <inertia ixx="2.411" ixy="0.0" ixz="0.0" iyy="2.706" iyz="0.0" izz="0.296"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.56 0.018 1.6"/>
+      </geometry>
+      <material name="door_wood"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.56 0.018 1.6"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- Right sliding door (front track) -->
+  <link name="right_door_link">
+    <inertial>
+      <mass value="11.3"/>
+      <inertia ixx="2.411" ixy="0.0" ixz="0.0" iyy="2.706" iyz="0.0" izz="0.296"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.56 0.018 1.6"/>
+      </geometry>
+      <material name="door_wood"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.56 0.018 1.6"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- Joint for left door (slides right to open) -->
+  <joint name="left_door_joint" type="prismatic">
+    <parent link="base_link"/>
+    <child link="left_door_link"/>
+    <origin xyz="-0.265 -0.263 0.84" rpy="0 0 0"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="0.0" upper="0.53" effort="50.0" velocity="0.5"/>
+  </joint>
+
+  <!-- Joint for right door (slides left to open) -->
+  <joint name="right_door_joint" type="prismatic">
+    <parent link="base_link"/>
+    <child link="right_door_link"/>
+    <origin xyz="0.265 -0.281 0.84" rpy="0 0 0"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="-0.53" upper="0.0" effort="50.0" velocity="0.5"/>
+  </joint>
+</robot>

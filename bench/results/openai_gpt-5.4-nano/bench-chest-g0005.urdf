@@ -1,0 +1,131 @@
+<robot name="chest_lidded_96x60x48">
+  <!-- Dimensions (meters) -->
+  <!-- Width (X): 0.96, Depth (Y): 0.48, Height (Z): 0.60 -->
+  <!-- Origin: on floor under middle of object; Y toward back is positive (front faces -Y) -->
+
+  <material name="wood">
+    <color rgba="0.65 0.42 0.25 1"/>
+  </material>
+  <material name="wood_dark">
+    <color rgba="0.45 0.28 0.18 1"/>
+  </material>
+  <material name="hinge_metal">
+    <color rgba="0.75 0.75 0.78 1"/>
+  </material>
+
+  <!-- -------------------- Links -------------------- -->
+  <!-- Chest body -->
+  <link name="chest_body">
+    <inertial>
+      <origin xyz="0 0.0 0.27" rpy="0 0 0"/>
+      <!-- Approximate mass -->
+      <mass value="18.0"/>
+      <!-- Inertia for a box approximating body extents:
+           Use full width 0.96, depth 0.48, height 0.54 (body height excluding lid),
+           with center at z=0.27.
+           Ixx = (1/12) m (y^2 + z^2), Iyy = (1/12) m (x^2 + z^2), Izz = (1/12) m (x^2 + y^2)
+           where x=0.96, y=0.48, z=0.54 -->
+      <inertia ixx="2.646e+00" ixy="0" ixz="0" iyy="3.240e+00" iyz="0" izz="7.776e-01"/>
+    </inertial>
+
+    <visual>
+      <origin xyz="0 0 0.27" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.96 0.48 0.54"/>
+      </geometry>
+      <material name="wood"/>
+    </visual>
+
+    <!-- Collision: approximate solid body -->
+    <collision>
+      <origin xyz="0 0 0.27" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.96 0.48 0.54"/>
+      </geometry>
+    </collision>
+
+    <!-- Optional inner cavity is not modeled for collision to keep it robust -->
+  </link>
+
+  <!-- Lid -->
+  <link name="chest_lid">
+    <!-- Lid dimensions: 0.96 x 0.48, thickness 0.04. Lid sits on top of body.
+         Body height 0.54 => body top at z=0.54.
+         Lid center at z=0.54 + 0.02 = 0.56. -->
+    <inertial>
+      <origin xyz="0 -0.0 0.56" rpy="0 0 0"/>
+      <mass value="8.0"/>
+      <!-- Inertia for box: x=0.96, y=0.48, z=0.04 -->
+      <!-- Ixx = (1/12)m(y^2 + z^2) -->
+      <!-- Iyy = (1/12)m(x^2 + z^2) -->
+      <!-- Izz = (1/12)m(x^2 + y^2) -->
+      <inertia ixx="1.228800e-01" ixy="0" ixz="0" iyy="2.957867e-01" iyz="0" izz="2.457600e-01"/>
+    </inertial>
+
+    <visual>
+      <origin xyz="0 0 0.56" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.96 0.48 0.04"/>
+      </geometry>
+      <material name="wood_dark"/>
+    </visual>
+
+    <collision>
+      <origin xyz="0 0 0.56" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.96 0.48 0.04"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- Hinge hardware (small simplified metal block) -->
+  <link name="hinge_block">
+    <inertial>
+      <origin xyz="0 0 0.55" rpy="0 0 0"/>
+      <mass value="0.5"/>
+      <!-- approximate small plate: x=0.01, y=0.04, z=0.02 centered -->
+      <!-- Use box inertia with x=0.01, y=0.04, z=0.02 -->
+      <inertia ixx="1.000000e-04" ixy="0" ixz="0" iyy="4.500000e-04" iyz="0" izz="8.333333e-05"/>
+    </inertial>
+
+    <visual>
+      <origin xyz="0 0.24 0.55" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.01 0.04 0.02"/>
+      </geometry>
+      <material name="hinge_metal"/>
+    </visual>
+
+    <collision>
+      <origin xyz="0 0.24 0.55" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.01 0.04 0.02"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- -------------------- Joints -------------------- -->
+  <!-- Lid hinged along back edge: hinge axis along X (width), at back side Y=+0.24.
+       For rotation up to open, rotate about +X at hinge line.
+       Joint axis is +X in the parent (body) frame.
+       Place joint frame at the hinge line; compute lid pose so that initial lid is "closed"
+       (lying horizontal). -->
+  <joint name="lid_hinge" type="revolute">
+    <parent link="chest_body"/>
+    <child link="chest_lid"/>
+    <!-- Joint origin at back edge line, at the body top surface (z=0.54) -->
+    <origin xyz="0 0.24 0.54" rpy="0 0 0"/>
+    <!-- Axis: along X -->
+    <axis xyz="1 0 0"/>
+    <limit lower="-1.570796" upper="1.570796" effort="5.0" velocity="1.5"/>
+    <dynamics damping="0.2" friction="0.02"/>
+  </joint>
+
+  <!-- Rigidly attach a simplified hinge block to the body (fixed) -->
+  <joint name="hinge_block_fixed" type="fixed">
+    <parent link="chest_body"/>
+    <child link="hinge_block"/>
+    <!-- Put hinge block near back top edge -->
+    <origin xyz="0 0.24 0.55" rpy="0 0 0"/>
+  </joint>
+</robot>

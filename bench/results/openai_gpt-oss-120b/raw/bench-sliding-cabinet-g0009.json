@@ -1,0 +1,19 @@
+{
+  "content": "```xml\n<?xml version=\"1.0\"?>\n<robot name=\"sliding_cabinet\">\n\n  <!-- Base cabinet body -->\n  <link name=\"cabinet_body\">\n    <visual>\n      <origin xyz=\"0 0 0.545\" rpy=\"0 0 0\"/>\n      <geometry>\n        <box size=\"0.89 0.37 1.09\"/>\n      </geometry>\n      <material name=\"gray\">\n        <color rgba=\"0.6 0.6 0.6 1\"/>\n      </material>\n    </visual>\n    <collision>\n      <origin xyz=\"0 0 0.545\" rpy=\"0 0 0\"/>\n      <geometry>\n        <box size=\"0.89 0.37 1.09\"/>\n      </geometry>\n    </collision>\n    <inertial>\n      <mass value=\"30.0\"/>\n      <origin xyz=\"0 0 0.545\" rpy=\"0 0 0\"/>\n      <inertia ixx=\"3.3125\" ixy=\"0.0\" ixz=\"0.0\"\n               iyy=\"4.9505\" iyz=\"0.0\"\n               izz=\"2.3225\"/>\n    </inertial>\n  </link>\n\n  <!-- Left sliding door -->\n  <link name=\"door_left\">\n    <visual>\n      <origin xyz=\"0 0 0.545\" rpy=\"0 0 0\"/>\n      <geometry>\n        <box size=\"0.445 0.37 1.09\"/>\n      </geometry>\n      <material name=\"white\">\n        <color rgba=\"0.9 0.9 0.9 1\"/>\n      </material>\n    </visual>\n    <collision>\n      <origin xyz=\"0 0 0.545\" rpy=\"0 0 0\"/>\n      <geometry>\n        <box size=\"0.445 0.37 1.09\"/>\n      </geometry>\n    </collision>\n    <inertial>\n      <mass value=\"5.0\"/>\n      <origin xyz=\"0 0 0.545\" rpy=\"0 0 0\"/>\n      <inertia ixx=\"0.5521\" ixy=\"0.0\" ixz=\"0.0\"\n               iyy=\"0.5775\" iyz=\"0.0\"\n               izz=\"0.1395\"/>\n    </inertial>\n  </link>\n\n  <!-- Right sliding door -->\n  <link name=\"door_right\">\n    <visual>\n      <origin xyz=\"0 0 0.545\" rpy=\"0 0 0\"/>\n      <geometry>\n        <box size=\"0.445 0.37 1.09\"/>\n      </geometry>\n      <material name=\"white\">\n        <color rgba=\"0.9 0.9 0.9 1\"/>\n      </material>\n    </visual>\n    <collision>\n      <origin xyz=\"0 0 0.545\" rpy=\"0 0 0\"/>\n      <geometry>\n        <box size=\"0.445 0.37 1.09\"/>\n      </geometry>\n    </collision>\n    <inertial>\n      <mass value=\"5.0\"/>\n      <origin xyz=\"0 0 0.545\" rpy=\"0 0 0\"/>\n      <inertia ixx=\"0.5521\" ixy=\"0.0\" ixz=\"0.0\"\n               iyy=\"0.5775\" iyz=\"0.0\"\n               izz=\"0.1395\"/>\n    </inertial>\n  </link>\n\n  <!-- Joint for left door (slides along X) -->\n  <joint name=\"joint_left_door\" type=\"prismatic\">\n    <parent link=\"cabinet_body\"/>\n    <child link=\"door_left\"/>\n    <!-- Closed position: door flush against left side of cabinet -->\n    <origin xyz=\"-0.2225 0 0\" rpy=\"0 0 0\"/>\n    <axis xyz=\"1 0 0\"/>\n    <limit lower=\"-0.445\" upper=\"0.445\" effort=\"100\" velocity=\"0.5\"/>\n  </joint>\n\n  <!-- Joint for right door (slides along X) -->\n  <joint name=\"joint_right_door\" type=\"prismatic\">\n    <parent link=\"cabinet_body\"/>\n    <child link=\"door_right\"/>\n    <!-- Closed position: door flush against right side of cabinet -->\n    <origin xyz=\"0.2225 0 0\" rpy=\"0 0 0\"/>\n    <axis xyz=\"1 0 0\"/>\n    <limit lower=\"-0.445\" upper=\"0.445\" effort=\"100\" velocity=\"0.5\"/>\n  </joint>\n\n</robot>\n```",
+  "finish_reason": "stop",
+  "id": "bench-sliding-cabinet-g0009",
+  "model": "openai/gpt-oss-120b",
+  "urdf_found": true,
+  "usage": {
+    "completion_time": 3.614607426,
+    "completion_tokens": 1755,
+    "completion_tokens_details": {
+      "reasoning_tokens": 723
+    },
+    "prompt_time": 0.008332453,
+    "prompt_tokens": 186,
+    "queue_time": 0.006958898,
+    "total_time": 3.622939879,
+    "total_tokens": 1941
+  }
+}

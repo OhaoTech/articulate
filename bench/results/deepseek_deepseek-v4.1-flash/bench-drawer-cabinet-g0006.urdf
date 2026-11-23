@@ -1,0 +1,202 @@
+<?xml version="1.0"?>
+<robot name="drawer_cabinet">
+
+  <material name="carcass_mat">
+    <color rgba="0.55 0.40 0.25 1.0"/>
+  </material>
+  <material name="front_mat">
+    <color rgba="0.72 0.56 0.36 1.0"/>
+  </material>
+  <material name="box_mat">
+    <color rgba="0.85 0.80 0.70 1.0"/>
+  </material>
+
+  <!-- ===================== CABINET CARCASS ===================== -->
+  <link name="cabinet">
+    <inertial>
+      <origin xyz="0 0 0.365" rpy="0 0 0"/>
+      <mass value="26.0"/>
+      <inertia ixx="1.83408" ixy="0.0" ixz="0.0"
+               iyy="3.45323" iyz="0.0"
+               izz="2.97808"/>
+    </inertial>
+
+    <!-- bottom panel -->
+    <collision>
+      <origin xyz="0 0 0.01" rpy="0 0 0"/>
+      <geometry><box size="1.03 0.56 0.02"/></geometry>
+    </collision>
+    <visual>
+      <origin xyz="0 0 0.01" rpy="0 0 0"/>
+      <geometry><box size="1.03 0.56 0.02"/></geometry>
+      <material name="carcass_mat"/>
+    </visual>
+
+    <!-- top panel -->
+    <collision>
+      <origin xyz="0 0 0.72" rpy="0 0 0"/>
+      <geometry><box size="1.03 0.56 0.02"/></geometry>
+    </collision>
+    <visual>
+      <origin xyz="0 0 0.72" rpy="0 0 0"/>
+      <geometry><box size="1.03 0.56 0.02"/></geometry>
+      <material name="carcass_mat"/>
+    </visual>
+
+    <!-- left side panel -->
+    <collision>
+      <origin xyz="-0.505 0 0.365" rpy="0 0 0"/>
+      <geometry><box size="0.02 0.56 0.73"/></geometry>
+    </collision>
+    <visual>
+      <origin xyz="-0.505 0 0.365" rpy="0 0 0"/>
+      <geometry><box size="0.02 0.56 0.73"/></geometry>
+      <material name="carcass_mat"/>
+    </visual>
+
+    <!-- right side panel -->
+    <collision>
+      <origin xyz="0.505 0 0.365" rpy="0 0 0"/>
+      <geometry><box size="0.02 0.56 0.73"/></geometry>
+    </collision>
+    <visual>
+      <origin xyz="0.505 0 0.365" rpy="0 0 0"/>
+      <geometry><box size="0.02 0.56 0.73"/></geometry>
+      <material name="carcass_mat"/>
+    </visual>
+
+    <!-- back panel -->
+    <collision>
+      <origin xyz="0 0.27 0.365" rpy="0 0 0"/>
+      <geometry><box size="1.03 0.02 0.73"/></geometry>
+    </collision>
+    <visual>
+      <origin xyz="0 0.27 0.365" rpy="0 0 0"/>
+      <geometry><box size="1.03 0.02 0.73"/></geometry>
+      <material name="carcass_mat"/>
+    </visual>
+  </link>
+
+  <!-- ===================== DRAWER 1 (bottom) ===================== -->
+  <link name="drawer_1">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="4.0"/>
+      <inertia ixx="0.104833" ixy="0.0" ixz="0.0"
+               iyy="0.341400" iyz="0.0"
+               izz="0.416833"/>
+    </inertial>
+
+    <!-- drawer front panel -->
+    <collision>
+      <origin xyz="0 -0.25 0" rpy="0 0 0"/>
+      <geometry><box size="0.99 0.02 0.21"/></geometry>
+    </collision>
+    <visual>
+      <origin xyz="0 -0.25 0" rpy="0 0 0"/>
+      <geometry><box size="0.99 0.02 0.21"/></geometry>
+      <material name="front_mat"/>
+    </visual>
+
+    <!-- drawer box body -->
+    <collision>
+      <origin xyz="0 0.01 0" rpy="0 0 0"/>
+      <geometry><box size="0.95 0.50 0.19"/></geometry>
+    </collision>
+    <visual>
+      <origin xyz="0 0.01 0" rpy="0 0 0"/>
+      <geometry><box size="0.95 0.50 0.19"/></geometry>
+      <material name="box_mat"/>
+    </visual>
+  </link>
+
+  <joint name="drawer_joint_1" type="prismatic">
+    <parent link="cabinet"/>
+    <child link="drawer_1"/>
+    <origin xyz="0 -0.02 0.125" rpy="0 0 0"/>
+    <axis xyz="0 -1 0"/>
+    <limit lower="0.0" upper="0.45" effort="150.0" velocity="0.4"/>
+    <dynamics damping="8.0" friction="4.0"/>
+  </joint>
+
+  <!-- ===================== DRAWER 2 (middle) ===================== -->
+  <link name="drawer_2">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="4.0"/>
+      <inertia ixx="0.104833" ixy="0.0" ixz="0.0"
+               iyy="0.341400" iyz="0.0"
+               izz="0.416833"/>
+    </inertial>
+
+    <collision>
+      <origin xyz="0 -0.25 0" rpy="0 0 0"/>
+      <geometry><box size="0.99 0.02 0.21"/></geometry>
+    </collision>
+    <visual>
+      <origin xyz="0 -0.25 0" rpy="0 0 0"/>
+      <geometry><box size="0.99 0.02 0.21"/></geometry>
+      <material name="front_mat"/>
+    </visual>
+
+    <collision>
+      <origin xyz="0 0.01 0" rpy="0 0 0"/>
+      <geometry><box size="0.95 0.50 0.19"/></geometry>
+    </collision>
+    <visual>
+      <origin xyz="0 0.01 0" rpy="0 0 0"/>
+      <geometry><box size="0.95 0.50 0.19"/></geometry>
+      <material name="box_mat"/>
+    </visual>
+  </link>
+
+  <joint name="drawer_joint_2" type="prismatic">
+    <parent link="cabinet"/>
+    <child link="drawer_2"/>
+    <origin xyz="0 -0.02 0.355" rpy="0 0 0"/>
+    <axis xyz="0 -1 0"/>
+    <limit lower="0.0" upper="0.45" effort="150.0" velocity="0.4"/>
+    <dynamics damping="8.0" friction="4.0"/>
+  </joint>
+
+  <!-- ===================== DRAWER 3 (top) ===================== -->
+  <link name="drawer_3">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="4.0"/>
+      <inertia ixx="0.104833" ixy="0.0" ixz="0.0"
+               iyy="0.341400" iyz="0.0"
+               izz="0.416833"/>
+    </inertial>
+
+    <collision>
+      <origin xyz="0 -0.25 0" rpy="0 0 0"/>
+      <geometry><box size="0.99 0.02 0.21"/></geometry>
+    </collision>
+    <visual>
+      <origin xyz="0 -0.25 0" rpy="0 0 0"/>
+      <geometry><box size="0.99 0.02 0.21"/></geometry>
+      <material name="front_mat"/>
+    </visual>
+
+    <collision>
+      <origin xyz="0 0.01 0" rpy="0 0 0"/>
+      <geometry><box size="0.95 0.50 0.19"/></geometry>
+    </collision>
+    <visual>
+      <origin xyz="0 0.01 0" rpy="0 0 0"/>
+      <geometry><box size="0.95 0.50 0.19"/></geometry>
+      <material name="box_mat"/>
+    </visual>
+  </link>
+
+  <joint name="drawer_joint_3" type="prismatic">
+    <parent link="cabinet"/>
+    <child link="drawer_3"/>
+    <origin xyz="0 -0.02 0.585" rpy="0 0 0"/>
+    <axis xyz="0 -1 0"/>
+    <limit lower="0.0" upper="0.45" effort="150.0" velocity="0.4"/>
+    <dynamics damping="8.0" friction="4.0"/>
+  </joint>
+
+</robot>

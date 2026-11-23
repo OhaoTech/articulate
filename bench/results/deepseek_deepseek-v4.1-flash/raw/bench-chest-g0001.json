@@ -1,0 +1,11 @@
+{
+  "content": "```xml\n<robot name=\"chest\">\n  <link name=\"body\">\n    <inertial>\n      <origin xyz=\"0 0 0.17\" rpy=\"0 0 0\"/>\n      <mass value=\"20\"/>\n      <inertia ixx=\"0.6262\" ixy=\"0\" ixz=\"0\" iyy=\"1.8928\" iyz=\"0\" izz=\"2.1337\"/>\n    </inertial>\n    <visual>\n      <origin xyz=\"0 0 0.17\" rpy=\"0 0 0\"/>\n      <geometry>\n        <box size=\"1.01 0.51 0.34\"/>\n      </geometry>\n      <material name=\"brown\">\n        <color rgba=\"0.55 0.27 0.07 1\"/>\n      </material>\n    </visual>\n    <collision>\n      <origin xyz=\"0 0 0.17\" rpy=\"0 0 0\"/>\n      <geometry>\n        <box size=\"1.01 0.51 0.34\"/>\n      </geometry>\n    </collision>\n  </link>\n\n  <link name=\"lid\">\n    <inertial>\n      <origin xyz=\"0 -0.255 0.015\" rpy=\"0 0 0\"/>\n      <mass value=\"5\"/>\n      <inertia ixx=\"0.10875\" ixy=\"0\" ixz=\"0\" iyy=\"0.4254\" iyz=\"0\" izz=\"0.5334\"/>\n    </inertial>\n    <visual>\n      <origin xyz=\"0 -0.255 0.015\" rpy=\"0 0 0\"/>\n      <geometry>\n        <box size=\"1.01 0.51 0.03\"/>\n      </geometry>\n      <material name=\"dark_brown\">\n        <color rgba=\"0.35 0.15 0.05 1\"/>\n      </material>\n    </visual>\n    <collision>\n      <origin xyz=\"0 -0.255 0.015\" rpy=\"0 0 0\"/>\n      <geometry>\n        <box size=\"1.01 0.51 0.03\"/>\n      </geometry>\n    </collision>\n  </link>\n\n  <joint name=\"lid_hinge\" type=\"revolute\">\n    <parent link=\"body\"/>\n    <child link=\"lid\"/>\n    <origin xyz=\"0 0.255 0.34\" rpy=\"0 0 0\"/>\n    <axis xyz=\"-1 0 0\"/>\n    <limit lower=\"0\" upper=\"1.57\" effort=\"10\" velocity=\"1.0\"/>\n    <dynamics damping=\"0.1\" friction=\"0.0\"/>\n  </joint>\n</robot>\n```",
+  "finish_reason": "stop",
+  "id": "bench-chest-g0001",
+  "model": "deepseek/deepseek-v4.1-flash",
+  "urdf_found": true,
+  "usage": {
+    "completion_tokens": 3785,
+    "prompt_tokens": 142
+  }
+}

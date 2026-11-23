@@ -1,0 +1,100 @@
+<?xml version="1.0"?>
+<robot name="sliding_cabinet">
+
+  <!-- Base cabinet body -->
+  <link name="cabinet_body">
+    <visual>
+      <origin xyz="0 0 0.93" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.33 0.5 1.86"/>
+      </geometry>
+      <material name="gray">
+        <color rgba="0.6 0.6 0.6 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.93" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.33 0.5 1.86"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="50.0"/>
+      <origin xyz="0 0 0.93" rpy="0 0 0"/>
+      <inertia ixx="15.456" ixy="0.0" ixz="0.0"
+               iyy="21.785" iyz="0.0"
+               izz="8.412"/>
+    </inertial>
+  </link>
+
+  <!-- Left sliding door -->
+  <link name="door_left">
+    <visual>
+      <origin xyz="0 0 0.93" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.665 0.02 1.86"/>
+      </geometry>
+      <material name="white">
+        <color rgba="0.9 0.9 0.9 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.93" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.665 0.02 1.86"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="5.0"/>
+      <origin xyz="0 0 0.93" rpy="0 0 0"/>
+      <inertia ixx="1.44" ixy="0.0" ixz="0.0"
+               iyy="1.626" iyz="0.0"
+               izz="0.184"/>
+    </inertial>
+  </link>
+
+  <!-- Right sliding door -->
+  <link name="door_right">
+    <visual>
+      <origin xyz="0 0 0.93" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.665 0.02 1.86"/>
+      </geometry>
+      <material name="white">
+        <color rgba="0.9 0.9 0.9 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.93" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.665 0.02 1.86"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="5.0"/>
+      <origin xyz="0 0 0.93" rpy="0 0 0"/>
+      <inertia ixx="1.44" ixy="0.0" ixz="0.0"
+               iyy="1.626" iyz="0.0"
+               izz="0.184"/>
+    </inertial>
+  </link>
+
+  <!-- Joint for left door (slides outward in -X direction) -->
+  <joint name="joint_left_door" type="prismatic">
+    <parent link="cabinet_body"/>
+    <child link="door_left"/>
+    <origin xyz="-0.3325 0 0.93" rpy="0 0 0"/>
+    <axis xyz="-1 0 0"/>
+    <limit lower="0.0" upper="0.665" effort="100" velocity="0.5"/>
+  </joint>
+
+  <!-- Joint for right door (slides outward in +X direction) -->
+  <joint name="joint_right_door" type="prismatic">
+    <parent link="cabinet_body"/>
+    <child link="door_right"/>
+    <origin xyz="0.3325 0 0.93" rpy="0 0 0"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="0.0" upper="0.665" effort="100" velocity="0.5"/>
+  </joint>
+
+</robot>

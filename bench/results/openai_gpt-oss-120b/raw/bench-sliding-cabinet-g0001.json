@@ -1,0 +1,19 @@
+{
+  "content": "",
+  "finish_reason": "length",
+  "id": "bench-sliding-cabinet-g0001",
+  "model": "openai/gpt-oss-120b",
+  "urdf_found": false,
+  "usage": {
+    "completion_time": 14.566298006,
+    "completion_tokens": 7000,
+    "completion_tokens_details": {
+      "reasoning_tokens": 6998
+    },
+    "prompt_time": 0.021443943,
+    "prompt_tokens": 186,
+    "queue_time": 0.267159874,
+    "total_time": 14.587741949,
+    "total_tokens": 7186
+  }
+}

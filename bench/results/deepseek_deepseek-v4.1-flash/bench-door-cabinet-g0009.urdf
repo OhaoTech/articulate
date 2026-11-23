@@ -1,0 +1,50 @@
+<robot name="cabinet">
+  <link name="cabinet_body">
+    <inertial>
+      <origin xyz="0 0 0.79" rpy="0 0 0"/>
+      <mass value="30"/>
+      <inertia ixx="6.97" ixy="0" ixz="0" iyy="7.202" iyz="0" izz="1.69"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0.79" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.62 0.54 1.58"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.79" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.62 0.54 1.58"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="door">
+    <inertial>
+      <origin xyz="0.31 0 0.79" rpy="0 0 0"/>
+      <mass value="5"/>
+      <inertia ixx="1.040333" ixy="0" ixz="0" iyy="1.200333" iyz="0" izz="0.160333"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.31 0 0.79" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.62 0.02 1.58"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.31 0 0.79" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.62 0.02 1.58"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="door_hinge" type="revolute">
+    <parent link="cabinet_body"/>
+    <child link="door"/>
+    <origin xyz="-0.31 -0.28 0" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-1.57" upper="0" effort="10" velocity="1.0"/>
+    <dynamics damping="0.1" friction="0.0"/>
+  </joint>
+</robot>

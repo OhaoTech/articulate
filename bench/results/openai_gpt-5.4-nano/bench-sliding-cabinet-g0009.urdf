@@ -1,0 +1,351 @@
+<robot name="sliding_cabinet">
+  <!-- Dimensions (meters) -->
+  <!-- Width (X): 0.89, Height (Z): 1.09, Depth (Y): 0.37 -->
+  <!-- Origin at floor under middle of object -->
+
+  <link name="base">
+    <inertial>
+      <origin xyz="0 0 0.025" rpy="0 0 0"/>
+      <mass value="18.0"/>
+      <inertia ixx="0.020" iyy="0.120" izz="0.120" ixy="0.0" ixz="0.0" iyz="0.0"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0.05" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.89 0.37 0.05"/>
+      </geometry>
+      <material name="wood_black"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.05" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.89 0.37 0.05"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="back_panel">
+    <inertial>
+      <origin xyz="0 0 -0.01" rpy="0 0 0"/>
+      <mass value="9.5"/>
+      <inertia ixx="0.0060" iyy="0.0100" izz="0.0020" ixy="0.0" ixz="0.0" iyz="0.0"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0.185 0.545" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.89 0.01 1.09"/>
+      </geometry>
+      <material name="wood_back"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0.185 0.545" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.89 0.01 1.09"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="left_side">
+    <inertial>
+      <origin xyz="0 0 0.545" rpy="0 0 0"/>
+      <mass value="10.0"/>
+      <inertia ixx="0.080" iyy="0.020" izz="0.080" ixy="0.0" ixz="0.0" iyz="0.0"/>
+    </inertial>
+    <visual>
+      <origin xyz="-0.445 0 0.545" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.02 0.37 1.09"/>
+      </geometry>
+      <material name="wood_side"/>
+    </visual>
+    <collision>
+      <origin xyz="-0.445 0 0.545" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.02 0.37 1.09"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="right_side">
+    <inertial>
+      <origin xyz="0 0 0.545" rpy="0 0 0"/>
+      <mass value="10.0"/>
+      <inertia ixx="0.080" iyy="0.020" izz="0.080" ixy="0.0" ixz="0.0" iyz="0.0"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.445 0 0.545" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.02 0.37 1.09"/>
+      </geometry>
+      <material name="wood_side"/>
+    </visual>
+    <collision>
+      <origin xyz="0.445 0 0.545" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.02 0.37 1.09"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="top_shelf">
+    <inertial>
+      <origin xyz="0 0 -0.015" rpy="0 0 0"/>
+      <mass value="8.5"/>
+      <inertia ixx="0.010" iyy="0.040" izz="0.040" ixy="0.0" ixz="0.0" iyz="0.0"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 1.065" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.85 0.35 0.03"/>
+      </geometry>
+      <material name="wood_top"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 1.065" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.85 0.35 0.03"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="bottom_shelf">
+    <inertial>
+      <origin xyz="0 0 0.015" rpy="0 0 0"/>
+      <mass value="6.0"/>
+      <inertia ixx="0.0060" iyy="0.0250" izz="0.0250" ixy="0.0" ixz="0.0" iyz="0.0"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0.025" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.85 0.35 0.03"/>
+      </geometry>
+      <material name="wood_bottom"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.025" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.85 0.35 0.03"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- Sliding doors and tracks -->
+  <!-- Clearance: inside width approx 0.89 - 2*0.02 = 0.85 -->
+  <!-- Two door leaves each ~ half width; they overlap in center region.
+       Each door width (along X) = 0.425 m (half of 0.85), thickness along Y = 0.02 m.
+  -->
+  <!-- Front faces at -Y. Cabinet outer front at Y = -0.185, door center should be near -0.175. -->
+
+  <link name="track_left">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="1.2"/>
+      <inertia ixx="0.0010" iyy="0.0005" izz="0.0010" ixy="0.0" ixz="0.0" iyz="0.0"/>
+    </inertial>
+    <visual>
+      <origin xyz="-0.2125 -0.175 0.75" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.425 0.02 0.03"/>
+      </geometry>
+      <material name="track_metal"/>
+    </visual>
+    <collision>
+      <origin xyz="-0.2125 -0.175 0.75" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.425 0.02 0.03"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="track_right">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="1.2"/>
+      <inertia ixx="0.0010" iyy="0.0005" izz="0.0010" ixy="0.0" ixz="0.0" iyz="0.0"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.2125 -0.175 0.75" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.425 0.02 0.03"/>
+      </geometry>
+      <material name="track_metal"/>
+    </visual>
+    <collision>
+      <origin xyz="0.2125 -0.175 0.75" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.425 0.02 0.03"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="door_left">
+    <inertial>
+      <!-- Door centered at initial position:
+           door leaf width 0.425 in X. Place left door initially centered at x = -0.10625,
+           right door at x = +0.10625 (so they overlap around center when moving).
+      -->
+      <origin xyz="0 0 0.545" rpy="0 0 0"/>
+      <mass value="12.0"/>
+      <inertia ixx="0.018" iyy="0.040" izz="0.058" ixy="0.0" ixz="0.0" iyz="0.0"/>
+    </inertial>
+    <visual>
+      <origin xyz="-0.10625 -0.175 0.545" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.425 0.02 1.09"/>
+      </geometry>
+      <material name="door_wood"/>
+    </visual>
+    <collision>
+      <origin xyz="-0.10625 -0.175 0.545" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.425 0.02 1.09"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="door_right">
+    <inertial>
+      <origin xyz="0 0 0.545" rpy="0 0 0"/>
+      <mass value="12.0"/>
+      <inertia ixx="0.018" iyy="0.040" izz="0.058" ixy="0.0" ixz="0.0" iyz="0.0"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.10625 -0.175 0.545" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.425 0.02 1.09"/>
+      </geometry>
+      <material name="door_wood"/>
+    </visual>
+    <collision>
+      <origin xyz="0.10625 -0.175 0.545" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.425 0.02 1.09"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="front_beam">
+    <inertial>
+      <origin xyz="0 0 -0.015" rpy="0 0 0"/>
+      <mass value="4.0"/>
+      <inertia ixx="0.0040" iyy="0.0120" izz="0.0120" ixy="0.0" ixz="0.0" iyz="0.0"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 -0.175 0.55" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.89 0.02 0.03"/>
+      </geometry>
+      <material name="wood_front"/>
+    </visual>
+    <collision>
+      <origin xyz="0 -0.175 0.55" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.89 0.02 0.03"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="joint_base_to_world" type="fixed">
+    <parent link="base"/>
+    <child link="base_dummy"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <!-- Use a world link-less structure: define base as root and attach others to it -->
+  <link name="base_dummy"/>
+
+  <joint name="joint_back_to_base" type="fixed">
+    <parent link="base"/>
+    <child link="back_panel"/>
+    <origin xyz="0 0.185 0.545" rpy="0 0 0"/>
+  </joint>
+
+  <joint name="joint_left_side_to_base" type="fixed">
+    <parent link="base"/>
+    <child link="left_side"/>
+    <origin xyz="-0.445 0 0.545" rpy="0 0 0"/>
+  </joint>
+
+  <joint name="joint_right_side_to_base" type="fixed">
+    <parent link="base"/>
+    <child link="right_side"/>
+    <origin xyz="0.445 0 0.545" rpy="0 0 0"/>
+  </joint>
+
+  <joint name="joint_top_to_base" type="fixed">
+    <parent link="base"/>
+    <child link="top_shelf"/>
+    <origin xyz="0 0 1.065" rpy="0 0 0"/>
+  </joint>
+
+  <joint name="joint_bottom_to_base" type="fixed">
+    <parent link="base"/>
+    <child link="bottom_shelf"/>
+    <origin xyz="0 0 0.025" rpy="0 0 0"/>
+  </joint>
+
+  <joint name="joint_track_left_to_base" type="fixed">
+    <parent link="base"/>
+    <child link="track_left"/>
+    <origin xyz="-0.2125 -0.175 0.75" rpy="0 0 0"/>
+  </joint>
+
+  <joint name="joint_track_right_to_base" type="fixed">
+    <parent link="base"/>
+    <child link="track_right"/>
+    <origin xyz="0.2125 -0.175 0.75" rpy="0 0 0"/>
+  </joint>
+
+  <joint name="joint_front_beam_to_base" type="fixed">
+    <parent link="base"/>
+    <child link="front_beam"/>
+    <origin xyz="0 -0.175 0.55" rpy="0 0 0"/>
+  </joint>
+
+  <!-- Sliding joints: doors move along X (left-right) sideways past each other -->
+  <!-- Axis: X; joint origin placed at the door's initial center height and front position -->
+  <!-- Left door joint limits chosen so each door can traverse the full interior width. -->
+
+  <joint name="joint_door_left" type="prismatic">
+    <parent link="base"/>
+    <child link="door_left"/>
+    <origin xyz="-0.10625 -0.175 0.545" rpy="0 0 0"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="-0.2125" upper="0.2125" effort="50" velocity="2"/>
+    <dynamics damping="2.0" friction="0.5"/>
+  </joint>
+
+  <joint name="joint_door_right" type="prismatic">
+    <parent link="base"/>
+    <child link="door_right"/>
+    <origin xyz="0.10625 -0.175 0.545" rpy="0 0 0"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="-0.2125" upper="0.2125" effort="50" velocity="2"/>
+    <dynamics damping="2.0" friction="0.5"/>
+  </joint>
+
+  <material name="wood_black">
+    <color rgba="0.10 0.08 0.06 1"/>
+  </material>
+  <material name="wood_back">
+    <color rgba="0.25 0.18 0.12 1"/>
+  </material>
+  <material name="wood_side">
+    <color rgba="0.30 0.22 0.15 1"/>
+  </material>
+  <material name="wood_top">
+    <color rgba="0.28 0.20 0.14 1"/>
+  </material>
+  <material name="wood_bottom">
+    <color rgba="0.22 0.16 0.11 1"/>
+  </material>
+  <material name="door_wood">
+    <color rgba="0.32 0.23 0.16 1"/>
+  </material>
+  <material name="wood_front">
+    <color rgba="0.26 0.19 0.13 1"/>
+  </material>
+  <material name="track_metal">
+    <color rgba="0.55 0.55 0.58 1"/>
+  </material>
+</robot>

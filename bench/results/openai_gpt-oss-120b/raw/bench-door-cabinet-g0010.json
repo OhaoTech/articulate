@@ -1,0 +1,19 @@
+{
+  "content": "```xml\n<?xml version=\"1.0\"?>\n<robot name=\"cabinet\">\n  <!-- Cabinet body -->\n  <link name=\"cabinet_body\">\n    <visual>\n      <origin xyz=\"0 0 0.295\" rpy=\"0 0 0\"/>\n      <geometry>\n        <box size=\"0.67 0.47 0.59\"/>\n      </geometry>\n      <material name=\"gray\">\n        <color rgba=\"0.6 0.6 0.6 1\"/>\n      </material>\n    </visual>\n    <collision>\n      <origin xyz=\"0 0 0.295\" rpy=\"0 0 0\"/>\n      <geometry>\n        <box size=\"0.67 0.47 0.59\"/>\n      </geometry>\n    </collision>\n    <inertial>\n      <mass value=\"30.0\"/>\n      <origin xyz=\"0 0 0.295\" rpy=\"0 0 0\"/>\n      <inertia ixx=\"1.4225\" ixy=\"0.0\" ixz=\"0.0\"\n               iyy=\"1.9925\" iyz=\"0.0\"\n               izz=\"1.6745\"/>\n    </inertial>\n  </link>\n\n  <!-- Door -->\n  <link name=\"cabinet_door\">\n    <visual>\n      <origin xyz=\"0 0 0\" rpy=\"0 0 0\"/>\n      <geometry>\n        <box size=\"0.67 0.02 0.59\"/>\n      </geometry>\n      <material name=\"brown\">\n        <color rgba=\"0.4 0.2 0.1 1\"/>\n      </material>\n    </visual>\n    <collision>\n      <origin xyz=\"0 0 0\" rpy=\"0 0 0\"/>\n      <geometry>\n        <box size=\"0.67 0.02 0.59\"/>\n      </geometry>\n    </collision>\n    <inertial>\n      <mass value=\"5.0\"/>\n      <origin xyz=\"0 0 0\" rpy=\"0 0 0\"/>\n      <inertia ixx=\"0.1452\" ixy=\"0.0\" ixz=\"0.0\"\n               iyy=\"0.3320\" iyz=\"0.0\"\n               izz=\"0.1872\"/>\n    </inertial>\n  </link>\n\n  <!-- Hinge joint -->\n  <joint name=\"door_hinge\" type=\"revolute\">\n    <!-- Hinge located at the left vertical edge of the cabinet front -->\n    <origin xyz=\"-0.335 0 0.295\" rpy=\"0 0 0\"/>\n    <parent link=\"cabinet_body\"/>\n    <child link=\"cabinet_door\"/>\n    <axis xyz=\"0 0 1\"/>\n    <limit effort=\"10.0\" velocity=\"1.0\" lower=\"0.0\" upper=\"1.5708\"/>\n    <dynamics damping=\"0.1\" friction=\"0.2\"/>\n  </joint>\n</robot>\n```",
+  "finish_reason": "stop",
+  "id": "bench-door-cabinet-g0010",
+  "model": "openai/gpt-oss-120b",
+  "urdf_found": true,
+  "usage": {
+    "completion_time": 3.294056351,
+    "completion_tokens": 1583,
+    "completion_tokens_details": {
+      "reasoning_tokens": 915
+    },
+    "prompt_time": 0.008376502,
+    "prompt_tokens": 185,
+    "queue_time": 0.168931244,
+    "total_time": 3.302432853,
+    "total_tokens": 1768
+  }
+}

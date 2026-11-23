@@ -1,0 +1,19 @@
+{
+  "content": "```xml\n<?xml version=\"1.0\"?>\n<robot name=\"cabinet_with_hinged_doors\">\n\n  <!-- Base cabinet body -->\n  <link name=\"cabinet_body\">\n    <visual>\n      <origin xyz=\"0 0 0.94\" rpy=\"0 0 0\"/>\n      <geometry>\n        <box size=\"0.98 0.59 1.88\"/>\n      </geometry>\n      <material name=\"light_gray\">\n        <color rgba=\"0.8 0.8 0.8 1\"/>\n      </material>\n    </visual>\n    <collision>\n      <origin xyz=\"0 0 0.94\" rpy=\"0 0 0\"/>\n      <geometry>\n        <box size=\"0.98 0.59 1.88\"/>\n      </geometry>\n    </collision>\n    <inertial>\n      <mass value=\"30.0\"/>\n      <origin xyz=\"0 0 0.94\" rpy=\"0 0 0\"/>\n      <inertia ixx=\"9.706\" ixy=\"0.0\" ixz=\"0.0\"\n               iyy=\"11.237\" iyz=\"0.0\"\n               izz=\"3.271\"/>\n    </inertial>\n  </link>\n\n  <!-- Left door -->\n  <link name=\"left_door\">\n    <visual>\n      <origin xyz=\"-0.245 -0.305 0.94\" rpy=\"0 0 0\"/>\n      <geometry>\n        <box size=\"0.49 0.02 1.88\"/>\n      </geometry>\n      <material name=\"dark_gray\">\n        <color rgba=\"0.4 0.4 0.4 1\"/>\n      </material>\n    </visual>\n    <collision>\n      <origin xyz=\"-0.245 -0.305 0.94\" rpy=\"0 0 0\"/>\n      <geometry>\n        <box size=\"0.49 0.02 1.88\"/>\n      </geometry>\n    </collision>\n    <inertial>\n      <mass value=\"5.0\"/>\n      <origin xyz=\"-0.245 -0.305 0.94\" rpy=\"0 0 0\"/>\n      <inertia ixx=\"1.473\" ixy=\"0.0\" ixz=\"0.0\"\n               iyy=\"1.573\" iyz=\"0.0\"\n               izz=\"0.100\"/>\n    </inertial>\n  </link>\n\n  <!-- Right door -->\n  <link name=\"right_door\">\n    <visual>\n      <origin xyz=\"0.245 -0.305 0.94\" rpy=\"0 0 0\"/>\n      <geometry>\n        <box size=\"0.49 0.02 1.88\"/>\n      </geometry>\n      <material name=\"dark_gray\">\n        <color rgba=\"0.4 0.4 0.4 1\"/>\n      </material>\n    </visual>\n    <collision>\n      <origin xyz=\"0.245 -0.305 0.94\" rpy=\"0 0 0\"/>\n      <geometry>\n        <box size=\"0.49 0.02 1.88\"/>\n      </geometry>\n    </collision>\n    <inertial>\n      <mass value=\"5.0\"/>\n      <origin xyz=\"0.245 -0.305 0.94\" rpy=\"0 0 0\"/>\n      <inertia ixx=\"1.473\" ixy=\"0.0\" ixz=\"0.0\"\n               iyy=\"1.573\" iyz=\"0.0\"\n               izz=\"0.100\"/>\n    </inertial>\n  </link>\n\n  <!-- Joint for left door -->\n  <joint name=\"left_door_joint\" type=\"revolute\">\n    <parent link=\"cabinet_body\"/>\n    <child link=\"left_door\"/>\n    <origin xyz=\"0 -0.295 0\" rpy=\"0 0 0\"/>\n    <axis xyz=\"0 0 1\"/>\n    <limit effort=\"10.0\" velocity=\"1.0\" lower=\"-1.57\" upper=\"0.0\"/>\n  </joint>\n\n  <!-- Joint for right door -->\n  <joint name=\"right_door_joint\" type=\"revolute\">\n    <parent link=\"cabinet_body\"/>\n    <child link=\"right_door\"/>\n    <origin xyz=\"0 -0.295 0\" rpy=\"0 0 0\"/>\n    <axis xyz=\"0 0 1\"/>\n    <limit effort=\"10.0\" velocity=\"1.0\" lower=\"0.0\" upper=\"1.57\"/>\n  </joint>\n\n</robot>\n```",
+  "finish_reason": "stop",
+  "id": "bench-door-cabinet-g0006",
+  "model": "openai/gpt-oss-120b",
+  "urdf_found": true,
+  "usage": {
+    "completion_time": 4.341874248,
+    "completion_tokens": 2075,
+    "completion_tokens_details": {
+      "reasoning_tokens": 1052
+    },
+    "prompt_time": 0.007718647,
+    "prompt_tokens": 190,
+    "queue_time": 0.175551299,
+    "total_time": 4.349592895,
+    "total_tokens": 2265
+  }
+}

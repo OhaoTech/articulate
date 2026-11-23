@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<robot name="cabinet_with_one_hinged_door">
+
+  <!-- Base cabinet body -->
+  <link name="cabinet_body">
+    <visual>
+      <origin xyz="0 0 0.385" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.44 0.40 0.77"/>
+      </geometry>
+      <material name="oak">
+        <color rgba="0.55 0.27 0.07 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.385" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.44 0.40 0.77"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <!-- Approx. density 500 kg/m³ → mass ≈ 68 kg -->
+      <mass value="68.0"/>
+      <origin xyz="0 0 0.385" rpy="0 0 0"/>
+      <inertia
+        ixx="9.45" ixy="0.0" ixz="0.0"
+        iyy="9.45" iyz="0.0"
+        izz="5.30"/>
+    </inertial>
+  </link>
+
+  <!-- Door -->
+  <link name="door">
+    <visual>
+      <origin xyz="0  -0.19  0.385" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.44 0.02 0.77"/>
+      </geometry>
+      <material name="oak">
+        <color rgba="0.55 0.27 0.07 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0  -0.19  0.385" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.44 0.02 0.77"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <!-- Approx. density 500 kg/m³ → mass ≈ 3.4 kg -->
+      <mass value="3.4"/>
+      <origin xyz="0  -0.19  0.385" rpy="0 0 0"/>
+      <inertia
+        ixx="0.12" ixy="0.0" ixz="0.0"
+        iyy="0.12" iyz="0.0"
+        izz="0.02"/>
+    </inertial>
+  </link>
+
+  <!-- Revolute joint for the door -->
+  <joint name="door_hinge" type="revolute">
+    <!-- Hinge is on the left vertical edge of the cabinet front -->
+    <origin xyz="-0.22 -0.20 0.0" rpy="0 0 0"/>
+    <parent link="cabinet_body"/>
+    <child link="door"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="10.0" velocity="1.0" lower="0.0" upper="1.5708"/>
+    <dynamics damping="0.1" friction="0.2"/>
+  </joint>
+
+</robot>

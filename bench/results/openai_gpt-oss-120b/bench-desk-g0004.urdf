@@ -1,0 +1,181 @@
+<?xml version="1.0"?>
+<robot name="desk">
+
+  <!-- Root link: the tabletop (origin at floor centre) -->
+  <link name="top">
+    <visual>
+      <origin xyz="0 0 0.71" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.34 0.68 0.02"/>
+      </geometry>
+      <material name="light_wood">
+        <color rgba="0.8 0.7 0.5 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.71" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.34 0.68 0.02"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="10.0"/>
+      <origin xyz="0 0 0.71" rpy="0 0 0"/>
+      <inertia ixx="0.3857" ixy="0.0" ixz="0.0"
+               iyy="1.4967" iyz="0.0"
+               izz="1.8817"/>
+    </inertial>
+  </link>
+
+  <!-- Four legs, fixed to the tabletop -->
+  <link name="leg_front_left">
+    <visual>
+      <origin xyz="-0.645 0.315 0.35" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.05 0.05 0.70"/>
+      </geometry>
+      <material name="metal"/>
+    </visual>
+    <collision>
+      <origin xyz="-0.645 0.315 0.35" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.05 0.05 0.70"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="2.0"/>
+      <origin xyz="-0.645 0.315 0.35" rpy="0 0 0"/>
+      <inertia ixx="0.08208" ixy="0.0" ixz="0.0"
+               iyy="0.08208" iyz="0.0"
+               izz="0.000833"/>
+    </inertial>
+  </link>
+
+  <joint name="leg_front_left_joint" type="fixed">
+    <parent link="top"/>
+    <child link="leg_front_left"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <link name="leg_front_right">
+    <visual>
+      <origin xyz="0.645 0.315 0.35" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.05 0.05 0.70"/>
+      </geometry>
+      <material name="metal"/>
+    </visual>
+    <collision>
+      <origin xyz="0.645 0.315 0.35" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.05 0.05 0.70"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="2.0"/>
+      <origin xyz="0.645 0.315 0.35" rpy="0 0 0"/>
+      <inertia ixx="0.08208" ixy="0.0" ixz="0.0"
+               iyy="0.08208" iyz="0.0"
+               izz="0.000833"/>
+    </inertial>
+  </link>
+
+  <joint name="leg_front_right_joint" type="fixed">
+    <parent link="top"/>
+    <child link="leg_front_right"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <link name="leg_back_left">
+    <visual>
+      <origin xyz="-0.645 -0.315 0.35" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.05 0.05 0.70"/>
+      </geometry>
+      <material name="metal"/>
+    </visual>
+    <collision>
+      <origin xyz="-0.645 -0.315 0.35" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.05 0.05 0.70"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="2.0"/>
+      <origin xyz="-0.645 -0.315 0.35" rpy="0 0 0"/>
+      <inertia ixx="0.08208" ixy="0.0" ixz="0.0"
+               iyy="0.08208" iyz="0.0"
+               izz="0.000833"/>
+    </inertial>
+  </link>
+
+  <joint name="leg_back_left_joint" type="fixed">
+    <parent link="top"/>
+    <child link="leg_back_left"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <link name="leg_back_right">
+    <visual>
+      <origin xyz="0.645 -0.315 0.35" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.05 0.05 0.70"/>
+      </geometry>
+      <material name="metal"/>
+    </visual>
+    <collision>
+      <origin xyz="0.645 -0.315 0.35" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.05 0.05 0.70"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="2.0"/>
+      <origin xyz="0.645 -0.315 0.35" rpy="0 0 0"/>
+      <inertia ixx="0.08208" ixy="0.0" ixz="0.0"
+               iyy="0.08208" iyz="0.0"
+               izz="0.000833"/>
+    </inertial>
+  </link>
+
+  <joint name="leg_back_right_joint" type="fixed">
+    <parent link="top"/>
+    <child link="leg_back_right"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <!-- Drawer (slides out toward -Y) -->
+  <link name="drawer">
+    <visual>
+      <origin xyz="0 0.19 0.58" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.30 0.30 0.12"/>
+      </geometry>
+      <material name="drawer_material">
+        <color rgba="0.6 0.5 0.4 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0.19 0.58" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.30 0.30 0.12"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="5.0"/>
+      <origin xyz="0 0.19 0.58" rpy="0 0 0"/>
+      <inertia ixx="0.0435" ixy="0.0" ixz="0.0"
+               iyy="0.7102" iyz="0.0"
+               izz="0.7417"/>
+    </inertial>
+  </link>
+
+  <joint name="drawer_joint" type="prismatic">
+    <parent link="top"/>
+    <child link="drawer"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <axis xyz="0 -1 0"/>
+    <limit lower="0" upper="0.4" effort="30" velocity="0.2"/>
+  </joint>
+
+</robot>

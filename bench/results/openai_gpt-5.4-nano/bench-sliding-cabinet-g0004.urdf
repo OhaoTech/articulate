@@ -1,0 +1,250 @@
+<robot name="sliding_cabinet_84x111x60">
+  <link name="base">
+    <inertial>
+      <origin xyz="0 0 0.055" rpy="0 0 0"/>
+      <mass value="45.0"/>
+      <inertia ixx="0.9" ixy="0" ixz="0" iyy="1.8" iyz="0" izz="1.2"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0.055" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.84 0.60 0.11"/>
+      </geometry>
+      <material name="wood">
+        <color rgba="0.7 0.5 0.35 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.055" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.84 0.60 0.11"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="top_panel">
+    <inertial>
+      <origin xyz="0 0 0.111+0.03" rpy="0 0 0"/>
+      <mass value="12.0"/>
+      <inertia ixx="0.12" ixy="0" ixz="0" iyy="0.50" iyz="0" izz="0.45"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0.111+0.03" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.84 0.60 0.03"/>
+      </geometry>
+      <material name="wood"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.111+0.03" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.84 0.60 0.03"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="left_side">
+    <inertial>
+      <origin xyz="-0.42+0.02" y="-0.0" z="0.055+0.0" rpy="0 0 0"/>
+      <mass value="18.0"/>
+      <inertia ixx="0.60" ixy="0" ixz="0" iyy="0.30" iyz="0" izz="0.55"/>
+    </inertial>
+    <visual>
+      <origin xyz="-0.42+0.02" y="0" z="0.055" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.04 0.60 0.11"/>
+      </geometry>
+      <material name="wood"/>
+    </visual>
+    <collision>
+      <origin xyz="-0.42+0.02" y="0" z="0.055" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.04 0.60 0.11"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="right_side">
+    <inertial>
+      <origin xyz="0.42-0.02" y="0" z="0.055" rpy="0 0 0"/>
+      <mass value="18.0"/>
+      <inertia ixx="0.60" ixy="0" ixz="0" iyy="0.30" iyz="0" izz="0.55"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.42-0.02" y="0" z="0.055" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.04 0.60 0.11"/>
+      </geometry>
+      <material name="wood"/>
+    </visual>
+    <collision>
+      <origin xyz="0.42-0.02" y="0" z="0.055" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.04 0.60 0.11"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="back_panel">
+    <inertial>
+      <origin xyz="0 0.30-0.01" y="0.29" z="0.055" rpy="0 0 0"/>
+      <mass value="10.0"/>
+      <inertia ixx="0.35" ixy="0" ixz="0" iyy="0.55" iyz="0" izz="0.40"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0.30-0.01" y="0.29" z="0.055" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.84 0.02 0.11"/>
+      </geometry>
+      <material name="wood"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0.29" z="0.055" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.84 0.02 0.11"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="track_left">
+    <inertial>
+      <origin xyz="-0.21" y="0.46" z="0.09" rpy="0 0 0"/>
+      <mass value="2.0"/>
+      <inertia ixx="0.002" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.0015"/>
+    </inertial>
+    <visual>
+      <origin xyz="-0.21" y="0.46" z="0.09" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.42 0.04 0.02"/>
+      </geometry>
+      <material name="metal">
+        <color rgba="0.35 0.35 0.38 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.21" y="0.46" z="0.09" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.42 0.04 0.02"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="track_right">
+    <inertial>
+      <origin xyz="0.21" y="0.46" z="0.09" rpy="0 0 0"/>
+      <mass value="2.0"/>
+      <inertia ixx="0.002" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.0015"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.21" y="0.46" z="0.09" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.42 0.04 0.02"/>
+      </geometry>
+      <material name="metal"/>
+    </visual>
+    <collision>
+      <origin xyz="0.21" y="0.46" z="0.09" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.42 0.04 0.02"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="door_left">
+    <inertial>
+      <origin xyz="-0.34" y="0.30" z="0.06" rpy="0 0 0"/>
+      <mass value="8.5"/>
+      <inertia ixx="0.05" ixy="0" ixz="0" iyy="0.20" iyz="0" izz="0.19"/>
+    </inertial>
+    <visual>
+      <origin xyz="-0.34" y="0.30" z="0.06" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.42 0.60 0.02"/>
+      </geometry>
+      <material name="door_color">
+        <color rgba="0.75 0.75 0.78 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.34" y="0.30" z="0.06" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.42 0.60 0.02"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="door_right">
+    <inertial>
+      <origin xyz="0.34" y="0.30" z="0.06" rpy="0 0 0"/>
+      <mass value="8.5"/>
+      <inertia ixx="0.05" ixy="0" ixz="0" iyy="0.20" iyz="0" izz="0.19"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.34" y="0.30" z="0.06" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.42 0.60 0.02"/>
+      </geometry>
+      <material name="door_color"/>
+    </visual>
+    <collision>
+      <origin xyz="0.34" y="0.30" z="0.06" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.42 0.60 0.02"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="rail_constraint_dummy"/>
+
+  <joint name="base_to_world" type="fixed">
+    <parent link="base"/>
+    <child link="top_panel"/>
+    <origin xyz="0 0 0.111" rpy="0 0 0"/>
+  </joint>
+
+  <joint name="sides_to_base" type="fixed">
+    <parent link="base"/>
+    <child link="left_side"/>
+    <origin xyz="-0.38 0 0.0" rpy="0 0 0"/>
+  </joint>
+
+  <joint name="sides_to_base_r" type="fixed">
+    <parent link="base"/>
+    <child link="right_side"/>
+    <origin xyz="0.38 0 0.0" rpy="0 0 0"/>
+  </joint>
+
+  <joint name="back_to_base" type="fixed">
+    <parent link="base"/>
+    <child link="back_panel"/>
+    <origin xyz="0 0.29 0.0" rpy="0 0 0"/>
+  </joint>
+
+  <joint name="trackL_to_base" type="fixed">
+    <parent link="base"/>
+    <child link="track_left"/>
+    <origin xyz="-0.21 0.46 0.055" rpy="0 0 0"/>
+  </joint>
+
+  <joint name="trackR_to_base" type="fixed">
+    <parent link="base"/>
+    <child link="track_right"/>
+    <origin xyz="0.21 0.46 0.055" rpy="0 0 0"/>
+  </joint>
+
+  <joint name="door_left_slide" type="prismatic">
+    <parent link="base"/>
+    <child link="door_left"/>
+    <origin xyz="-0.34 0.30 0.055" rpy="0 0 0"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="-0.42" upper="0.42" effort="200" velocity="1.0"/>
+  </joint>
+
+  <joint name="door_right_slide" type="prismatic">
+    <parent link="base"/>
+    <child link="door_right"/>
+    <origin xyz="0.34 0.30 0.055" rpy="0 0 0"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="-0.42" upper="0.42" effort="200" velocity="1.0"/>
+  </joint>
+</robot>

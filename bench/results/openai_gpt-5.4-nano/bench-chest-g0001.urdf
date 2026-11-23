@@ -1,0 +1,108 @@
+<robot name="chest_with_lid">
+  <!-- Units: metres, kg -->
+
+  <!-- Base pose: origin on floor under middle of object.
+       X across width, Y toward back (front faces -Y), Z up. -->
+
+  <!-- Dimensions -->
+  <!-- Width (X): 1.01 m -->
+  <!-- Height to top of closed lid (Z): 0.37 m (lid/toplevel height) -->
+  <!-- Depth (Y): 0.51 m -->
+
+  <!-- Assumptions for internal mass distribution (can be adjusted):
+       - Chest/body: 0.20 m tall; lid: 0.17 m tall; total 0.37 m.
+       - Lid rotates about the back top edge (hinge axis along X).
+       - Lid opens by rotating about +X axis at hinge in +Y/back direction. -->
+
+  <material name="wood">
+    <color rgba="0.55 0.40 0.30 1"/>
+  </material>
+
+  <material name="wood_dark">
+    <color rgba="0.45 0.32 0.24 1"/>
+  </material>
+
+  <!-- World link (static) -->
+  <link name="world"/>
+
+  <!-- Chest/body link -->
+  <link name="chest_body">
+    <inertial>
+      <!-- Box approx: width 1.01, depth 0.51, height 0.20 -->
+      <origin xyz="0 0 0.10" rpy="0 0 0"/>
+      <mass value="12.0"/>
+      <!-- inertia for solid box: Ixx = 1/12 m (y^2+z^2), Iyy = 1/12 m (x^2+z^2), Izz = 1/12 m (x^2+y^2) -->
+      <!-- x=1.01, y=0.51, z=0.20 -->
+      <inertia ixx="0.2246" ixy="0" ixz="0" iyy="0.3318" iyz="0" izz="0.5200"/>
+    </inertial>
+
+    <visual>
+      <origin xyz="0 0 0.10" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.01 0.51 0.20"/>
+      </geometry>
+      <material name="wood_dark"/>
+    </visual>
+
+    <collision>
+      <origin xyz="0 0 0.10" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.01 0.51 0.20"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- Lid link -->
+  <link name="chest_lid">
+    <inertial>
+      <!-- Lid box approx: width 1.01, depth 0.51, thickness 0.017? but need height 0.17 per assumption.
+           Use a box of size 1.01 x 0.51 x 0.17 placed at its center.
+           With hinge at back top edge: at closed state lid is horizontal at Z=0.20..0.37.
+           Its center at Z = 0.20 + 0.17/2 = 0.285. In Y at 0 (mid-depth). -->
+      <origin xyz="0 0 0.285" rpy="0 0 0"/>
+      <mass value="6.5"/>
+      <!-- x=1.01, y=0.51, z=0.17 -->
+      <inertia ixx="0.1351" ixy="0" ixz="0" iyy="0.2847" iyz="0" izz="0.4465"/>
+    </inertial>
+
+    <!-- Visual and collision for lid in its link frame at zero rotation (closed).
+         Link frame chosen so that when joint angle=0, the lid is horizontal.
+         For joint origin at hinge axis, this link's geometry is positioned at Z=0.285. -->
+    <visual>
+      <origin xyz="0 0 0.285" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.01 0.51 0.17"/>
+      </geometry>
+      <material name="wood"/>
+    </visual>
+
+    <collision>
+      <origin xyz="0 0 0.285" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.01 0.51 0.17"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- Fixed base attachment -->
+  <joint name="chest_body_to_world" type="fixed">
+    <parent link="world"/>
+    <child link="chest_body"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <!-- Hinge joint for lid: rotates about X axis along back edge -->
+  <joint name="lid_hinge" type="revolute">
+    <parent link="chest_body"/>
+    <child link="chest_lid"/>
+    <!-- Hinge axis at back top edge of body.
+         Back edge at Y = +0.51/2 = +0.255
+         Top of body at Z = 0.20
+         X centered at 0 -->
+    <origin xyz="0 0.255 0.20" rpy="0 0 0"/>
+    <!-- Revolute axis along +X -->
+    <axis xyz="1 0 0"/>
+    <limit lower="0.0" upper="1.57079632679" effort="50" velocity="2.0"/>
+    <dynamics damping="0.2" friction="0.02"/>
+  </joint>
+</robot>

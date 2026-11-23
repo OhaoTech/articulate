@@ -1,0 +1,100 @@
+<?xml version="1.0"?>
+<robot name="drawer_cabinet">
+
+  <!-- Base cabinet body -->
+  <link name="cabinet_body">
+    <visual>
+      <origin xyz="0 0 0.625" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.09 0.60 1.25"/>
+      </geometry>
+      <material name="gray">
+        <color rgba="0.6 0.6 0.6 1.0"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.625" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.09 0.60 1.25"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="30.0"/>
+      <origin xyz="0 0 0.625" rpy="0 0 0"/>
+      <inertia ixx="4.8063" ixy="0.0" ixz="0.0"
+               iyy="6.8765" iyz="0.0"
+               izz="3.8703"/>
+    </inertial>
+  </link>
+
+  <!-- Upper drawer -->
+  <link name="drawer_upper">
+    <visual>
+      <origin xyz="0 0 0.275" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.07 0.55 0.55"/>
+      </geometry>
+      <material name="brown">
+        <color rgba="0.55 0.27 0.07 1.0"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.275" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.07 0.55 0.55"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="5.0"/>
+      <origin xyz="0 0 0.275" rpy="0 0 0"/>
+      <inertia ixx="0.1408" ixy="0.0" ixz="0.0"
+               iyy="0.2109" iyz="0.0"
+               izz="0.1155"/>
+    </inertial>
+  </link>
+
+  <!-- Lower drawer -->
+  <link name="drawer_lower">
+    <visual>
+      <origin xyz="0 0 0.275" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.07 0.55 0.55"/>
+      </geometry>
+      <material name="brown">
+        <color rgba="0.55 0.27 0.07 1.0"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.275" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.07 0.55 0.55"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="5.0"/>
+      <origin xyz="0 0 0.275" rpy="0 0 0"/>
+      <inertia ixx="0.1408" ixy="0.0" ixz="0.0"
+               iyy="0.2109" iyz="0.0"
+               izz="0.1155"/>
+    </inertial>
+  </link>
+
+  <!-- Joint for upper drawer (slides outward, -Y direction) -->
+  <joint name="joint_upper_drawer" type="prismatic">
+    <parent link="cabinet_body"/>
+    <child link="drawer_upper"/>
+    <origin xyz="0 -0.025 0.875" rpy="0 0 0"/>
+    <axis xyz="0 -1 0"/>
+    <limit lower="0.0" upper="0.20" effort="100.0" velocity="0.2"/>
+  </joint>
+
+  <!-- Joint for lower drawer (slides outward, -Y direction) -->
+  <joint name="joint_lower_drawer" type="prismatic">
+    <parent link="cabinet_body"/>
+    <child link="drawer_lower"/>
+    <origin xyz="0 -0.025 0.375" rpy="0 0 0"/>
+    <axis xyz="0 -1 0"/>
+    <limit lower="0.0" upper="0.20" effort="100.0" velocity="0.2"/>
+  </joint>
+
+</robot>

@@ -1,0 +1,184 @@
+<?xml version="1.0"?>
+<robot name="desk">
+
+  <!-- ==================== Desk Top ==================== -->
+  <link name="top">
+    <visual>
+      <origin xyz="0 0 0.69" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.41 0.67 0.02"/>
+      </geometry>
+      <material name="oak">
+        <color rgba="0.55 0.27 0.07 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.69" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.41 0.67 0.02"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="10.0"/>
+      <!-- Box inertia about its own center -->
+      <inertia ixx="0.0011" ixy="0.0" ixz="0.0"
+               iyy="1.2250" iyz="0.0"
+               izz="1.2250"/>
+      <origin xyz="0 0 0.69" rpy="0 0 0"/>
+    </inertial>
+  </link>
+
+  <!-- ==================== Legs ==================== -->
+  <!-- Leg dimensions: 0.04 x 0.04 x 0.68 (height) -->
+  <link name="leg_front_left">
+    <visual>
+      <origin xyz="-0.665 -0.315 0.34" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.04 0.04 0.68"/>
+      </geometry>
+      <material name="metal"/>
+    </visual>
+    <collision>
+      <origin xyz="-0.665 -0.315 0.34" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.04 0.04 0.68"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="2.0"/>
+      <inertia ixx="0.0010" ixy="0.0" ixz="0.0"
+               iyy="0.0010" iyz="0.0"
+               izz="0.0012"/>
+      <origin xyz="-0.665 -0.315 0.34" rpy="0 0 0"/>
+    </inertial>
+  </link>
+
+  <link name="leg_front_right">
+    <visual>
+      <origin xyz="0.665 -0.315 0.34" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.04 0.04 0.68"/>
+      </geometry>
+      <material name="metal"/>
+    </visual>
+    <collision>
+      <origin xyz="0.665 -0.315 0.34" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.04 0.04 0.68"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="2.0"/>
+      <inertia ixx="0.0010" ixy="0.0" ixz="0.0"
+               iyy="0.0010" iyz="0.0"
+               izz="0.0012"/>
+      <origin xyz="0.665 -0.315 0.34" rpy="0 0 0"/>
+    </inertial>
+  </link>
+
+  <link name="leg_back_left">
+    <visual>
+      <origin xyz="-0.665 0.315 0.34" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.04 0.04 0.68"/>
+      </geometry>
+      <material name="metal"/>
+    </visual>
+    <collision>
+      <origin xyz="-0.665 0.315 0.34" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.04 0.04 0.68"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="2.0"/>
+      <inertia ixx="0.0010" ixy="0.0" ixz="0.0"
+               iyy="0.0010" iyz="0.0"
+               izz="0.0012"/>
+      <origin xyz="-0.665 0.315 0.34" rpy="0 0 0"/>
+    </inertial>
+  </link>
+
+  <link name="leg_back_right">
+    <visual>
+      <origin xyz="0.665 0.315 0.34" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.04 0.04 0.68"/>
+      </geometry>
+      <material name="metal"/>
+    </visual>
+    <collision>
+      <origin xyz="0.665 0.315 0.34" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.04 0.04 0.68"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="2.0"/>
+      <inertia ixx="0.0010" ixy="0.0" ixz="0.0"
+               iyy="0.0010" iyz="0.0"
+               izz="0.0012"/>
+      <origin xyz="0.665 0.315 0.34" rpy="0 0 0"/>
+    </inertial>
+  </link>
+
+  <!-- Fixed joints attaching legs to the top -->
+  <joint name="leg_front_left_joint" type="fixed">
+    <parent link="top"/>
+    <child link="leg_front_left"/>
+    <origin xyz="-0.665 -0.315 0" rpy="0 0 0"/>
+  </joint>
+  <joint name="leg_front_right_joint" type="fixed">
+    <parent link="top"/>
+    <child link="leg_front_right"/>
+    <origin xyz="0.665 -0.315 0" rpy="0 0 0"/>
+  </joint>
+  <joint name="leg_back_left_joint" type="fixed">
+    <parent link="top"/>
+    <child link="leg_back_left"/>
+    <origin xyz="-0.665 0.315 0" rpy="0 0 0"/>
+  </joint>
+  <joint name="leg_back_right_joint" type="fixed">
+    <parent link="top"/>
+    <child link="leg_back_right"/>
+    <origin xyz="0.665 0.315 0" rpy="0 0 0"/>
+  </joint>
+
+  <!-- ==================== Drawer ==================== -->
+  <!-- Drawer dimensions: width 1.35 m, depth 0.60 m, height 0.15 m -->
+  <link name="drawer">
+    <visual>
+      <origin xyz="0 0.085 0.075" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.35 0.60 0.15"/>
+      </geometry>
+      <material name="drawer_mat">
+        <color rgba="0.8 0.8 0.7 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0.085 0.075" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.35 0.60 0.15"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="5.0"/>
+      <inertia ixx="0.045" ixy="0.0" ixz="0.0"
+               iyy="0.050" iyz="0.0"
+               izz="0.020"/>
+      <origin xyz="0 0.085 0.075" rpy="0 0 0"/>
+    </inertial>
+  </link>
+
+  <!-- Prismatic joint for drawer sliding forward (negative Y) -->
+  <joint name="drawer_joint" type="prismatic">
+    <parent link="top"/>
+    <child link="drawer"/>
+    <origin xyz="0 0 0.02" rpy="0 0 0"/>
+    <axis xyz="0 -1 0"/>
+    <limit effort="100" velocity="0.2" lower="0.0" upper="0.30"/>
+    <dynamics damping="0.1" friction="0.2"/>
+  </joint>
+
+</robot>

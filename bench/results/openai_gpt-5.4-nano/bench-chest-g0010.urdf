@@ -1,0 +1,193 @@
+<?xml version="1.0"?>
+<robot name="chest_with_lid">
+  <!--
+    Coordinate frame:
+      Origin on floor under middle of object
+      X: across width
+      Y: toward back (front faces -Y)
+      Z: up
+
+    Chest outer dimensions (metres):
+      width (X): 0.72
+      height (Z): 0.55 (includes lid top height when closed)
+      depth (Y): 0.41
+    Lid:
+      thickness: 0.04
+      hinge axis: back edge, along X, located at y = +depth/2
+      lid rotates about +X in the positive sense: when opened, lid swings up.
+    Hinge model:
+      single revolute joint with realistic rectangular collision approximations.
+  -->
+
+  <!-- -------------------- Base parameters -------------------- -->
+  <!-- Dimensions -->
+  <!-- chest dims -->
+  <!-- -->
+  <material name="wood_brown">
+    <color rgba="0.55 0.40 0.28 1"/>
+  </material>
+
+  <material name="hinge_metal">
+    <color rgba="0.7 0.7 0.75 1"/>
+  </material>
+
+  <!-- -------------------- Links -------------------- -->
+
+  <!-- Chest body (bottom + sides + back + front frame), no internal detail -->
+  <link name="chest_body">
+    <inertial>
+      <!-- Assume solid-like block for inertia approximation -->
+      <!-- Body spans:
+           X: 0.72
+           Y: 0.41
+           Z: 0.51 (body height under lid when closed). Lid thickness 0.04 => body 0.55-0.04=0.51
+        -->
+      <origin xyz="0 0 0.255" rpy="0 0 0"/>
+      <mass value="18.0"/>
+      <!-- Approximate inertia for a box: Ixx=1/12*m*(y^2+z^2), Iyy=1/12*m*(x^2+z^2), Izz=1/12*m*(x^2+y^2)
+           x=0.72, y=0.41, z=0.51
+      -->
+      <inertia ixx="2.20" ixy="0" ixz="0" iyy="3.46" iyz="0" izz="4.26"/>
+    </inertial>
+
+    <collision>
+      <origin xyz="0 0 0.255" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.72 0.41 0.51"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0.255" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.72 0.41 0.51"/>
+      </geometry>
+      <material name="wood_brown"/>
+    </visual>
+  </link>
+
+  <!-- Lid -->
+  <link name="lid">
+    <inertial>
+      <!-- Lid as a thin plate spanning width by depth, thickness 0.04 -->
+      <!-- When closed: lid bottom sits at z = 0.51; lid thickness along Z -->
+      <!-- Lid center (when closed): z = 0.51 + 0.04/2 = 0.53 -->
+      <origin xyz="0 0 0.53" rpy="0 0 0"/>
+      <mass value="6.0"/>
+      <!-- Box inertia x=0.72, y=0.41, z=0.04 -->
+      <!-- Ixx=1/12*m*(y^2+z^2)=1/12*6*((0.41)^2+(0.04)^2)=0.845~ -->
+      <!-- Iyy=1/12*m*(x^2+z^2)=1/12*6*((0.72)^2+(0.04)^2)=2.91~ -->
+      <!-- Izz=1/12*m*(x^2+y^2)=1/12*6*((0.72)^2+(0.41)^2)=3.76~ -->
+      <inertia ixx="0.85" ixy="0" ixz="0" iyy="2.91" iyz="0" izz="3.76"/>
+    </inertial>
+
+    <collision>
+      <origin xyz="0 0 0.53" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.72 0.41 0.04"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0.53" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.72 0.41 0.04"/>
+      </geometry>
+      <material name="wood_brown"/>
+    </visual>
+  </link>
+
+  <!-- Hinge pins / knuckles approximated as small cylinders on the back edge -->
+  <link name="hinge_pin_left">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="0.12"/>
+      <!-- Cylinder along X axis. Approximate inertia using box-like values (small, non-critical).
+           We'll use thin rod approximation.
+           radius=0.005, length=0.02 in Y? We'll model as cylinder radius r and length L along X.
+           r=0.005, L=0.02
+           Ixx (about cylinder axis) = 1/2*m*r^2
+           Iyy=Izz = 1/12*m*(3r^2+L^2)
+      -->
+      <inertia ixx="0.0000015" ixy="0" ixz="0" iyy="0.0000005" iyz="0" izz="0.0000005"/>
+    </inertial>
+
+    <collision>
+      <!-- Positioned at back edge: y=+0.205 -->
+      <!-- Small offset in Z near lid centerline plane. -->
+      <origin xyz="0 0.205 0.53" rpy="0 1.57079632679 0"/>
+      <geometry>
+        <cylinder radius="0.005" length="0.02"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0.205 0.53" rpy="0 1.57079632679 0"/>
+      <geometry>
+        <cylinder radius="0.005" length="0.02"/>
+      </geometry>
+      <material name="hinge_metal"/>
+    </visual>
+  </link>
+
+  <link name="hinge_pin_right">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="0.12"/>
+      <inertia ixx="0.0000015" ixy="0" ixz="0" iyy="0.0000005" iyz="0" izz="0.0000005"/>
+    </inertial>
+
+    <collision>
+      <origin xyz="0.26 0.205 0.53" rpy="0 1.57079632679 0"/>
+      <geometry>
+        <cylinder radius="0.005" length="0.02"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0.26 0.205 0.53" rpy="0 1.57079632679 0"/>
+      <geometry>
+        <cylinder radius="0.005" length="0.02"/>
+      </geometry>
+      <material name="hinge_metal"/>
+    </visual>
+  </link>
+
+  <!-- -------------------- Joints -------------------- -->
+
+  <!-- Lid hinge: hinge axis along +X at back edge y=+depth/2.
+       Joint origin at the hinge line on chest:
+         x=0, y=+0.205, z=0.51 (hinge located at lid bottom edge when closed).
+       Lid rotation about X:
+         When q=0, lid is closed: plate horizontal with its normal +Z (box default orientation).
+         Rotating about +X will swing the lid about the back edge upward (toward +Z).
+       Limits: allow opening upward to ~110 degrees.
+  -->
+  <joint name="lid_hinge" type="revolute">
+    <parent link="chest_body"/>
+    <child link="lid"/>
+    <origin xyz="0 0.205 0.51" rpy="0 0 0"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="-0.0" upper="1.919862177" effort="30" velocity="2.5"/>
+    <dynamics damping="0.15" friction="0.02"/>
+  </joint>
+
+  <!-- Fix hinge pins to chest body for simple non-moving model (can also be welded).
+       These pins are mostly visual; they won't interfere with motion beyond the hinge region.
+  -->
+  <joint name="pin_left_fixed" type="fixed">
+    <parent link="chest_body"/>
+    <child link="hinge_pin_left"/>
+    <origin xyz="0 0.205 0.53" rpy="0 0 0"/>
+  </joint>
+
+  <joint name="pin_right_fixed" type="fixed">
+    <parent link="chest_body"/>
+    <child link="hinge_pin_right"/>
+    <origin xyz="0.26 0.205 0.53" rpy="0 0 0"/>
+  </joint>
+
+  <!-- Disable gravity on hinge pins? Not necessary; they are fixed.
+       End-effector frame not defined.
+  -->
+</robot>

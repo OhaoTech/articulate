@@ -1,0 +1,50 @@
+<robot name="chest">
+  <link name="chest_body">
+    <inertial>
+      <origin xyz="0 0 0.15" rpy="0 0 0"/>
+      <mass value="30"/>
+      <inertia ixx="0.53125" ixy="0" ixz="0" iyy="3.64725" iyz="0" izz="3.7285"/>
+    </inertial>
+    <collision>
+      <origin xyz="0 0 0.15" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.17 0.35 0.30"/>
+      </geometry>
+    </collision>
+    <visual>
+      <origin xyz="0 0 0.15" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.17 0.35 0.30"/>
+      </geometry>
+    </visual>
+  </link>
+
+  <link name="lid">
+    <inertial>
+      <origin xyz="0 -0.175 0.04" rpy="0 0 0"/>
+      <mass value="10"/>
+      <inertia ixx="0.1074166667" ixy="0" ixz="0" iyy="1.1460833333" iyz="0" izz="1.2428333333"/>
+    </inertial>
+    <collision>
+      <origin xyz="0 -0.175 0.04" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.17 0.35 0.08"/>
+      </geometry>
+    </collision>
+    <visual>
+      <origin xyz="0 -0.175 0.04" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.17 0.35 0.08"/>
+      </geometry>
+    </visual>
+  </link>
+
+  <joint name="lid_hinge" type="revolute">
+    <parent link="chest_body"/>
+    <child link="lid"/>
+    <origin xyz="0 0.175 0.30" rpy="0 0 0"/>
+    <axis xyz="-1 0 0"/>
+    <limit lower="0" upper="1.57" effort="100" velocity="1.0"/>
+    <dynamics damping="0.1" friction="0.0"/>
+  </joint>
+</robot>

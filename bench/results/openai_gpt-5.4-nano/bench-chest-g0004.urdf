@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<robot name="chest_with_lid">
+  <link name="base">
+    <inertial>
+      <origin xyz="0 0 0.25" rpy="0 0 0"/>
+      <mass value="20.0"/>
+      <inertia ixx="0.42" ixy="0.0" ixz="0.0" iyy="1.20" iyz="0.0" izz="1.02"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0.25" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.45 0.38 0.50"/>
+      </geometry>
+      <material name="wood_base">
+        <color rgba="0.45 0.30 0.15 1.0"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.25" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.45 0.38 0.50"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="lid">
+    <inertial>
+      <origin xyz="0 0 0.2666667" rpy="0 0 0"/>
+      <mass value="8.0"/>
+      <inertia ixx="0.1344" ixy="0.0" ixz="0.0" iyy="0.3428" iyz="0.0" izz="0.2667"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0.2666667" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.45 0.38 0.05"/>
+      </geometry>
+      <material name="wood_lid">
+        <color rgba="0.55 0.38 0.18 1.0"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.2666667" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.45 0.38 0.05"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- Joint frame: hinge along the back edge; axis is +X (roll). -->
+  <!-- When closed, lid is rotated so its inner face points upward and it rests atop the base. -->
+  <joint name="lid_hinge" type="revolute">
+    <origin xyz="0 -0.19 0.50" rpy="0 0 0"/>
+    <parent link="base"/>
+    <child link="lid"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="-1.57079632679" upper="1.57079632679" effort="50" velocity="2.0"/>
+    <dynamics damping="0.2" friction="0.05"/>
+  </joint>
+
+  <!-- Set the lid pose relative to the joint origin via its link geometry:
+       lid box thickness along +Z (0.05 m). In the lid link frame, the lid
+       is defined flat; joint rotates it about the hinge line (+X axis) at Z=0.50,
+       with the lid resting initially closed by the joint default transform.
+       URDF does not include an explicit "home" pose, so we align via rpy below.
+  -->
+  <gazebo reference="lid">
+    <turnGravityOff>false</turnGravityOff>
+  </gazebo>
+
+</robot>

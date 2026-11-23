@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<robot name="cabinet_with_one_hinged_door">
+
+  <!-- Cabinet body -->
+  <link name="cabinet_body">
+    <visual>
+      <origin xyz="0 -0.22 0.845" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.37 0.44 1.69"/>
+      </geometry>
+      <material name="gray">
+        <color rgba="0.6 0.6 0.6 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 -0.22 0.845" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.37 0.44 1.69"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="30.0"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="7.6243" ixy="0.0" ixz="0.0"
+               iyy="7.4825" iyz="0.0"
+               izz="0.8263"/>
+    </inertial>
+  </link>
+
+  <!-- Door -->
+  <link name="door">
+    <visual>
+      <origin xyz="0.185 -0.01 0.845" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.37 0.02 1.69"/>
+      </geometry>
+      <material name="brown">
+        <color rgba="0.4 0.2 0.1 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.185 -0.01 0.845" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.37 0.02 1.69"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="5.0"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="1.190" ixy="0.0" ixz="0.0"
+               iyy="1.247" iyz="0.0"
+               izz="0.0572"/>
+    </inertial>
+  </link>
+
+  <!-- Hinge joint -->
+  <joint name="door_hinge" type="revolute">
+    <!-- Hinge located at the left vertical edge of the cabinet front -->
+    <origin xyz="-0.185 0 0" rpy="0 0 0"/>
+    <parent link="cabinet_body"/>
+    <child link="door"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="100.0" velocity="1.0" lower="0.0" upper="1.5708"/>
+    <dynamics damping="0.1" friction="0.0"/>
+  </joint>
+
+</robot>

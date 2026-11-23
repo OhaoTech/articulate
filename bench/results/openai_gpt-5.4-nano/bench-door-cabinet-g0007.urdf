@@ -1,0 +1,216 @@
+<robot name="cabinet_1door">
+  <!-- Dimensions (m) -->
+  <!-- Width (X): 0.47, Height (Z): 0.98, Depth (Y): 0.55 -->
+  <!-- Origin: on floor under middle of object; front faces -Y -->
+  <!-- Cabinet interior depth is 0.55; door thickness assumed 0.018 m -->
+
+  <!-- Global parameters -->
+  <!-- Basic wall thickness and material guesses -->
+  <!-- Body shell thickness -->
+  <!-- Side panels: 0.02 m, top/bottom: 0.02 m, back panel: 0.01 m, door: 0.018 m -->
+  <!-- Densities are approximate to give reasonable masses -->
+
+  <link name="base">
+    <inertial>
+      <origin xyz="0 0 0.01" rpy="0 0 0"/>
+      <mass value="35.0"/>
+      <inertia ixx="0.10" ixy="0.0" ixz="0.0" iyy="0.12" iyz="0.0" izz="0.18"/>
+    </inertial>
+    <collision>
+      <origin xyz="0 0 0.02" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.47 0.55 0.04"/>
+      </geometry>
+    </collision>
+    <visual>
+      <origin xyz="0 0 0.02" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.47 0.55 0.04"/>
+      </geometry>
+    </visual>
+  </link>
+
+  <!-- Side panels -->
+  <link name="side_left">
+    <inertial>
+      <origin xyz="0 0 0.49" rpy="0 0 0"/>
+      <mass value="10.0"/>
+      <inertia ixx="0.05" ixy="0.0" ixz="0.0" iyy="0.02" iyz="0.0" izz="0.06"/>
+    </inertial>
+    <collision>
+      <!-- left side at -width/2 -->
+      <origin xyz="-0.235 0 0.49" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.02 0.55 0.98"/>
+      </geometry>
+    </collision>
+    <visual>
+      <origin xyz="-0.235 0 0.49" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.02 0.55 0.98"/>
+      </geometry>
+    </visual>
+  </link>
+
+  <link name="side_right">
+    <inertial>
+      <origin xyz="0 0 0.49" rpy="0 0 0"/>
+      <mass value="10.0"/>
+      <inertia ixx="0.05" ixy="0.0" ixz="0.0" iyy="0.02" iyz="0.0" izz="0.06"/>
+    </inertial>
+    <collision>
+      <origin xyz="0.235 0 0.49" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.02 0.55 0.98"/>
+      </geometry>
+    </collision>
+    <visual>
+      <origin xyz="0.235 0 0.49" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.02 0.55 0.98"/>
+      </geometry>
+    </visual>
+  </link>
+
+  <!-- Top panel -->
+  <link name="top">
+    <inertial>
+      <origin xyz="0 0 0.95" rpy="0 0 0"/>
+      <mass value="6.0"/>
+      <inertia ixx="0.04" ixy="0.0" ixz="0.0" iyy="0.05" iyz="0.0" izz="0.03"/>
+    </inertial>
+    <collision>
+      <origin xyz="0 0 0.98-0.01" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.47 0.55 0.02"/>
+      </geometry>
+    </collision>
+    <visual>
+      <origin xyz="0 0 0.98-0.01" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.47 0.55 0.02"/>
+      </geometry>
+    </visual>
+  </link>
+
+  <!-- Back panel -->
+  <link name="back_panel">
+    <inertial>
+      <origin xyz="0 0 0.49" rpy="0 0 0"/>
+      <mass value="4.5"/>
+      <inertia ixx="0.03" ixy="0.0" ixz="0.0" iyy="0.02" iyz="0.0" izz="0.01"/>
+    </inertial>
+    <collision>
+      <!-- Back at +Y/2 -->
+      <origin xyz="0 0.275 0.49" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.47 0.01 0.98"/>
+      </geometry>
+    </collision>
+    <visual>
+      <origin xyz="0 0.275 0.49" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.47 0.01 0.98"/>
+      </geometry>
+    </visual>
+  </link>
+
+  <!-- Door -->
+  <link name="door">
+    <inertial>
+      <!-- Door thickness along Y, so COM is at mid-height and mid-depth of door -->
+      <origin xyz="0 0 0.49" rpy="0 0 0"/>
+      <mass value="12.0"/>
+      <!-- Approximate inertia for a rectangular plate:
+           size along X = 0.47, along Y(thickness) = 0.018, along Z = 0.98
+           Here we model about the door frame where X is width, Y is thickness normal, Z is height.
+           Inertia values are approximate but consistent magnitude. -->
+      <inertia ixx="0.24" ixy="0.0" ixz="0.0" iyy="0.0015" iyz="0.0" izz="0.22"/>
+    </inertial>
+
+    <!-- Door collision geometry: a box at its hinge-open position (joint defines rotation) -->
+    <collision>
+      <!-- Door frame origin is hinge line at top/bottom? We'll set joint origin at hinge axis on left vertical edge -->
+      <!-- Door box center relative to hinge frame -->
+      <origin xyz="0.235 -0.009 0.49" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.47 0.018 0.98"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0.235 -0.009 0.49" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.47 0.018 0.98"/>
+      </geometry>
+    </visual>
+  </link>
+
+  <!-- Fixed joints to assemble cabinet -->
+  <joint name="joint_base_fixed" type="fixed">
+    <parent link="base"/>
+    <child link="side_left"/>
+    <origin xyz="-0.235 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <joint name="joint_base_fixed2" type="fixed">
+    <parent link="base"/>
+    <child link="side_right"/>
+    <origin xyz="0.235 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <joint name="joint_base_fixed3" type="fixed">
+    <parent link="base"/>
+    <child link="top"/>
+    <origin xyz="0 0 0.94" rpy="0 0 0"/>
+  </joint>
+
+  <joint name="joint_base_fixed4" type="fixed">
+    <parent link="base"/>
+    <child link="back_panel"/>
+    <origin xyz="0 0.275 0.0" rpy="0 0 0"/>
+  </joint>
+
+  <!-- Door hinge joint -->
+  <!-- Hinge axis: vertical, on left vertical edge of the door.
+       Door swings about Z axis.
+       Door is mounted with its plane initially facing outward (front = -Y), i.e. door's thickness centered at Y = +0.275 (back)
+       BUT door plane should face the front (-Y), so door normal points toward -Y when closed.
+       
+       We set door frame at hinge line on left edge, with:
+       door local coordinates:
+         X across width: +X from hinge toward right side
+         Y thickness toward back (+Y) when door is closed? We want door thickness box to extend along door local Y.
+       We'll place door box so that when joint angle = 0 (closed), its thickness extends from (backward) to (forward) appropriately.
+
+       Use hinge origin at:
+         x = -0.235 (left edge),
+         y = -0.275 + (door thickness/2)? Wait cabinet front is at -0.275.
+       Door should sit in cabinet opening spanning depth 0.55; typical face at front edge.
+       We'll set door's front face at front opening plane at Y = -0.275 (front).
+       The door thickness extends inward (toward +Y) by 0.018.
+       
+       Door box center relative to hinge frame is at xyz = (0.235, -0.009, 0.49).
+       That implies hinge frame places door box center at -0.009 along door local Y.
+       Door local +Y points from front toward back (inward). We'll align that with world +Y.
+       So when joint angle=0, hinge frame has Y position at front face minus half thickness:
+         door center y = front (-0.275) + inward( +0.009 )? Actually inward is +Y, so center y = -0.275 + 0.009 = -0.266.
+       Since in door frame center y is -0.009, world center y = hinge_y + (-0.009) = -0.266 => hinge_y = -0.257.
+       This makes door front face near -0.275.
+       
+       Hinge origin world:
+         x = -0.235,
+         y = -0.257,
+         z = 0
+       Axis: along world Z (vertical).
+       Joint rotates about Z; positive angle swings door outward.
+       Outward direction is toward -Y (front) from cabinet plane. With initial closed at front, opening rotates door toward outside (+ additional negative Y). We'll set limits to negative/positive accordingly.
+    -->
+  <joint name="hinge_door" type="revolute">
+    <parent link="base"/>
+    <child link="door"/>
+    <origin xyz="-0.235 -0.257 0.0" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="0" upper="1.57079632679" effort="50" velocity="1.5"/>
+  </joint>
+</robot>

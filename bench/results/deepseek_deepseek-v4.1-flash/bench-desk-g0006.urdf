@@ -1,0 +1,124 @@
+<?xml version="1.0"?>
+<robot name="desk">
+  <link name="base_link">
+    <inertial>
+      <origin xyz="0 0 0.37" rpy="0 0 0"/>
+      <mass value="29.0"/>
+      <inertia ixx="2.3132" ixy="0.0" ixz="0.0" iyy="5.6627" iyz="0.0" izz="5.3292"/>
+    </inertial>
+
+    <!-- tabletop -->
+    <visual>
+      <origin xyz="0 0 0.725" rpy="0 0 0"/>
+      <geometry><box size="1.34 0.64 0.03"/></geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.725" rpy="0 0 0"/>
+      <geometry><box size="1.34 0.64 0.03"/></geometry>
+    </collision>
+
+    <!-- front-left leg -->
+    <visual>
+      <origin xyz="-0.64 -0.29 0.355" rpy="0 0 0"/>
+      <geometry><box size="0.06 0.06 0.71"/></geometry>
+    </visual>
+    <collision>
+      <origin xyz="-0.64 -0.29 0.355" rpy="0 0 0"/>
+      <geometry><box size="0.06 0.06 0.71"/></geometry>
+    </collision>
+
+    <!-- front-right leg -->
+    <visual>
+      <origin xyz="0.64 -0.29 0.355" rpy="0 0 0"/>
+      <geometry><box size="0.06 0.06 0.71"/></geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.64 -0.29 0.355" rpy="0 0 0"/>
+      <geometry><box size="0.06 0.06 0.71"/></geometry>
+    </collision>
+
+    <!-- back-left leg -->
+    <visual>
+      <origin xyz="-0.64 0.29 0.355" rpy="0 0 0"/>
+      <geometry><box size="0.06 0.06 0.71"/></geometry>
+    </visual>
+    <collision>
+      <origin xyz="-0.64 0.29 0.355" rpy="0 0 0"/>
+      <geometry><box size="0.06 0.06 0.71"/></geometry>
+    </collision>
+
+    <!-- back-right leg -->
+    <visual>
+      <origin xyz="0.64 0.29 0.355" rpy="0 0 0"/>
+      <geometry><box size="0.06 0.06 0.71"/></geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.64 0.29 0.355" rpy="0 0 0"/>
+      <geometry><box size="0.06 0.06 0.71"/></geometry>
+    </collision>
+
+    <!-- drawer housing: bottom panel -->
+    <visual>
+      <origin xyz="0 -0.07 0.53" rpy="0 0 0"/>
+      <geometry><box size="1.20 0.54 0.02"/></geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 -0.07 0.53" rpy="0 0 0"/>
+      <geometry><box size="1.20 0.54 0.02"/></geometry>
+    </collision>
+
+    <!-- drawer housing: left side panel -->
+    <visual>
+      <origin xyz="-0.59 -0.07 0.625" rpy="0 0 0"/>
+      <geometry><box size="0.02 0.54 0.17"/></geometry>
+    </visual>
+    <collision>
+      <origin xyz="-0.59 -0.07 0.625" rpy="0 0 0"/>
+      <geometry><box size="0.02 0.54 0.17"/></geometry>
+    </collision>
+
+    <!-- drawer housing: right side panel -->
+    <visual>
+      <origin xyz="0.59 -0.07 0.625" rpy="0 0 0"/>
+      <geometry><box size="0.02 0.54 0.17"/></geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.59 -0.07 0.625" rpy="0 0 0"/>
+      <geometry><box size="0.02 0.54 0.17"/></geometry>
+    </collision>
+
+    <!-- drawer housing: back panel -->
+    <visual>
+      <origin xyz="0 0.20 0.625" rpy="0 0 0"/>
+      <geometry><box size="1.20 0.02 0.17"/></geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0.20 0.625" rpy="0 0 0"/>
+      <geometry><box size="1.20 0.02 0.17"/></geometry>
+    </collision>
+  </link>
+
+  <link name="drawer">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="4.0"/>
+      <inertia ixx="0.09187" ixy="0.0" ixz="0.0" iyy="0.45707" iyz="0.0" izz="0.53187"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><box size="1.16 0.50 0.16"/></geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><box size="1.16 0.50 0.16"/></geometry>
+    </collision>
+  </link>
+
+  <joint name="drawer_slide" type="prismatic">
+    <parent link="base_link"/>
+    <child link="drawer"/>
+    <origin xyz="0 -0.07 0.63" rpy="0 0 0"/>
+    <axis xyz="0 -1 0"/>
+    <limit lower="0.0" upper="0.45" effort="50.0" velocity="0.3"/>
+  </joint>
+</robot>

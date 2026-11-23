@@ -1,0 +1,103 @@
+<robot name="cabinet">
+  <link name="cabinet_body">
+    <inertial>
+      <origin xyz="0 0 0.845" rpy="0 0 0"/>
+      <mass value="30.709"/>
+      <inertia ixx="9.9211" ixy="0" ixz="0" iyy="9.9198" iyz="0" izz="1.4369"/>
+    </inertial>
+
+    <visual>
+      <origin xyz="0 0.211 0.845" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.37 0.018 1.69"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0.211 0.845" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.37 0.018 1.69"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="-0.176 0 0.845" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.018 0.44 1.69"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="-0.176 0 0.845" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.018 0.44 1.69"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0.176 0 0.845" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.018 0.44 1.69"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.176 0 0.845" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.018 0.44 1.69"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 1.681" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.37 0.44 0.018"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 1.681" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.37 0.44 0.018"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0.009" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.37 0.44 0.018"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.009" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.37 0.44 0.018"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="door">
+    <inertial>
+      <origin xyz="0.185 -0.009 0.845" rpy="0 0 0"/>
+      <mass value="7.8788"/>
+      <inertia ixx="1.8755" ixy="0" ixz="0" iyy="1.9651" iyz="0" izz="0.0901"/>
+    </inertial>
+
+    <visual>
+      <origin xyz="0.185 -0.009 0.845" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.37 0.018 1.69"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.185 -0.009 0.845" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.37 0.018 1.69"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="door_hinge" type="revolute">
+    <parent link="cabinet_body"/>
+    <child link="door"/>
+    <origin xyz="-0.185 -0.22 0" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-1.57" upper="0" effort="10" velocity="1.0"/>
+  </joint>
+</robot>

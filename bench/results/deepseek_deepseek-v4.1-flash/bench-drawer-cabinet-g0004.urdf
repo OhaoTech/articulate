@@ -1,0 +1,172 @@
+<?xml version="1.0"?>
+<robot name="drawer_cabinet">
+  <material name="wood">
+    <color rgba="0.6 0.4 0.2 1.0"/>
+  </material>
+  <material name="drawer_wood">
+    <color rgba="0.7 0.5 0.3 1.0"/>
+  </material>
+
+  <link name="base_link">
+    <inertial>
+      <origin xyz="0 0.0592 0.3100" rpy="0 0 0"/>
+      <mass value="20.0"/>
+      <inertia ixx="1.585" ixy="0" ixz="0" iyy="3.012" iyz="0" izz="2.366"/>
+    </inertial>
+
+    <!-- Left side panel -->
+    <visual>
+      <origin xyz="-0.421 0 0.31" rpy="0 0 0"/>
+      <geometry><box size="0.018 0.47 0.62"/></geometry>
+      <material name="wood"/>
+    </visual>
+    <collision>
+      <origin xyz="-0.421 0 0.31" rpy="0 0 0"/>
+      <geometry><box size="0.018 0.47 0.62"/></geometry>
+    </collision>
+
+    <!-- Right side panel -->
+    <visual>
+      <origin xyz="0.421 0 0.31" rpy="0 0 0"/>
+      <geometry><box size="0.018 0.47 0.62"/></geometry>
+      <material name="wood"/>
+    </visual>
+    <collision>
+      <origin xyz="0.421 0 0.31" rpy="0 0 0"/>
+      <geometry><box size="0.018 0.47 0.62"/></geometry>
+    </collision>
+
+    <!-- Top panel -->
+    <visual>
+      <origin xyz="0 0 0.611" rpy="0 0 0"/>
+      <geometry><box size="0.824 0.47 0.018"/></geometry>
+      <material name="wood"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.611" rpy="0 0 0"/>
+      <geometry><box size="0.824 0.47 0.018"/></geometry>
+    </collision>
+
+    <!-- Bottom panel -->
+    <visual>
+      <origin xyz="0 0 0.009" rpy="0 0 0"/>
+      <geometry><box size="0.824 0.47 0.018"/></geometry>
+      <material name="wood"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.009" rpy="0 0 0"/>
+      <geometry><box size="0.824 0.47 0.018"/></geometry>
+    </collision>
+
+    <!-- Back panel -->
+    <visual>
+      <origin xyz="0 0.226 0.31" rpy="0 0 0"/>
+      <geometry><box size="0.824 0.018 0.584"/></geometry>
+      <material name="wood"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0.226 0.31" rpy="0 0 0"/>
+      <geometry><box size="0.824 0.018 0.584"/></geometry>
+    </collision>
+  </link>
+
+  <!-- Drawer 0 -->
+  <link name="drawer_0">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="2.5"/>
+      <inertia ixx="0.044653" ixy="0" ixz="0" iyy="0.144403" iyz="0" izz="0.180417"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><box size="0.82 0.44 0.144"/></geometry>
+      <material name="drawer_wood"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><box size="0.82 0.44 0.144"/></geometry>
+    </collision>
+  </link>
+  <joint name="drawer_0_joint" type="prismatic">
+    <parent link="base_link"/>
+    <child link="drawer_0"/>
+    <origin xyz="0 -0.015 0.091" rpy="0 0 0"/>
+    <axis xyz="0 -1 0"/>
+    <limit lower="0" upper="0.4" effort="50" velocity="0.3"/>
+  </joint>
+
+  <!-- Drawer 1 -->
+  <link name="drawer_1">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="2.5"/>
+      <inertia ixx="0.044653" ixy="0" ixz="0" iyy="0.144403" iyz="0" izz="0.180417"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><box size="0.82 0.44 0.144"/></geometry>
+      <material name="drawer_wood"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><box size="0.82 0.44 0.144"/></geometry>
+    </collision>
+  </link>
+  <joint name="drawer_1_joint" type="prismatic">
+    <parent link="base_link"/>
+    <child link="drawer_1"/>
+    <origin xyz="0 -0.015 0.237" rpy="0 0 0"/>
+    <axis xyz="0 -1 0"/>
+    <limit lower="0" upper="0.4" effort="50" velocity="0.3"/>
+  </joint>
+
+  <!-- Drawer 2 -->
+  <link name="drawer_2">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="2.5"/>
+      <inertia ixx="0.044653" ixy="0" ixz="0" iyy="0.144403" iyz="0" izz="0.180417"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><box size="0.82 0.44 0.144"/></geometry>
+      <material name="drawer_wood"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><box size="0.82 0.44 0.144"/></geometry>
+    </collision>
+  </link>
+  <joint name="drawer_2_joint" type="prismatic">
+    <parent link="base_link"/>
+    <child link="drawer_2"/>
+    <origin xyz="0 -0.015 0.383" rpy="0 0 0"/>
+    <axis xyz="0 -1 0"/>
+    <limit lower="0" upper="0.4" effort="50" velocity="0.3"/>
+  </joint>
+
+  <!-- Drawer 3 -->
+  <link name="drawer_3">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="2.5"/>
+      <inertia ixx="0.044653" ixy="0" ixz="0" iyy="0.144403" iyz="0" izz="0.180417"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><box size="0.82 0.44 0.144"/></geometry>
+      <material name="drawer_wood"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><box size="0.82 0.44 0.144"/></geometry>
+    </collision>
+  </link>
+  <joint name="drawer_3_joint" type="prismatic">
+    <parent link="base_link"/>
+    <child link="drawer_3"/>
+    <origin xyz="0 -0.015 0.529" rpy="0 0 0"/>
+    <axis xyz="0 -1 0"/>
+    <limit lower="0" upper="0.4" effort="50" velocity="0.3"/>
+  </joint>
+</robot>

@@ -1,0 +1,95 @@
+<?xml version="1.0"?>
+<robot name="cabinet_with_one_hinged_door">
+
+  <!-- ==================== -->
+  <!-- Main cabinet body   -->
+  <!-- ==================== -->
+  <link name="cabinet_body">
+    <!-- Visual -->
+    <visual>
+      <origin xyz="0 0 0.51" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.75 0.41 1.02"/>
+      </geometry>
+      <material name="light_wood">
+        <color rgba="0.8 0.7 0.5 1.0"/>
+      </material>
+    </visual>
+
+    <!-- Collision -->
+    <collision>
+      <origin xyz="0 0 0.51" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.75 0.41 1.02"/>
+      </geometry>
+    </collision>
+
+    <!-- Inertial (approximate) -->
+    <inertial>
+      <origin xyz="0 0 0.51" rpy="0 0 0"/>
+      <mass value="30.0"/>
+      <!-- Box inertia: Ixx = (1/12) m (h^2 + d^2) etc. -->
+      <inertia ixx="13.5" ixy="0.0" ixz="0.0"
+               iyy="13.5" iyz="0.0"
+               izz="5.0"/>
+    </inertial>
+  </link>
+
+  <!-- ==================== -->
+  <!-- Door                -->
+  <!-- ==================== -->
+  <link name="door">
+    <!-- Visual -->
+    <visual>
+      <!-- Door thickness 2 cm -->
+      <origin xyz="0.375 0 0.51" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.75 0.02 1.02"/>
+      </geometry>
+      <material name="dark_wood">
+        <color rgba="0.4 0.2 0.1 1.0"/>
+      </material>
+    </visual>
+
+    <!-- Collision -->
+    <collision>
+      <origin xyz="0.375 0 0.51" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.75 0.02 1.02"/>
+      </geometry>
+    </collision>
+
+    <!-- Inertial (approximate) -->
+    <inertial>
+      <origin xyz="0.375 0 0.51" rpy="0 0 0"/>
+      <mass value="8.0"/>
+      <!-- Treat as thin plate -->
+      <inertia ixx="0.12" ixy="0.0" ixz="0.0"
+               iyy="4.5" iyz="0.0"
+               izz="4.5"/>
+    </inertial>
+  </link>
+
+  <!-- ==================== -->
+  <!-- Hinge joint         -->
+  <!-- ==================== -->
+  <joint name="door_hinge" type="revolute">
+    <!-- Hinge on the left vertical edge of the cabinet (X = -0.375) -->
+    <parent link="cabinet_body"/>
+    <child  link="door"/>
+    <origin xyz="-0.375 0 0.51" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="100.0" velocity="1.0" lower="0.0" upper="1.5708"/>
+    <dynamics damping="0.1" friction="0.2"/>
+  </joint>
+
+  <!-- ==================== -->
+  <!-- Fixed base joint (optional) -->
+  <!-- ==================== -->
+  <joint name="world_to_cabinet" type="fixed">
+    <parent link="world"/>
+    <child  link="cabinet_body"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+</robot>

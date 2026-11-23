@@ -1,0 +1,170 @@
+<?xml version="1.0"?>
+<robot name="cabinet_single_door">
+  <!-- Dimensions (metres) -->
+  <!-- Cabinet: 0.44(W) x 0.77(H) x 0.40(D) -->
+  <!-- Origin: on floor under middle of object (X=0 center width, Y=0 at middle depth, Z=0 floor) -->
+  <!-- Coordinate: X across width, Y toward back (front faces -Y), Z up -->
+
+  <!-- Material -->
+  <material name="wood">
+    <color rgba="0.55 0.40 0.25 1"/>
+  </material>
+
+  <!-- Common visual/collision dimensions -->
+  <!-- Assumptions:
+       - Wall thickness: 0.02 m
+       - Back panel thickness: 0.01 m
+       - Floor/Top thickness: 0.02 m
+       - Door thickness: 0.02 m
+       - Hinges: simple cylinders
+       - Door hinge axis: vertical edge at left side (door closes toward +Y, opens toward -Y)
+  -->
+
+  <!-- World reference for link placement:
+       Cabinet box spans:
+         X: [-0.22, +0.22]
+         Y: [-0.20, +0.20]  (front is -Y, back is +Y)
+         Z: [0, +0.77]
+  -->
+
+  <!-- Base cabinet structure -->
+  <link name="cabinet_base">
+    <inertial>
+      <origin xyz="0 0 0.385" rpy="0 0 0"/>
+      <mass value="28.0"/>
+      <inertia ixx="0.330833" ixy="0" ixz="0" iyy="0.128267" iyz="0" izz="0.330833"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0.385" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.44 0.40 0.77"/>
+      </geometry>
+      <material name="wood"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.385" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.44 0.40 0.77"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- Door -->
+  <link name="door_left">
+    <inertial>
+      <origin xyz="0.00 0.22 0.385" rpy="0 0 0"/>
+      <mass value="6.0"/>
+      <!-- Door box: thickness (X) = 0.02, height (Z)=0.77, depth (Y) = 0.40? But door spans height x width,
+           so actual door dimensions are width (X)=0.44, height (Z)=0.77, thickness (Y)=0.02.
+           In this link frame, the door is centered at X=0 (middle of cabinet width),
+           but hinge is at X=-0.22 edge. Here we place the COM at y=0.22? We'll set door geometry relative to link origin
+           where origin is at the hinge line on that vertical edge.
+           Link frame: hinge axis at X=-0.22, Y=+0.20? No: hinge on a vertical edge; interpret as side edge along width.
+           For outward swing about a vertical axis, hinge axis should be at the left side (X=-0.22), running along Z.
+           Door thickness extends along Y (front-back). We'll model door as box with:
+             - width along X: 0.02 (thickness)
+             - height along Z: 0.77
+             - depth along Y: 0.42? Actually cabinet depth is 0.40; door thickness is 0.02 along Y.
+           We'll use box size (0.02 X-thickness, 0.40 Y-depth/width, 0.77 Z-height).
+           But door should be like a flat panel: its dimensions should be width (X=0.44) x height (Z=0.77) x thickness (Y=0.02).
+           We'll instead create door box with X width=0.44, Y thickness=0.02, Z height=0.77 in link frame.
+           Therefore hinge axis at X=-0.22 (edge), door extends from X=-0.22 to X=+0.22, thickness in Y.
+      -->
+      <!-- For door box in link frame:
+           sizeX=0.44, sizeY=0.02, sizeZ=0.77
+           COM is at x=0 (center), y=0.01 (center thickness), z=0.385
+           But link origin is at hinge line at x=-0.22, y=0.20 (back plane), z=0.
+           Thus link-frame COM becomes:
+             x = -0.22 + 0.22 = 0
+             y = 0.20 - (0.01)?? For hinge on back edge: closed door would be flush with cabinet side? We'll attach door so its inner face sits at back? 
+           To keep consistent, we set door link origin at hinge axis located at the cabinet left side edge in X,
+           and at cabinet back face in Y (+0.20). Door thickness extends toward front (-Y) when open.
+           Therefore when closed, door thickness center is at y = +0.20 - 0.01. In link coordinates where hinge origin is y=0 at +0.20,
+           COM y = -0.01.
+      -->
+      <inertia ixx="0.013053" ixy="0" ixz="0" iyy="0.11808" iyz="0" izz="0.11808"/>
+    </inertial>
+    <visual>
+      <origin xyz="0  -0.01 0.385" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.44 0.02 0.77"/>
+      </geometry>
+      <material name="wood"/>
+    </visual>
+    <collision>
+      <origin xyz="0 -0.01 0.385" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.44 0.02 0.77"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- Hinges (simple geometry links attached to cabinet) -->
+  <link name="hinge_left_upper">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="0.2"/>
+      <inertia ixx="0.000333" ixy="0" ixz="0" iyy="0.000333" iyz="0" izz="0.00005"/>
+    </inertial>
+    <visual>
+      <origin xyz="-0.22 0.19 0.62" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.01" length="0.04"/>
+      </geometry>
+      <material name="wood"/>
+    </visual>
+    <collision>
+      <origin xyz="-0.22 0.19 0.62" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.01" length="0.04"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="hinge_left_lower">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="0.2"/>
+      <inertia ixx="0.000333" ixy="0" ixz="0" iyy="0.000333" iyz="0" izz="0.00005"/>
+    </inertial>
+    <visual>
+      <origin xyz="-0.22 0.19 0.14" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.01" length="0.04"/>
+      </geometry>
+      <material name="wood"/>
+    </visual>
+    <collision>
+      <origin xyz="-0.22 0.19 0.14" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.01" length="0.04"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- Fixed joints for hinges -->
+  <joint name="fixed_hinge_upper_to_base" type="fixed">
+    <parent link="cabinet_base"/>
+    <child link="hinge_left_upper"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <joint name="fixed_hinge_lower_to_base" type="fixed">
+    <parent link="cabinet_base"/>
+    <child link="hinge_left_lower"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <!-- Door joint: hinge axis vertical (Z). Hinge located at X=-0.22 (left edge), Y=+0.20 (back face), Z=0 -->
+  <joint name="door_hinge_left" type="revolute">
+    <parent link="cabinet_base"/>
+    <child link="door_left"/>
+    <origin xyz="-0.22 0.20 0.0" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-1.5708" upper="0.0" effort="30" velocity="2.0"/>
+    <dynamics damping="0.2" friction="0.05"/>
+  </joint>
+
+  <!-- Optional: prevent door from intersecting by using a second (fixed) frame alignment not needed -->
+
+</robot>

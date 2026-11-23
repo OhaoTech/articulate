@@ -1,0 +1,19 @@
+{
+  "content": "```xml\n<?xml version=\"1.0\"?>\n<robot name=\"chest_with_lid\">\n\n  <!-- Chest body -->\n  <link name=\"body\">\n    <visual>\n      <origin xyz=\"0 0 0.25\" rpy=\"0 0 0\"/>\n      <geometry>\n        <box size=\"0.57 0.36 0.5\"/>\n      </geometry>\n      <material name=\"brown\">\n        <color rgba=\"0.55 0.27 0.07 1\"/>\n      </material>\n    </visual>\n    <collision>\n      <origin xyz=\"0 0 0.25\" rpy=\"0 0 0\"/>\n      <geometry>\n        <box size=\"0.57 0.36 0.5\"/>\n      </geometry>\n    </collision>\n    <inertial>\n      <mass value=\"20.0\"/>\n      <!-- Inertia of a solid box: Ixx = (1/12) m (h^2 + d^2) etc. -->\n      <inertia ixx=\"0.20875\" ixy=\"0.0\" ixz=\"0.0\"\n               iyy=\"0.20875\" iyz=\"0.0\"\n               izz=\"0.104375\"/>\n    </inertial>\n  </link>\n\n  <!-- Lid -->\n  <link name=\"lid\">\n    <visual>\n      <!-- Lid thickness 0.02\u202fm, centered on its own frame -->\n      <origin xyz=\"0 0 0.01\" rpy=\"0 0 0\"/>\n      <geometry>\n        <box size=\"0.57 0.36 0.02\"/>\n      </geometry>\n      <material name=\"brown\"/>\n    </visual>\n    <collision>\n      <origin xyz=\"0 0 0.01\" rpy=\"0 0 0\"/>\n      <geometry>\n        <box size=\"0.57 0.36 0.02\"/>\n      </geometry>\n    </collision>\n    <inertial>\n      <mass value=\"5.0\"/>\n      <inertia ixx=\"0.001875\" ixy=\"0.0\" ixz=\"0.0\"\n               iyy=\"0.001875\" iyz=\"0.0\"\n               izz=\"0.001125\"/>\n    </inertial>\n  </link>\n\n  <!-- Hinge joint for the lid -->\n  <joint name=\"lid_hinge\" type=\"revolute\">\n    <!-- Origin is at the back top edge of the chest body:\n         X = 0 (center width)\n         Y = +depth/2 = +0.18\u202fm (back side)\n         Z = height = 0.5\u202fm (top surface) -->\n    <origin xyz=\"0 0.18 0.5\" rpy=\"0 0 0\"/>\n    <parent link=\"body\"/>\n    <child link=\"lid\"/>\n    <axis xyz=\"1 0 0\"/> <!-- rotate about X (width) axis -->\n    <limit effort=\"100\" velocity=\"1.0\" lower=\"0\" upper=\"1.5708\"/>\n    <dynamics damping=\"0.1\" friction=\"0.1\"/>\n  </joint>\n\n</robot>\n```",
+  "finish_reason": "stop",
+  "id": "bench-chest-g0008",
+  "model": "openai/gpt-oss-120b",
+  "urdf_found": true,
+  "usage": {
+    "completion_time": 2.520998887,
+    "completion_tokens": 1187,
+    "completion_tokens_details": {
+      "reasoning_tokens": 490
+    },
+    "prompt_time": 0.011036741,
+    "prompt_tokens": 184,
+    "queue_time": 0.223572691,
+    "total_time": 2.532035628,
+    "total_tokens": 1371
+  }
+}

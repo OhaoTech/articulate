@@ -1,0 +1,220 @@
+<robot name="chest_lidded_57x50x36">
+  <!-- Dimensions (metres) -->
+  <!-- Width (X): 0.57, Height (Z): 0.50, Depth (Y): 0.36 -->
+  <!-- Origin: floor at centre of footprint; front faces -Y -->
+  <!-- Lid hinge along back edge (positive Y edge) -->
+  <!-- Assumed wall thicknesses (for mass + collision realism) -->
+  <!-- Bottom thickness: 0.02, Side/back thickness: 0.018, Front thickness: 0.018, Back panel thickness: 0.015 -->
+  <!-- Lid thickness: 0.02 -->
+
+  <!-- Base parameters -->
+  <!-- Coordinate conventions:
+       - +X right, -X left
+       - +Y back, -Y front
+       - +Z up
+  -->
+
+  <!-- Materials (visuals only) -->
+  <material name="wood_dark">
+    <color rgba="0.45 0.30 0.18 1"/>
+  </material>
+  <material name="wood_medium">
+    <color rgba="0.55 0.38 0.25 1"/>
+  </material>
+
+  <!-- World is implicit; use floor-fixed base link at origin -->
+  <link name="chest_base">
+    <!-- Collision: bottom slab -->
+    <inertial>
+      <mass value="1.90"/>
+      <!-- Approximate inertia for a rectangular box (0.57 x 0.36 x 0.02) about its centre -->
+      <!-- Ix = (1/12)*m*(y^2 + z^2), Iy = (1/12)*m*(x^2 + z^2), Iz = (1/12)*m*(x^2 + y^2) -->
+      <!-- y=0.36, z=0.02, x=0.57 -->
+      <inertia ixx="0.0664" ixy="0" ixz="0" iyy="0.1008" iyz="0" izz="0.3034"/>
+    </inertial>
+
+    <collision name="bottom_collision">
+      <origin xyz="0 0 0.01" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.57 0.36 0.02"/>
+      </geometry>
+    </collision>
+
+    <visual name="bottom_visual">
+      <origin xyz="0 0 0.01" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.57 0.36 0.02"/>
+      </geometry>
+      <material name="wood_dark"/>
+    </visual>
+  </link>
+
+  <!-- Left side wall -->
+  <link name="side_left">
+    <!-- Wall dimensions -->
+    <!-- thickness in X: 0.018, height: 0.48 (from bottom top at 0.02 to top at 0.50), depth: 0.36 -->
+    <!-- Positioned at x = -0.57/2 + thickness/2 -->
+    <inertial>
+      <!-- Approximate inertia using box (x=0.018, y=0.36, z=0.48) -->
+      <mass value="1.20"/>
+      <inertia ixx="0.0266" ixy="0" ixz="0" iyy="0.1104" iyz="0" izz="0.1104"/>
+    </inertial>
+
+    <collision name="left_wall_collision">
+      <origin xyz="-0.276 0 0.26" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.018 0.36 0.48"/>
+      </geometry>
+    </collision>
+
+    <visual name="left_wall_visual">
+      <origin xyz="-0.276 0 0.26" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.018 0.36 0.48"/>
+      </geometry>
+      <material name="wood_medium"/>
+    </visual>
+  </link>
+
+  <!-- Right side wall -->
+  <link name="side_right">
+    <inertial>
+      <mass value="1.20"/>
+      <inertia ixx="0.0266" ixy="0" ixz="0" iyy="0.1104" iyz="0" izz="0.1104"/>
+    </inertial>
+
+    <collision name="right_wall_collision">
+      <origin xyz="0.276 0 0.26" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.018 0.36 0.48"/>
+      </geometry>
+    </collision>
+
+    <visual name="right_wall_visual">
+      <origin xyz="0.276 0 0.26" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.018 0.36 0.48"/>
+      </geometry>
+      <material name="wood_medium"/>
+    </visual>
+  </link>
+
+  <!-- Front panel -->
+  <link name="front_panel">
+    <!-- Front panel thickness in Y: 0.018, depth direction => along Y with local box size along Y -->
+    <!-- It spans width 0.57 and height 0.48 -->
+    <inertial>
+      <!-- Box: x=0.57, y=0.018, z=0.48 -->
+      <mass value="1.35"/>
+      <inertia ixx="0.1593" ixy="0" ixz="0" iyy="0.0018" iyz="0" izz="0.1593"/>
+    </inertial>
+
+    <collision name="front_panel_collision">
+      <origin xyz="0 -0.171 0.26" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.57 0.018 0.48"/>
+      </geometry>
+    </collision>
+
+    <visual name="front_panel_visual">
+      <origin xyz="0 -0.171 0.26" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.57 0.018 0.48"/>
+      </geometry>
+      <material name="wood_medium"/>
+    </visual>
+  </link>
+
+  <!-- Back panel (non-moving part; lid hinged to this edge) -->
+  <link name="back_panel">
+    <inertial>
+      <!-- Box: x=0.57, y=0.015, z=0.48 -->
+      <mass value="1.25"/>
+      <inertia ixx="0.1297" ixy="0" ixz="0" iyy="0.0009" iyz="0" izz="0.1643"/>
+    </inertial>
+
+    <collision name="back_panel_collision">
+      <!-- Back edge at +Y = +0.18; box centre at y = +0.18 - 0.015/2 = 0.1725 -->
+      <origin xyz="0 0.1725 0.26" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.57 0.015 0.48"/>
+      </geometry>
+    </collision>
+
+    <visual name="back_panel_visual">
+      <origin xyz="0 0.1725 0.26" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.57 0.015 0.48"/>
+      </geometry>
+      <material name="wood_dark"/>
+    </visual>
+  </link>
+
+  <!-- Lid -->
+  <link name="lid">
+    <!-- Lid as a box: width along X = 0.57, depth along Y = 0.36, thickness along Z = 0.02 -->
+    <!-- Hinged along back edge: axis is X (roll about X) through the back edge line at y=+0.18,
+         lid rotates up around that axis. -->
+    <inertial>
+      <!-- Box: x=0.57, y=0.36, z=0.02 -->
+      <mass value="1.80"/>
+      <inertia ixx="0.0620" ixy="0" ixz="0" iyy="0.0945" iyz="0" izz="0.2772"/>
+    </inertial>
+
+    <collision name="lid_collision">
+      <!-- Lid local centre at top surface centre in Z: z = 0.50 - thickness/2 = 0.49 -->
+      <origin xyz="0 0 0.49" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.57 0.36 0.02"/>
+      </geometry>
+    </collision>
+
+    <visual name="lid_visual">
+      <origin xyz="0 0 0.49" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.57 0.36 0.02"/>
+      </geometry>
+      <material name="wood_dark"/>
+    </visual>
+  </link>
+
+  <!-- Joints: fix all base panels to chest_base; hinge lid to back_panel -->
+  <joint name="joint_left_fixed" type="fixed">
+    <parent link="chest_base"/>
+    <child link="side_left"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <joint name="joint_right_fixed" type="fixed">
+    <parent link="chest_base"/>
+    <child link="side_right"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <joint name="joint_front_fixed" type="fixed">
+    <parent link="chest_base"/>
+    <child link="front_panel"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <joint name="joint_back_fixed" type="fixed">
+    <parent link="chest_base"/>
+    <child link="back_panel"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <!-- Hinge along back edge:
+       - rotation axis along X
+       - hinge line at y = +0.18, z = 0.50
+       - use joint origin at hinge line; lid is initially closed (lid surface roughly horizontal)
+  -->
+  <joint name="joint_lid_hinge" type="revolute">
+    <parent link="back_panel"/>
+    <child link="lid"/>
+    <!-- In parent (back_panel) frame: back_panel origin is at global origin (because fixed joints at 0),
+         so hinge origin is global coordinates (0, +0.18, +0.50). -->
+    <origin xyz="0 0.18 0.50" rpy="0 0 0"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="0.0" upper="1.57079632679" effort="50" velocity="2.0"/>
+  </joint>
+</robot>

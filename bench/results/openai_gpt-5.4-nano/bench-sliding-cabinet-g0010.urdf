@@ -1,0 +1,297 @@
+<robot name="sliding_cabinet">
+  <material name="wood">
+    <color rgba="0.65 0.48 0.30 1"/>
+  </material>
+  <material name="wood_dark">
+    <color rgba="0.45 0.34 0.22 1"/>
+  </material>
+  <material name="hardware">
+    <color rgba="0.25 0.25 0.25 1"/>
+  </material>
+
+  <!-- Dimensions (meters) -->
+  <!-- Cabinet overall: W=1.09 (X), H=1.68 (Z), D=0.58 (Y) -->
+  <!-- Origin: on floor at middle of object. Front faces -Y. -->
+  <!-- Assumptions:
+       - Side walls thickness: 0.018 m
+       - Back panel thickness: 0.012 m
+       - Top/bottom panels thickness: 0.018 m
+       - Two door slabs (each door width 0.545 m), overlapping slightly by 0.02 m.
+       - Separate front tracks: one near outer left, one near outer right.
+       - Door height = internal clear height = H - bottom - top -->
+  <!-- Overlap: 0.02 m -> each door nominal width = (1.09/2) + overlap/2 = 0.555 m -->
+  <!-- Door slabs slide along X.
+       - Door1 centered at x = -0.2725 (approximately half width + overlap adjustment)
+       - Door2 centered at x = +0.2725
+       Track positions: each track centered at x = +/- 0.2725, with a small clearance -->
+
+  <!-- Base frame -->
+  <link name="world"/>
+
+  <!-- Helper geometry values -->
+  <!-- Half extents -->
+  <!-- Bottom panel: 1.09 x 0.58 x 0.018 -->
+  <!-- Top panel:    1.09 x 0.58 x 0.018 -->
+  <!-- Left/right side panels: 0.018 x 0.58 x 1.68 -->
+  <!-- Back panel:   1.09 x 0.012 x 1.68 -->
+
+  <!-- Approximate masses (kg) -->
+  <!-- Using wood density-ish: ~650 kg/m3 -->
+  <!-- Bottom: 1.09*0.58*0.018 = 0.01136 m3 -> ~7.4 kg -->
+  <!-- Top: same -> ~7.4 kg -->
+  <!-- Sides: 0.018*0.58*1.68 = 0.01754 m3 each -> ~11.4 kg x2 -->
+  <!-- Back: 1.09*0.012*1.68 = 0.02196 m3 -> ~14.3 kg -->
+  <!-- Total cabinet shell ~53.9 kg -->
+  <!-- Doors: each slab thickness 0.020 m, width 0.555 m, height 1.632 m (1.68-0.018-0.018),
+       volume per door = 0.555*0.020*1.632 = 0.01813 m3 -> ~11.8 kg each -->
+  <!-- Tracks (two): small extrusions -->
+  <!-- Track size approx: length along X=0.58, thickness along Z=0.020, thickness along Y=0.020 -->
+  <!-- But track sits at front, aligned with X sliding. We'll model as blocks -->
+  <!-- Track1/Track2: 0.555 x 0.020 x 0.020 -> 0.000222 m3 -> ~0.14 kg each (light) -->
+  <!-- Rails/hardware as small blocks/rollers included as extra -->
+  <!-- Collisions use simplified boxes -->
+
+  <!-- Bottom panel -->
+  <link name="bottom_panel">
+    <inertial>
+      <origin xyz="0 0 0.009" rpy="0 0 0"/>
+      <mass value="7.4"/>
+      <!-- Box inertia about center: Ixx=(1/12)m*(ly^2+lz^2), Iyy=(1/12)m*(lx^2+lz^2), Izz=(1/12)m*(lx^2+ly^2) -->
+      <!-- lx=1.09, ly=0.58, lz=0.018 -->
+      <inertia ixx="0.195" iyy="0.226" izz="0.157"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0.009" rpy="0 0 0"/>
+      <geometry><box size="1.09 0.58 0.018"/></geometry>
+      <material name="wood"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.009" rpy="0 0 0"/>
+      <geometry><box size="1.09 0.58 0.018"/></geometry>
+    </collision>
+  </link>
+
+  <!-- Top panel -->
+  <link name="top_panel">
+    <inertial>
+      <origin xyz="0 0 1.671" rpy="0 0 0"/>
+      <mass value="7.4"/>
+      <!-- same dimensions, center at z=H-top/2 = 1.68-0.009=1.671 -->
+      <inertia ixx="0.195" iyy="0.226" izz="0.157"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 1.671" rpy="0 0 0"/>
+      <geometry><box size="1.09 0.58 0.018"/></geometry>
+      <material name="wood"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 1.671" rpy="0 0 0"/>
+      <geometry><box size="1.09 0.58 0.018"/></geometry>
+    </collision>
+  </link>
+
+  <!-- Left side -->
+  <link name="left_side_panel">
+    <inertial>
+      <origin xyz="-0.545 0 0.84" rpy="0 0 0"/>
+      <mass value="11.4"/>
+      <!-- lx=0.018, ly=0.58, lz=1.68 -->
+      <inertia ixx="1.585" iyy="0.040" izz="1.578"/>
+    </inertial>
+    <visual>
+      <origin xyz="-0.545 0 0.84" rpy="0 0 0"/>
+      <geometry><box size="0.018 0.58 1.68"/></geometry>
+      <material name="wood_dark"/>
+    </visual>
+    <collision>
+      <origin xyz="-0.545 0 0.84" rpy="0 0 0"/>
+      <geometry><box size="0.018 0.58 1.68"/></geometry>
+    </collision>
+  </link>
+
+  <!-- Right side -->
+  <link name="right_side_panel">
+    <inertial>
+      <origin xyz="0.545 0 0.84" rpy="0 0 0"/>
+      <mass value="11.4"/>
+      <inertia ixx="1.585" iyy="0.040" izz="1.578"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.545 0 0.84" rpy="0 0 0"/>
+      <geometry><box size="0.018 0.58 1.68"/></geometry>
+      <material name="wood_dark"/>
+    </visual>
+    <collision>
+      <origin xyz="0.545 0 0.84" rpy="0 0 0"/>
+      <geometry><box size="0.018 0.58 1.68"/></geometry>
+    </collision>
+  </link>
+
+  <!-- Back panel -->
+  <link name="back_panel">
+    <inertial>
+      <origin xyz="0 0.29 0.84" rpy="0 0 0"/>
+      <mass value="14.3"/>
+      <!-- back panel size: 1.09 (x) x 0.012 (y depth thickness outward) x 1.68 (z)
+           Here center at y=+0.29 (back face at +0.29, thickness into +Y or -Y not critical for simplified box) -->
+      <!-- lx=1.09, ly=0.012, lz=1.68 -->
+      <inertia ixx="4.011" iyy="3.228" izz="0.026"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0.29 0.84" rpy="0 0 0"/>
+      <geometry><box size="1.09 0.012 1.68"/></geometry>
+      <material name="wood"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0.29 0.84" rpy="0 0 0"/>
+      <geometry><box size="1.09 0.012 1.68"/></geometry>
+    </collision>
+  </link>
+
+  <!-- Rails/Tracks -->
+  <!-- Two front tracks near y = -0.29 (front face) with small inward thickness. -->
+  <!-- Track blocks: size (x=0.555, y=0.020, z=0.020), centered at y = -0.29 + 0.010 = -0.280 -->
+  <link name="front_track_left">
+    <inertial>
+      <origin xyz="-0.2725 -0.280 1.0" rpy="0 0 0"/>
+      <mass value="0.14"/>
+      <!-- lx=0.555, ly=0.020, lz=0.020 -->
+      <inertia ixx="0.000032" iyy="0.000252" izz="0.000252"/>
+    </inertial>
+    <visual>
+      <origin xyz="-0.2725 -0.280 1.0" rpy="0 0 0"/>
+      <geometry><box size="0.555 0.020 0.020"/></geometry>
+      <material name="hardware"/>
+    </visual>
+    <collision>
+      <origin xyz="-0.2725 -0.280 1.0" rpy="0 0 0"/>
+      <geometry><box size="0.555 0.020 0.020"/></geometry>
+    </collision>
+  </link>
+
+  <link name="front_track_right">
+    <inertial>
+      <origin xyz="0.2725 -0.280 1.0" rpy="0 0 0"/>
+      <mass value="0.14"/>
+      <inertia ixx="0.000032" iyy="0.000252" izz="0.000252"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.2725 -0.280 1.0" rpy="0 0 0"/>
+      <geometry><box size="0.555 0.020 0.020"/></geometry>
+      <material name="hardware"/>
+    </visual>
+    <collision>
+      <origin xyz="0.2725 -0.280 1.0" rpy="0 0 0"/>
+      <geometry><box size="0.555 0.020 0.020"/></geometry>
+    </collision>
+  </link>
+
+  <!-- Doors -->
+  <!-- Door slab thickness along Y: 0.020, so centered near front:
+       front face at -0.29, slab extends inward (+Y), center at y=-0.29+0.010=-0.280. -->
+  <!-- Door height: H - bottom - top = 1.68-0.018-0.018 = 1.644; but panels thickness each 0.018 => clear height 1.644.
+       Door box height use 1.644. center at z=0.822. -->
+  <!-- Door1 base center x=-0.2725, Door2 x=+0.2725. Each door width 0.555. -->
+  <link name="door_left">
+    <inertial>
+      <origin xyz="-0.2725 -0.280 0.822" rpy="0 0 0"/>
+      <mass value="11.8"/>
+      <!-- lx=0.555, ly=0.020, lz=1.644 -->
+      <inertia ixx="2.022" iyy="0.076" izz="2.024"/>
+    </inertial>
+    <visual>
+      <origin xyz="-0.2725 -0.280 0.822" rpy="0 0 0"/>
+      <geometry><box size="0.555 0.020 1.644"/></geometry>
+      <material name="wood"/>
+    </visual>
+    <collision>
+      <origin xyz="-0.2725 -0.280 0.822" rpy="0 0 0"/>
+      <geometry><box size="0.555 0.020 1.644"/></geometry>
+    </collision>
+  </link>
+
+  <link name="door_right">
+    <inertial>
+      <origin xyz="0.2725 -0.280 0.822" rpy="0 0 0"/>
+      <mass value="11.8"/>
+      <inertia ixx="2.022" iyy="0.076" izz="2.024"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.2725 -0.280 0.822" rpy="0 0 0"/>
+      <geometry><box size="0.555 0.020 1.644"/></geometry>
+      <material name="wood"/>
+    </visual>
+    <collision>
+      <origin xyz="0.2725 -0.280 0.822" rpy="0 0 0"/>
+      <geometry><box size="0.555 0.020 1.644"/></geometry>
+    </collision>
+  </link>
+
+  <!-- Fixed base frame -->
+  <joint name="joint_bottom_fixed" type="fixed">
+    <parent link="world"/>
+    <child link="bottom_panel"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <joint name="joint_top_fixed" type="fixed">
+    <parent link="world"/>
+    <child link="top_panel"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <joint name="joint_left_fixed" type="fixed">
+    <parent link="world"/>
+    <child link="left_side_panel"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <joint name="joint_right_fixed" type="fixed">
+    <parent link="world"/>
+    <child link="right_side_panel"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <joint name="joint_back_fixed" type="fixed">
+    <parent link="world"/>
+    <child link="back_panel"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <joint name="joint_track_left_fixed" type="fixed">
+    <parent link="world"/>
+    <child link="front_track_left"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <joint name="joint_track_right_fixed" type="fixed">
+    <parent link="world"/>
+    <child link="front_track_right"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <!-- Door joints (slide along +X/-X). Their base axis is X in cabinet frame.
+       Use prismatic joints with limit to keep within cabinet width.
+       Limits set to allow past each other; we set symmetric range so doors can move to opposite sides.
+       Cabinet inside width approx 1.09. Door width 0.555.
+       Door center x range roughly [-0.545+0.2775, +0.545-0.2775] = [-0.2675, +0.2675] for non-passing.
+       To allow them to slide past, extend limits by overlap allowance: +/-0.06.
+       => Door center range: [-0.3275, +0.3275] -->
+  <joint name="joint_door_left_prismatic" type="prismatic">
+    <parent link="world"/>
+    <child link="door_left"/>
+    <!-- Place joint frame at door current pose center projection -->
+    <origin xyz="-0.2725 -0.280 0.822" rpy="0 0 0"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="-0.055" upper="0.055" effort="50" velocity="2.0"/>
+  </joint>
+
+  <joint name="joint_door_right_prismatic" type="prismatic">
+    <parent link="world"/>
+    <child link="door_right"/>
+    <origin xyz="0.2725 -0.280 0.822" rpy="0 0 0"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="-0.055" upper="0.055" effort="50" velocity="2.0"/>
+  </joint>
+
+</robot>

@@ -1,0 +1,119 @@
+<?xml version="1.0"?>
+<robot name="desk">
+
+  <!-- ==================== -->
+  <!--   Desk Top (link)   -->
+  <!-- ==================== -->
+  <link name="top">
+    <visual>
+      <origin xyz="0 0 0.685" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.154 0.63 0.03"/>
+      </geometry>
+      <material name="oak">
+        <color rgba="0.55 0.27 0.07 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.685" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.154 0.63 0.03"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="12.0"/>
+      <origin xyz="0 0 0.685" rpy="0 0 0"/>
+      <inertia ixx="0.045" ixy="0.0" ixz="0.0"
+               iyy="0.045" iyz="0.0"
+               izz="0.0015"/>
+    </inertial>
+  </link>
+
+  <!-- ==================== -->
+  <!--   Leg Links (4)     -->
+  <!-- ==================== -->
+  <!-- Leg dimensions -->
+  <xacro:property name="leg_width" value="0.05"/>
+  <xacro:property name="leg_depth" value="0.05"/>
+  <xacro:property name="leg_height" value="0.67"/>
+
+  <!-- Helper macro for a leg -->
+  <xacro:macro name="leg" params="name x y">
+    <link name="${name}">
+      <visual>
+        <origin xyz="${x} ${y} ${leg_height/2}" rpy="0 0 0"/>
+        <geometry>
+          <box size="${leg_width} ${leg_depth} ${leg_height}"/>
+        </geometry>
+        <material name="metal">
+          <color rgba="0.7 0.7 0.7 1"/>
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="${x} ${y} ${leg_height/2}" rpy="0 0 0"/>
+        <geometry>
+          <box size="${leg_width} ${leg_depth} ${leg_height}"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="2.0"/>
+        <origin xyz="${x} ${y} ${leg_height/2}" rpy="0 0 0"/>
+        <inertia ixx="0.0015" ixy="0.0" ixz="0.0"
+                 iyy="0.0015" iyz="0.0"
+                 izz="0.0010"/>
+      </inertial>
+    </link>
+
+    <joint name="${name}_joint" type="fixed">
+      <parent link="top"/>
+      <child link="${name}"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+    </joint>
+  </xacro:macro>
+
+  <!-- Positions of the four legs (relative to top centre) -->
+  <xacro:leg name="leg_fl" x="-0.052" y="-0.285"/>
+  <xacro:leg name="leg_fr" x=" 0.052" y="-0.285"/>
+  <xacro:leg name="leg_bl" x="-0.052" y=" 0.285"/>
+  <xacro:leg name="leg_br" x=" 0.052" y=" 0.285"/>
+
+  <!-- ==================== -->
+  <!--   Drawer (link)     -->
+  <!-- ==================== -->
+  <link name="drawer">
+    <visual>
+      <origin xyz="0 0.15 0.075" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.144 0.45 0.15"/>
+      </geometry>
+      <material name="drawer_mat">
+        <color rgba="0.8 0.8 0.8 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0.15 0.075" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.144 0.45 0.15"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="5.0"/>
+      <origin xyz="0 0.15 0.075" rpy="0 0 0"/>
+      <inertia ixx="0.018" ixy="0.0" ixz="0.0"
+               iyy="0.018" iyz="0.0"
+               izz="0.010"/>
+    </inertial>
+  </link>
+
+  <!-- Prismatic joint for the drawer -->
+  <joint name="drawer_joint" type="prismatic">
+    <parent link="top"/>
+    <child link="drawer"/>
+    <!-- Drawer closed position: its front face flush with the front edge of the desk -->
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <axis xyz="0 -1 0"/>
+    <limit effort="30" velocity="0.1" lower="0.0" upper="0.2"/>
+    <dynamics damping="0.1" friction="0.2"/>
+  </joint>
+
+</robot>

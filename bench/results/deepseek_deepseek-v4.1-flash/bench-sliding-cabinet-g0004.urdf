@@ -1,0 +1,88 @@
+<?xml version="1.0"?>
+<robot name="sliding_door_cabinet">
+  <material name="wood">
+    <color rgba="0.6 0.4 0.2 1.0"/>
+  </material>
+  <material name="door">
+    <color rgba="0.75 0.6 0.4 1.0"/>
+  </material>
+
+  <link name="cabinet_body">
+    <inertial>
+      <origin xyz="0 0 0.555" rpy="0 0 0"/>
+      <mass value="30.0"/>
+      <inertia ixx="3.980" ixy="0.0" ixz="0.0" iyy="4.844" iyz="0.0" izz="2.664"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0.555" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.84 0.60 1.11"/>
+      </geometry>
+      <material name="wood"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.555" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.84 0.60 1.11"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="left_door">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="4.0"/>
+      <inertia ixx="0.3676" ixy="0.0" ixz="0.0" iyy="0.4350" iyz="0.0" izz="0.06763"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.45 0.02 1.05"/>
+      </geometry>
+      <material name="door"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.45 0.02 1.05"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="left_door_slide" type="prismatic">
+    <parent link="cabinet_body"/>
+    <child link="left_door"/>
+    <origin xyz="-0.21 -0.31 0.555" rpy="0 0 0"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="0.0" upper="0.42" effort="50.0" velocity="0.5"/>
+  </joint>
+
+  <link name="right_door">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="4.0"/>
+      <inertia ixx="0.3676" ixy="0.0" ixz="0.0" iyy="0.4350" iyz="0.0" izz="0.06763"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.45 0.02 1.05"/>
+      </geometry>
+      <material name="door"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.45 0.02 1.05"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="right_door_slide" type="prismatic">
+    <parent link="cabinet_body"/>
+    <child link="right_door"/>
+    <origin xyz="0.21 -0.33 0.555" rpy="0 0 0"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="-0.42" upper="0.0" effort="50.0" velocity="0.5"/>
+  </joint>
+</robot>

@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<robot name="cabinet_single_door">
+  <link name="base">
+    <inertial>
+      <origin xyz="0 0.0 0.4" rpy="0 0 0"/>
+      <mass value="20.0"/>
+      <inertia ixx="0.35" ixy="0" ixz="0" iyy="2.5" iyz="0" izz="2.35"/>
+    </inertial>
+    <collision name="base_body_collision">
+      <origin xyz="0 0.0 0.4" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.37 0.44 0.8"/>
+      </geometry>
+    </collision>
+    <visual name="base_body_visual">
+      <origin xyz="0 0.0 0.4" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.37 0.44 0.8"/>
+      </geometry>
+      <material name="wood_base">
+        <color rgba="0.55 0.42 0.30 1"/>
+      </material>
+    </visual>
+  </link>
+
+  <link name="door">
+    <inertial>
+      <origin xyz="0.0 0.22 -0.02" rpy="0 0 0"/>
+      <mass value="8.0"/>
+      <inertia ixx="0.08" ixy="0" ixz="0" iyy="0.01" iyz="0" izz="0.09"/>
+    </inertial>
+
+    <collision name="door_collision">
+      <origin xyz="0.0 0.22 -0.02" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.37 0.01 1.69"/>
+      </geometry>
+    </collision>
+
+    <visual name="door_visual">
+      <origin xyz="0.0 0.22 -0.02" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.37 0.01 1.69"/>
+      </geometry>
+      <material name="wood_door">
+        <color rgba="0.60 0.45 0.32 1"/>
+      </material>
+    </visual>
+  </link>
+
+  <!-- Joint frame: hinge axis along +Y (vertical edge), located at left vertical edge of cabinet face -->
+  <!-- Cabinet spans X: [-0.185, +0.185], Y: [-0.22, +0.22] with origin at center on floor -->
+  <!-- Hinged on vertical edge at X = -0.185. Door swings outward (toward -Y). -->
+  <joint name="door_hinge" type="revolute">
+    <parent link="base"/>
+    <child link="door"/>
+    <origin xyz="-0.185 0.220 0.845" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-1.57079632679" upper="0.0" effort="50" velocity="2.0"/>
+  </joint>
+
+  <!-- Make the joint/hinge door frame consistent with door geometry -->
+  <!-- Door link geometry is defined relative to joint frame such that:
+       - door thickness extends in Y (local Y) from 0 to +0.01/2 in the door local box origin at y=0.22,
+       - door spans height in Z from 0..1.69 with local box centered at z=0.845 -> joint at z=0.845,
+       - door spans width across X; box centered at x=0 relative to joint frame where hinge is at x=-0.185 of cabinet.
+  -->
+</robot>

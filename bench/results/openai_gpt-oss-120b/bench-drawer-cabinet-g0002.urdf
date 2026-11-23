@@ -1,0 +1,234 @@
+<?xml version="1.0"?>
+<robot name="drawer_cabinet">
+
+  <!-- Main cabinet body -->
+  <link name="cabinet_body">
+    <visual>
+      <origin xyz="0 0 0.505" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.57 0.60 1.01"/>
+      </geometry>
+      <material name="light_grey">
+        <color rgba="0.8 0.8 0.8 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.505" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.57 0.60 1.01"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0 0 0.505" rpy="0 0 0"/>
+      <mass value="30.0"/>
+      <inertia ixx="2.5" ixy="0.0" ixz="0.0"
+               iyy="2.5" iyz="0.0"
+               izz="1.0"/>
+    </inertial>
+  </link>
+
+  <!-- Helper fixed joint to ground -->
+  <joint name="base_fixed" type="fixed">
+    <parent link="world"/>
+    <child link="cabinet_body"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <!-- Drawer definitions (6 identical drawers) -->
+  <!-- Parameters -->
+  <!-- drawer_height = 1.01 / 6 = 0.16833 m -->
+  <!-- drawer_depth = 0.55 m (leave 0.05 m thickness for cabinet back) -->
+  <!-- drawer_width = 0.55 m (leave 0.01 m side clearance each side) -->
+  <!-- slide distance = 0.25 m -->
+  <!-- All origins are relative to cabinet_body frame -->
+
+  <!-- Drawer 1 (bottom) -->
+  <link name="drawer_1">
+    <visual>
+      <origin xyz="0 0.025 0.0841667" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.55 0.55 0.16833"/>
+      </geometry>
+      <material name="white">
+        <color rgba="0.9 0.9 0.9 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0.025 0.0841667" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.55 0.55 0.16833"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0 0.025 0.0841667" rpy="0 0 0"/>
+      <mass value="5.0"/>
+      <inertia ixx="0.04" ixy="0.0" ixz="0.0"
+               iyy="0.04" iyz="0.0"
+               izz="0.02"/>
+    </inertial>
+  </link>
+
+  <joint name="drawer_1_joint" type="prismatic">
+    <parent link="cabinet_body"/>
+    <child link="drawer_1"/>
+    <origin xyz="0 -0.275 0.0841667" rpy="0 0 0"/>
+    <axis xyz="0 -1 0"/>
+    <limit lower="0.0" upper="0.25" effort="100" velocity="0.2"/>
+  </joint>
+
+  <!-- Drawer 2 -->
+  <link name="drawer_2">
+    <visual>
+      <origin xyz="0 0.025 0.2525" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.55 0.55 0.16833"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0.025 0.2525" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.55 0.55 0.16833"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0 0.025 0.2525" rpy="0 0 0"/>
+      <mass value="5.0"/>
+      <inertia ixx="0.04" ixy="0.0" ixz="0.0"
+               iyy="0.04" iyz="0.0"
+               izz="0.02"/>
+    </inertial>
+  </link>
+
+  <joint name="drawer_2_joint" type="prismatic">
+    <parent link="cabinet_body"/>
+    <child link="drawer_2"/>
+    <origin xyz="0 -0.275 0.2525" rpy="0 0 0"/>
+    <axis xyz="0 -1 0"/>
+    <limit lower="0.0" upper="0.25" effort="100" velocity="0.2"/>
+  </joint>
+
+  <!-- Drawer 3 -->
+  <link name="drawer_3">
+    <visual>
+      <origin xyz="0 0.025 0.4208333" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.55 0.55 0.16833"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0.025 0.4208333" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.55 0.55 0.16833"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0 0.025 0.4208333" rpy="0 0 0"/>
+      <mass value="5.0"/>
+      <inertia ixx="0.04" ixy="0.0" ixz="0.0"
+               iyy="0.04" iyz="0.0"
+               izz="0.02"/>
+    </inertial>
+  </link>
+
+  <joint name="drawer_3_joint" type="prismatic">
+    <parent link="cabinet_body"/>
+    <child link="drawer_3"/>
+    <origin xyz="0 -0.275 0.4208333" rpy="0 0 0"/>
+    <axis xyz="0 -1 0"/>
+    <limit lower="0.0" upper="0.25" effort="100" velocity="0.2"/>
+  </joint>
+
+  <!-- Drawer 4 -->
+  <link name="drawer_4">
+    <visual>
+      <origin xyz="0 0.025 0.5891667" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.55 0.55 0.16833"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0.025 0.5891667" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.55 0.55 0.16833"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0 0.025 0.5891667" rpy="0 0 0"/>
+      <mass value="5.0"/>
+      <inertia ixx="0.04" ixy="0.0" ixz="0.0"
+               iyy="0.04" iyz="0.0"
+               izz="0.02"/>
+    </inertial>
+  </link>
+
+  <joint name="drawer_4_joint" type="prismatic">
+    <parent link="cabinet_body"/>
+    <child link="drawer_4"/>
+    <origin xyz="0 -0.275 0.5891667" rpy="0 0 0"/>
+    <axis xyz="0 -1 0"/>
+    <limit lower="0.0" upper="0.25" effort="100" velocity="0.2"/>
+  </joint>
+
+  <!-- Drawer 5 -->
+  <link name="drawer_5">
+    <visual>
+      <origin xyz="0 0.025 0.7575" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.55 0.55 0.16833"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0.025 0.7575" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.55 0.55 0.16833"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0 0.025 0.7575" rpy="0 0 0"/>
+      <mass value="5.0"/>
+      <inertia ixx="0.04" ixy="0.0" ixz="0.0"
+               iyy="0.04" iyz="0.0"
+               izz="0.02"/>
+    </inertial>
+  </link>
+
+  <joint name="drawer_5_joint" type="prismatic">
+    <parent link="cabinet_body"/>
+    <child link="drawer_5"/>
+    <origin xyz="0 -0.275 0.7575" rpy="0 0 0"/>
+    <axis xyz="0 -1 0"/>
+    <limit lower="0.0" upper="0.25" effort="100" velocity="0.2"/>
+  </joint>
+
+  <!-- Drawer 6 (top) -->
+  <link name="drawer_6">
+    <visual>
+      <origin xyz="0 0.025 0.9258333" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.55 0.55 0.16833"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0.025 0.9258333" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.55 0.55 0.16833"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0 0.025 0.9258333" rpy="0 0 0"/>
+      <mass value="5.0"/>
+      <inertia ixx="0.04" ixy="0.0" ixz="0.0"
+               iyy="0.04" iyz="0.0"
+               izz="0.02"/>
+    </inertial>
+  </link>
+
+  <joint name="drawer_6_joint" type="prismatic">
+    <parent link="cabinet_body"/>
+    <child link="drawer_6"/>
+    <origin xyz="0 -0.275 0.9258333" rpy="0 0 0"/>
+    <axis xyz="0 -1 0"/>
+    <limit lower="0.0" upper="0.25" effort="100" velocity="0.2"/>
+  </joint>
+
+</robot>

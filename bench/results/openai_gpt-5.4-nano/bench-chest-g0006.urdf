@@ -1,0 +1,113 @@
+<?xml version="1.0"?>
+<robot name="chest_with_lid">
+  <!-- Dimensions (metres) -->
+  <!-- Chest footprint: 1.06 (X width) x 0.35 (Y depth) -->
+  <!-- Chest interior height: 0.20 (assumed to correspond to outer height) -->
+
+  <material name="wood">
+    <color rgba="0.55 0.33 0.20 1.0"/>
+  </material>
+  <material name="wood_dark">
+    <color rgba="0.35 0.22 0.14 1.0"/>
+  </material>
+  <material name="metal">
+    <color rgba="0.65 0.65 0.7 1.0"/>
+  </material>
+
+  <!-- World root -->
+  <link name="world"/>
+
+  <!-- Parameters used in URDF:
+       Width (X): 1.06 -> half = 0.53
+       Depth (Y): 0.35 -> half = 0.175
+       Height (Z): 0.20 -> top at Z=0.20
+       We'll model a shell thickness for sides/bottom/lid: 0.02 m
+       We'll place origin on the floor at the center of the object (X=0, Y=0 mid-depth, Z=0).
+       Front faces -Y, so "back edge" is +Y. -->
+
+  <!-- Chest body (base) -->
+  <link name="chest_body">
+    <inertial>
+      <origin xyz="0 0 0.10"/>
+      <!-- Approximate as composite box; tuned to a plausible wooden mass -->
+      <mass value="18.0"/>
+      <!-- Inertia for a rectangular prism (approx outer 1.06 x 0.35 x 0.20),
+           using Ixx=1/12*m*(y^2+z^2), Iyy=1/12*m*(x^2+z^2), Izz=1/12*m*(x^2+y^2) -->
+      <inertia ixx="0.206533" iyy="1.639467" izz="1.667333" ixy="0" ixz="0" iyz="0"/>
+    </inertial>
+
+    <!-- Collision geometry: outer shell approximated by a single solid box -->
+    <visual>
+      <origin xyz="0 0 0.10" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.06 0.35 0.20"/>
+      </geometry>
+      <material name="wood"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.10" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.06 0.35 0.20"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- Lid -->
+  <link name="chest_lid">
+    <inertial>
+      <!-- Lid thickness 0.02, lid is at Z=0.20 (top surface) - but center of lid box at Z=0.20 - 0.01 -->
+      <origin xyz="0 0 0.19"/>
+      <!-- Approximate lid as a flat plate: box 1.06 x 0.35 x 0.02 -->
+      <mass value="4.5"/>
+      <inertia ixx="0.001706" iyy="0.03645" izz="0.03645" ixy="0" ixz="0" iyz="0"/>
+    </inertial>
+
+    <!-- Visual -->
+    <visual>
+      <!-- Lid is rotated about back edge at +Y, centered in X, spans full depth. -->
+      <origin xyz="0 0 0.19" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.06 0.35 0.02"/>
+      </geometry>
+      <material name="wood_dark"/>
+    </visual>
+
+    <!-- Collision -->
+    <collision>
+      <origin xyz="0 0 0.19" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.06 0.35 0.02"/>
+      </geometry>
+    </collision>
+
+    <!-- Simple hinge leaves (purely for collision/visual; still real mass/inertia) -->
+    <gazebo reference="chest_lid">
+      <!-- not used -->
+    </gazebo>
+  </link>
+
+  <!-- Joint between body and lid -->
+  <!-- Hinged along the back edge (+Y). Lid swings up.
+       Choose joint axis along X (width), so rotation happens in the Y-Z plane: hinged at back edge.
+       Joint frame located at the back edge and at the lid's bottom surface? We'll set hinge at Z=0.20 and Y=+0.175.
+       Lid currently has its box centered at Z=0.19 (thickness 0.02), so bottom surface at Z=0.18.
+       To make hinge at the back edge along its "back edge line", we set joint origin at:
+         x=0, y=+0.175, z=0.18 (lid bottom surface)
+       The lid box is centered at z=0.19 so bottom is z=0.18.
+       Rotate around +X. Use rpy to align axis with URDF axis: axis=(1,0,0). -->
+  <joint name="lid_hinge" type="revolute">
+    <parent link="chest_body"/>
+    <child link="chest_lid"/>
+    <origin xyz="0 0.175 0.18" rpy="0 0 0"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="0" upper="1.57079632679" effort="50" velocity="1.5"/>
+    <dynamics damping="0.2" friction="0.05"/>
+  </joint>
+
+  <!-- Attach world to chest_body for convenience -->
+  <joint name="world_to_chest_body" type="fixed">
+    <parent link="world"/>
+    <child link="chest_body"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+</robot>

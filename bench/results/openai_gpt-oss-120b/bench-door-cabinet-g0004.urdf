@@ -1,0 +1,98 @@
+<?xml version="1.0"?>
+<robot name="cabinet_with_hinged_doors">
+
+  <!-- Base cabinet body -->
+  <link name="cabinet_body">
+    <visual>
+      <origin xyz="0 0 0.92" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.01 0.30 1.84"/>
+      </geometry>
+      <material name="gray">
+        <color rgba="0.6 0.6 0.6 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.92" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.01 0.30 1.84"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="30.0"/>
+      <origin xyz="0 0 0.92" rpy="0 0 0"/>
+      <inertia ixx="8.689" ixy="0.0" ixz="0.0"
+               iyy="11.014" iyz="0.0"
+               izz="2.775"/>
+    </inertial>
+  </link>
+
+  <!-- Left door -->
+  <link name="left_door">
+    <visual>
+      <origin xyz="-0.2525 0 0.92" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.505 0.02 1.84"/>
+      </geometry>
+      <material name="white">
+        <color rgba="0.9 0.9 0.9 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.2525 0 0.92" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.505 0.02 1.84"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="5.0"/>
+      <origin xyz="-0.2525 0 0.92" rpy="0 0 0"/>
+      <inertia ixx="1.411" ixy="0.0" ixz="0.0"
+               iyy="1.517" iyz="0.0"
+               izz="0.106"/>
+    </inertial>
+  </link>
+
+  <joint name="left_door_hinge" type="revolute">
+    <parent link="cabinet_body"/>
+    <child link="left_door"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="100" velocity="1.0" lower="-1.57" upper="1.57"/>
+  </joint>
+
+  <!-- Right door -->
+  <link name="right_door">
+    <visual>
+      <origin xyz="0.2525 0 0.92" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.505 0.02 1.84"/>
+      </geometry>
+      <material name="white">
+        <color rgba="0.9 0.9 0.9 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.2525 0 0.92" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.505 0.02 1.84"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="5.0"/>
+      <origin xyz="0.2525 0 0.92" rpy="0 0 0"/>
+      <inertia ixx="1.411" ixy="0.0" ixz="0.0"
+               iyy="1.517" iyz="0.0"
+               izz="0.106"/>
+    </inertial>
+  </link>
+
+  <joint name="right_door_hinge" type="revolute">
+    <parent link="cabinet_body"/>
+    <child link="right_door"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="100" velocity="1.0" lower="-1.57" upper="1.57"/>
+  </joint>
+
+</robot>

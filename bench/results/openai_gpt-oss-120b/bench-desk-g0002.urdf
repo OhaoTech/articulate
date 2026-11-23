@@ -1,0 +1,178 @@
+<?xml version="1.0"?>
+<robot name="desk">
+
+  <!-- Desk top (fixed to legs) -->
+  <link name="top">
+    <visual>
+      <origin xyz="0 0 0.70" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.31 0.66 0.02"/>
+      </geometry>
+      <material name="oak">
+        <color rgba="0.55 0.27 0.07 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.70" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.31 0.66 0.02"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="12.0"/>
+      <origin xyz="0 0 0.70" rpy="0 0 0"/>
+      <inertia ixx="0.018" ixy="0.0" ixz="0.0"
+               iyy="0.030" iyz="0.0"
+               izz="0.036"/>
+    </inertial>
+  </link>
+
+  <!-- Four legs (fixed to top) -->
+  <link name="leg_front_left">
+    <visual>
+      <origin xyz="-0.635 0.31 0.345" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.04 0.04 0.69"/>
+      </geometry>
+      <material name="oak"/>
+    </visual>
+    <collision>
+      <origin xyz="-0.635 0.31 0.345" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.04 0.04 0.69"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.77"/>
+      <origin xyz="-0.635 0.31 0.345" rpy="0 0 0"/>
+      <inertia ixx="0.0012" ixy="0.0" ixz="0.0"
+               iyy="0.0012" iyz="0.0"
+               izz="0.0015"/>
+    </inertial>
+  </link>
+
+  <link name="leg_front_right">
+    <visual>
+      <origin xyz="0.635 0.31 0.345" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.04 0.04 0.69"/>
+      </geometry>
+      <material name="oak"/>
+    </visual>
+    <collision>
+      <origin xyz="0.635 0.31 0.345" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.04 0.04 0.69"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.77"/>
+      <origin xyz="0.635 0.31 0.345" rpy="0 0 0"/>
+      <inertia ixx="0.0012" ixy="0.0" ixz="0.0"
+               iyy="0.0012" iyz="0.0"
+               izz="0.0015"/>
+    </inertial>
+  </link>
+
+  <link name="leg_back_left">
+    <visual>
+      <origin xyz="-0.635 -0.31 0.345" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.04 0.04 0.69"/>
+      </geometry>
+      <material name="oak"/>
+    </visual>
+    <collision>
+      <origin xyz="-0.635 -0.31 0.345" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.04 0.04 0.69"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.77"/>
+      <origin xyz="-0.635 -0.31 0.345" rpy="0 0 0"/>
+      <inertia ixx="0.0012" ixy="0.0" ixz="0.0"
+               iyy="0.0012" iyz="0.0"
+               izz="0.0015"/>
+    </inertial>
+  </link>
+
+  <link name="leg_back_right">
+    <visual>
+      <origin xyz="0.635 -0.31 0.345" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.04 0.04 0.69"/>
+      </geometry>
+      <material name="oak"/>
+    </visual>
+    <collision>
+      <origin xyz="0.635 -0.31 0.345" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.04 0.04 0.69"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.77"/>
+      <origin xyz="0.635 -0.31 0.345" rpy="0 0 0"/>
+      <inertia ixx="0.0012" ixy="0.0" ixz="0.0"
+               iyy="0.0012" iyz="0.0"
+               izz="0.0015"/>
+    </inertial>
+  </link>
+
+  <!-- Fixed joints from top to legs -->
+  <joint name="top_to_leg_front_left" type="fixed">
+    <parent link="top"/>
+    <child link="leg_front_left"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+  <joint name="top_to_leg_front_right" type="fixed">
+    <parent link="top"/>
+    <child link="leg_front_right"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+  <joint name="top_to_leg_back_left" type="fixed">
+    <parent link="top"/>
+    <child link="leg_back_left"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+  <joint name="top_to_leg_back_right" type="fixed">
+    <parent link="top"/>
+    <child link="leg_back_right"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <!-- Drawer -->
+  <link name="drawer">
+    <visual>
+      <origin xyz="0 0.20 0.55" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.27 0.55 0.15"/>
+      </geometry>
+      <material name="oak"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0.20 0.55" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.27 0.55 0.15"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="8.0"/>
+      <origin xyz="0 0.20 0.55" rpy="0 0 0"/>
+      <inertia ixx="0.12" ixy="0.0" ixz="0.0"
+               iyy="0.14" iyz="0.0"
+               izz="0.02"/>
+    </inertial>
+  </link>
+
+  <!-- Prismatic joint for drawer sliding forward (negative Y) -->
+  <joint name="drawer_slide" type="prismatic">
+    <parent link="top"/>
+    <child link="drawer"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <axis xyz="0 -1 0"/>
+    <limit lower="0" upper="0.30" effort="100" velocity="0.2"/>
+  </joint>
+
+</robot>

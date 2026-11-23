@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<robot name="chest_with_lid">
+
+  <!-- Base link: the main chest body -->
+  <link name="base">
+    <!-- Inertial properties -->
+    <inertial>
+      <origin xyz="0 0 0.18" rpy="0 0 0"/>
+      <mass value="10.0"/>
+      <!-- Box inertia: Ixx = 1/12 m (h^2 + d^2), Iyy = 1/12 m (w^2 + d^2), Izz = 1/12 m (w^2 + h^2) -->
+      <inertia ixx="0.1125" ixy="0.0" ixz="0.0"
+               iyy="0.2265" iyz="0.0"
+               izz="0.2265"/>
+    </inertial>
+
+    <!-- Visual geometry -->
+    <visual>
+      <origin xyz="0 0 0.18" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.62 0.26 0.36"/>
+      </geometry>
+      <material name="brown">
+        <color rgba="0.55 0.27 0.07 1"/>
+      </material>
+    </visual>
+
+    <!-- Collision geometry -->
+    <collision>
+      <origin xyz="0 0 0.18" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.62 0.26 0.36"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- Lid link -->
+  <link name="lid">
+    <!-- Inertial properties (thin plate) -->
+    <inertial>
+      <origin xyz="0 -0.13 0.01" rpy="0 0 0"/>
+      <mass value="2.0"/>
+      <!-- Approximate plate inertia: thickness t=0.02 m, width w=0.62, depth d=0.26 -->
+      <!-- Ixx = 1/12 m (w^2 + d^2) -->
+      <!-- Iyy = 1/12 m (w^2 + t^2) -->
+      <!-- Izz = 1/12 m (d^2 + t^2) -->
+      <inertia ixx="0.0209" ixy="0.0" ixz="0.0"
+               iyy="0.0065" iyz="0.0"
+               izz="0.0049"/>
+    </inertial>
+
+    <!-- Visual geometry -->
+    <visual>
+      <origin xyz="0 -0.13 0.01" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.62 0.26 0.02"/>
+      </geometry>
+      <material name="dark_brown">
+        <color rgba="0.4 0.2 0.1 1"/>
+      </material>
+    </visual>
+
+    <!-- Collision geometry -->
+    <collision>
+      <origin xyz="0 -0.13 0.01" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.62 0.26 0.02"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- Hinge joint for the lid -->
+  <joint name="lid_hinge" type="revolute">
+    <!-- Joint origin is at the back top edge of the chest -->
+    <origin xyz="0 0.13 0.36" rpy="0 0 0"/>
+    <parent link="base"/>
+    <child link="lid"/>
+    <axis xyz="1 0 0"/>
+    <limit effort="20.0" velocity="1.0" lower="0.0" upper="1.5708"/>
+    <dynamics damping="0.1" friction="0.2"/>
+  </joint>
+
+</robot>

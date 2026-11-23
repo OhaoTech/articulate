@@ -1,0 +1,8 @@
+{
+  "max_tokens": 7500,
+  "model": "openai/gpt-5.4-nano",
+  "provider": "pollinations",
+  "reasoning_effort": null,
+  "system": "Output a complete URDF file inside a single ```xml code block. Do not explain or comment. Start the code block immediately.",
+  "temperature": 0
+}

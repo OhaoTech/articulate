@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<robot name="chest_with_lid">
+
+  <!-- Chest body -->
+  <link name="body">
+    <visual>
+      <origin xyz="0 0 0.25" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.57 0.36 0.5"/>
+      </geometry>
+      <material name="brown">
+        <color rgba="0.55 0.27 0.07 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.25" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.57 0.36 0.5"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="20.0"/>
+      <!-- Inertia of a solid box: Ixx = (1/12) m (h^2 + d^2) etc. -->
+      <inertia ixx="0.20875" ixy="0.0" ixz="0.0"
+               iyy="0.20875" iyz="0.0"
+               izz="0.104375"/>
+    </inertial>
+  </link>
+
+  <!-- Lid -->
+  <link name="lid">
+    <visual>
+      <!-- Lid thickness 0.02 m, centered on its own frame -->
+      <origin xyz="0 0 0.01" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.57 0.36 0.02"/>
+      </geometry>
+      <material name="brown"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.01" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.57 0.36 0.02"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="5.0"/>
+      <inertia ixx="0.001875" ixy="0.0" ixz="0.0"
+               iyy="0.001875" iyz="0.0"
+               izz="0.001125"/>
+    </inertial>
+  </link>
+
+  <!-- Hinge joint for the lid -->
+  <joint name="lid_hinge" type="revolute">
+    <!-- Origin is at the back top edge of the chest body:
+         X = 0 (center width)
+         Y = +depth/2 = +0.18 m (back side)
+         Z = height = 0.5 m (top surface) -->
+    <origin xyz="0 0.18 0.5" rpy="0 0 0"/>
+    <parent link="body"/>
+    <child link="lid"/>
+    <axis xyz="1 0 0"/> <!-- rotate about X (width) axis -->
+    <limit effort="100" velocity="1.0" lower="0" upper="1.5708"/>
+    <dynamics damping="0.1" friction="0.1"/>
+  </joint>
+
+</robot>

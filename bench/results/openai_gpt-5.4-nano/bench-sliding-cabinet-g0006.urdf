@@ -1,0 +1,318 @@
+<robot name="sliding_cabinet_1780x1320x550">
+  <material name="wood_dark">
+    <color rgba="0.40 0.26 0.16 1"/>
+  </material>
+
+  <material name="wood_mid">
+    <color rgba="0.50 0.33 0.20 1"/>
+  </material>
+
+  <material name="wood_light">
+    <color rgba="0.70 0.52 0.35 1"/>
+  </material>
+
+  <material name="hardware">
+    <color rgba="0.35 0.35 0.35 1"/>
+  </material>
+
+  <!-- Dimensions (m) -->
+  <!-- Cabinet extents: width X = 1.78 (left -X to right +X), height Z = 1.32, depth Y = 0.55 (back +Y to front -Y) -->
+  <!-- Coordinate origin: on floor under middle of object -->
+  <!-- Front faces -Y, back faces +Y -->
+  <link name="base_cabinet_frame">
+    <!-- Box collision for overall structure -->
+    <inertial>
+      <origin xyz="0 0.0 0.66" rpy="0 0 0"/>
+      <mass value="120.0"/>
+      <inertia ixx="8.0" ixy="0" ixz="0" iyy="50.0" iyz="0" izz="41.0"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0.66"/>
+      <geometry>
+        <box size="1.78 0.55 1.32"/>
+      </geometry>
+      <material name="wood_mid"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.66"/>
+      <geometry>
+        <box size="1.78 0.55 1.32"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- Top panel (thickness 0.02 m) -->
+  <link name="panel_top">
+    <inertial>
+      <origin xyz="0 0.0 1.31" rpy="0 0 0"/>
+      <mass value="12.0"/>
+      <inertia ixx="0.26" ixy="0" ixz="0" iyy="2.66" iyz="0" izz="2.66"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 1.31"/>
+      <geometry>
+        <box size="1.78 0.55 0.02"/>
+      </geometry>
+      <material name="wood_dark"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 1.31"/>
+      <geometry>
+        <box size="1.78 0.55 0.02"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- Bottom panel (thickness 0.02 m) -->
+  <link name="panel_bottom">
+    <inertial>
+      <origin xyz="0 0 0.01" rpy="0 0 0"/>
+      <mass value="12.0"/>
+      <inertia ixx="0.26" ixy="0" ixz="0" iyy="2.66" iyz="0" izz="2.66"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0.01"/>
+      <geometry>
+        <box size="1.78 0.55 0.02"/>
+      </geometry>
+      <material name="wood_dark"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.01"/>
+      <geometry>
+        <box size="1.78 0.55 0.02"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- Back panel (thickness 0.01 m) -->
+  <link name="panel_back">
+    <inertial>
+      <origin xyz="0 0.545 0.66" rpy="0 0 0"/>
+      <mass value="6.0"/>
+      <inertia ixx="0.45" ixy="0" ixz="0" iyy="0.018" iyz="0" izz="0.45"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0.545 0.66"/>
+      <geometry>
+        <box size="1.78 0.01 1.32"/>
+      </geometry>
+      <material name="wood_light"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0.545 0.66"/>
+      <geometry>
+        <box size="1.78 0.01 1.32"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- Inner rails / posts approximated as side panels (thickness 0.02 m) -->
+  <!-- Left side panel -->
+  <link name="panel_left">
+    <inertial>
+      <origin xyz="-0.87 0 0.66" rpy="0 0 0"/>
+      <mass value="10.0"/>
+      <inertia ixx="0.018" ixy="0" ixz="0" iyy="2.60" iyz="0" izz="2.60"/>
+    </inertial>
+    <visual>
+      <origin xyz="-0.87 0 0.66"/>
+      <geometry>
+        <box size="0.02 0.55 1.32"/>
+      </geometry>
+      <material name="wood_mid"/>
+    </visual>
+    <collision>
+      <origin xyz="-0.87 0 0.66"/>
+      <geometry>
+        <box size="0.02 0.55 1.32"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- Right side panel -->
+  <link name="panel_right">
+    <inertial>
+      <origin xyz="0.87 0 0.66" rpy="0 0 0"/>
+      <mass value="10.0"/>
+      <inertia ixx="0.018" ixy="0" ixz="0" iyy="2.60" iyz="0" izz="2.60"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.87 0 0.66"/>
+      <geometry>
+        <box size="0.02 0.55 1.32"/>
+      </geometry>
+      <material name="wood_mid"/>
+    </visual>
+    <collision>
+      <origin xyz="0.87 0 0.66"/>
+      <geometry>
+        <box size="0.02 0.55 1.32"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- Front track 1 (left track) -->
+  <link name="track_left">
+    <inertial>
+      <origin xyz="-0.64 -0.262 0.18" rpy="0 0 0"/>
+      <mass value="4.0"/>
+      <inertia ixx="0.005" ixy="0" ixz="0" iyy="0.080" iyz="0" izz="0.079"/>
+    </inertial>
+    <visual>
+      <origin xyz="-0.64 -0.262 0.18"/>
+      <geometry>
+        <box size="1.28 0.02 0.04"/>
+      </geometry>
+      <material name="hardware"/>
+    </visual>
+    <collision>
+      <origin xyz="-0.64 -0.262 0.18"/>
+      <geometry>
+        <box size="1.28 0.02 0.04"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- Front track 2 (right track) -->
+  <link name="track_right">
+    <inertial>
+      <origin xyz="0.64 -0.262 0.18" rpy="0 0 0"/>
+      <mass value="4.0"/>
+      <inertia ixx="0.005" ixy="0" ixz="0" iyy="0.080" iyz="0" izz="0.079"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.64 -0.262 0.18"/>
+      <geometry>
+        <box size="1.28 0.02 0.04"/>
+      </geometry>
+      <material name="hardware"/>
+    </visual>
+    <collision>
+      <origin xyz="0.64 -0.262 0.18"/>
+      <geometry>
+        <box size="1.28 0.02 0.04"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- Two sliding door panels -->
+  <!-- Door parameters:
+       Door width = 0.84 m each (1.78 / 2) with overlap via tracks
+       Door thickness (x-direction width of slab) ~ 0.02 m
+       Door depth (along Y) ~ 0.04 m front-reach to represent cabinet face clearance
+       Door is a vertical slab: size along Z ~ 1.30 m (slightly less than 1.32)
+       Positioned with origin at floor middle; door center at x = variable, y = front region near -0.275
+  -->
+
+  <!-- Left sliding door link: moves along +X/-X -->
+  <link name="door_left">
+    <inertial>
+      <origin xyz="-0.42 -0.275 0.65" rpy="0 0 0"/>
+      <mass value="20.0"/>
+      <!-- Approx inertia for box 0.84x0.04x1.30 about center -->
+      <inertia ixx="0.053" ixy="0" ixz="0" iyy="0.057" iyz="0" izz="1.37"/>
+    </inertial>
+    <visual>
+      <origin xyz="-0.42 -0.275 0.65" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.84 0.04 1.30"/>
+      </geometry>
+      <material name="wood_mid"/>
+    </visual>
+    <collision>
+      <origin xyz="-0.42 -0.275 0.65" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.84 0.04 1.30"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- Right sliding door link -->
+  <link name="door_right">
+    <inertial>
+      <origin xyz="0.42 -0.275 0.65" rpy="0 0 0"/>
+      <mass value="20.0"/>
+      <inertia ixx="0.053" ixy="0" ixz="0" iyy="0.057" iyz="0" izz="1.37"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.42 -0.275 0.65" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.84 0.04 1.30"/>
+      </geometry>
+      <material name="wood_mid"/>
+    </visual>
+    <collision>
+      <origin xyz="0.42 -0.275 0.65" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.84 0.04 1.30"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- Joints: cabinet structure fixed to base frame -->
+  <joint name="joint_top_to_base" type="fixed">
+    <parent link="base_cabinet_frame"/>
+    <child link="panel_top"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <joint name="joint_bottom_to_base" type="fixed">
+    <parent link="base_cabinet_frame"/>
+    <child link="panel_bottom"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <joint name="joint_back_to_base" type="fixed">
+    <parent link="base_cabinet_frame"/>
+    <child link="panel_back"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <joint name="joint_left_to_base" type="fixed">
+    <parent link="base_cabinet_frame"/>
+    <child link="panel_left"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <joint name="joint_right_to_base" type="fixed">
+    <parent link="base_cabinet_frame"/>
+    <child link="panel_right"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <joint name="joint_track_left_to_base" type="fixed">
+    <parent link="base_cabinet_frame"/>
+    <child link="track_left"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <joint name="joint_track_right_to_base" type="fixed">
+    <parent link="base_cabinet_frame"/>
+    <child link="track_right"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <!-- Sliding joints: prismatic along X.
+       Set joint origins at the door centers in the nominal configuration. -->
+  <joint name="joint_door_left_slide" type="prismatic">
+    <parent link="base_cabinet_frame"/>
+    <child link="door_left"/>
+    <origin xyz="-0.42 -0.275 0.65" rpy="0 0 0"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="-0.44" upper="0.44" effort="200" velocity="1.0"/>
+    <dynamics damping="20" friction="5"/>
+  </joint>
+
+  <joint name="joint_door_right_slide" type="prismatic">
+    <parent link="base_cabinet_frame"/>
+    <child link="door_right"/>
+    <origin xyz="0.42 -0.275 0.65" rpy="0 0 0"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="-0.44" upper="0.44" effort="200" velocity="1.0"/>
+    <dynamics damping="20" friction="5"/>
+  </joint>
+
+  <!-- Note: tracks are approximated as boxes; doors are independent prismatic joints for separate tracks.
+       Their overlap/crossing is achieved by allowing both to translate within their ranges. -->
+</robot>

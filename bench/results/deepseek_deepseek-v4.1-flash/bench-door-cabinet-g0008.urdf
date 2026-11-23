@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<robot name="cabinet">
+
+  <material name="wood">
+    <color rgba="0.55 0.35 0.18 1.0"/>
+  </material>
+  <material name="wood_dark">
+    <color rgba="0.40 0.25 0.12 1.0"/>
+  </material>
+
+  <!-- Cabinet carcass. Link frame is at the floor, under the middle of the cabinet. -->
+  <link name="cabinet_body">
+    <inertial>
+      <origin xyz="0 0 0.51" rpy="0 0 0"/>
+      <mass value="35.0"/>
+      <inertia ixx="3.525" ixy="0.0" ixz="0.0"
+               iyy="4.675" iyz="0.0"
+               izz="2.131"/>
+    </inertial>
+
+    <visual>
+      <origin xyz="0 0 0.51" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.75 0.41 1.02"/>
+      </geometry>
+      <material name="wood"/>
+    </visual>
+
+    <collision>
+      <origin xyz="0 0 0.51" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.75 0.41 1.02"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- Door. Link frame sits on the hinge axis at the front-left vertical edge. -->
+  <link name="door">
+    <inertial>
+      <origin xyz="0.375 0 0" rpy="0 0 0"/>
+      <mass value="6.0"/>
+      <inertia ixx="0.5204" ixy="0.0" ixz="0.0"
+               iyy="0.80145" iyz="0.0"
+               izz="0.28145"/>
+    </inertial>
+
+    <visual>
+      <origin xyz="0.375 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.75 0.02 1.02"/>
+      </geometry>
+      <material name="wood_dark"/>
+    </visual>
+
+    <collision>
+      <origin xyz="0.375 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.75 0.02 1.02"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- Vertical hinge on the left front edge; positive joint value swings the door outward (-Y). -->
+  <joint name="door_hinge" type="revolute">
+    <parent link="cabinet_body"/>
+    <child link="door"/>
+    <origin xyz="-0.375 -0.215 0.51" rpy="0 0 0"/>
+    <axis xyz="0 0 -1"/>
+    <limit lower="0.0" upper="1.92" effort="15.0" velocity="1.5"/>
+    <dynamics damping="0.5" friction="0.2"/>
+  </joint>
+
+</robot>

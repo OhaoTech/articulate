@@ -1,0 +1,39 @@
+# Template CI + PyPI Trusted Publishing workflow for the public OhaoTech/articulate repo.
+# Runs on GitHub's free public Ubuntu runners ($0). Copy to .github/workflows/ci.yml on export.
+name: CI
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -e ".[usd,sim,dev]"
+      - run: pytest -q
+      - run: |
+          niua-articulate build /tmp/scenes --scenes
+          niua-articulate check /tmp/scenes/room-door-drawer-01/model.usda
+          niua-articulate check /tmp/scenes/room-door-drawer-01/model.urdf --sweep
+
+  publish-pypi:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: test
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install build
+      - run: python -m build
+      - uses: pypa/gh-action-pypi-publish@release/v1

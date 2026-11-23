@@ -1,0 +1,256 @@
+<robot name="drawer_cabinet_103x73x56">
+  <link name="base">
+    <inertial>
+      <origin xyz="0 0 0.01" rpy="0 0 0"/>
+      <mass value="18.0"/>
+      <inertia ixx="0.090" ixy="0.0" ixz="0.0" iyy="0.080" iyz="0.0" izz="0.060"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0.425" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.03 0.56 0.85"/>
+      </geometry>
+      <material name="cabinet_body">
+        <color rgba="0.70 0.70 0.70 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.425" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.03 0.56 0.85"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- Back panel -->
+  <link name="back_panel">
+    <inertial>
+      <origin xyz="0 0 0.365" rpy="0 0 0"/>
+      <mass value="4.0"/>
+      <inertia ixx="0.020" ixy="0.0" ixz="0.0" iyy="0.015" iyz="0.0" izz="0.030"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0.275 -0.0" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.03 0.01 0.73"/>
+      </geometry>
+      <material name="cabinet_body"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0.275 -00" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.03 0.01 0.73"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="fixed_back_panel" type="fixed">
+    <parent link="base"/>
+    <child link="back_panel"/>
+    <origin xyz="0 0 0.0" rpy="0 0 0"/>
+  </joint>
+
+  <!-- Left side panel -->
+  <link name="left_side">
+    <inertial>
+      <origin xyz="0 0 0.365" rpy="0 0 0"/>
+      <mass value="6.0"/>
+      <inertia ixx="0.020" ixy="0.0" ixz="0.0" iyy="0.028" iyz="0.0" izz="0.010"/>
+    </inertial>
+    <visual>
+      <origin xyz="-0.515 0 0.0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.01 0.56 0.73"/>
+      </geometry>
+      <material name="cabinet_body"/>
+    </visual>
+    <collision>
+      <origin xyz="-0.515 0 0.0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.01 0.56 0.73"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="fixed_left_side" type="fixed">
+    <parent link="base"/>
+    <child link="left_side"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <!-- Right side panel -->
+  <link name="right_side">
+    <inertial>
+      <origin xyz="0 0 0.365" rpy="0 0 0"/>
+      <mass value="6.0"/>
+      <inertia ixx="0.020" ixy="0.0" ixz="0.0" iyy="0.028" iyz="0.0" izz="0.010"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.515 0 0.0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.01 0.56 0.73"/>
+      </geometry>
+      <material name="cabinet_body"/>
+    </visual>
+    <collision>
+      <origin xyz="0.515 0 0.0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.01 0.56 0.73"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="fixed_right_side" type="fixed">
+    <parent link="base"/>
+    <child link="right_side"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <!-- Bottom panel -->
+  <link name="bottom_panel">
+    <inertial>
+      <origin xyz="0 0 0.02" rpy="0 0 0"/>
+      <mass value="3.5"/>
+      <inertia ixx="0.012" ixy="0.0" ixz="0.0" iyy="0.010" iyz="0.0" izz="0.018"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0.01" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.03 0.56 0.02"/>
+      </geometry>
+      <material name="cabinet_body"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.01" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.03 0.56 0.02"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="fixed_bottom_panel" type="fixed">
+    <parent link="base"/>
+    <child link="bottom_panel"/>
+    <origin xyz="0 0 0.0" rpy="0 0 0"/>
+  </joint>
+
+  <!-- Three drawers -->
+  <!-- Drawer geometry parameters -->
+  <!-- Cabinet width 1.03m, depth 0.56m -->
+  <!-- Drawer front/back thickness and side walls -->
+  <!-- Each drawer outer height: (0.73 - 0.02*2 - 0.02*2 separators?) => use 0.24m with 0.02 separators: 0.24*3 + 0.015*2 ~ 0.73; set: top/mid/bottom heights 0.23 with separators 0.02 => 0.23*3 + 0.02*2 = 0.73 -->
+  <!-- Drawer outer height = 0.23m -->
+  <!-- Drawer bottom thickness 0.01m, side/back thickness 0.01m, front thickness 0.02m -->
+  <!-- Drawer outer depth = 0.50m (slides within 0.56m) -->
+  <!-- Clearance/back position centered at Y=0 initially, and slides in +X? No: slides toward front (-Y) -->
+  <!-- We model drawer frame bounding box including face thickness. -->
+
+  <!-- Drawer 1 (bottom) -->
+  <link name="drawer_1">
+    <inertial>
+      <origin xyz="0 0 0.115" rpy="0 0 0"/>
+      <mass value="8.0"/>
+      <inertia ixx="0.050" ixy="0.0" ixz="0.0" iyy="0.018" iyz="0.0" izz="0.055"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0.115" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.03 0.50 0.23"/>
+      </geometry>
+      <material name="drawer_body">
+        <color rgba="0.75 0.75 0.75 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.115" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.03 0.50 0.23"/>
+      </geometry>
+    </collision>
+    <!-- Additional face thickness collision -->
+    <collision>
+      <origin xyz="0 -0.25 0.115" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.03 0.02 0.23"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="slide_drawer_1" type="prismatic">
+    <parent link="base"/>
+    <child link="drawer_1"/>
+    <origin xyz="0 0.03 0.115" rpy="0 0 0"/>
+    <axis xyz="0 -1 0"/>
+    <limit lower="0.0" upper="0.28" effort="50" velocity="1.5"/>
+  </joint>
+
+  <!-- Drawer 2 (middle) -->
+  <link name="drawer_2">
+    <inertial>
+      <origin xyz="0 0 0.115" rpy="0 0 0"/>
+      <mass value="8.0"/>
+      <inertia ixx="0.050" ixy="0.0" ixz="0.0" iyy="0.018" iyz="0.0" izz="0.055"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0.115" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.03 0.50 0.23"/>
+      </geometry>
+      <material name="drawer_body"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.115" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.03 0.50 0.23"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="0 -0.25 0.115" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.03 0.02 0.23"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="slide_drawer_2" type="prismatic">
+    <parent link="base"/>
+    <child link="drawer_2"/>
+    <origin xyz="0 0.03 0.385" rpy="0 0 0"/>
+    <axis xyz="0 -1 0"/>
+    <limit lower="0.0" upper="0.28" effort="50" velocity="1.5"/>
+  </joint>
+
+  <!-- Drawer 3 (top) -->
+  <link name="drawer_3">
+    <inertial>
+      <origin xyz="0 0 0.115" rpy="0 0 0"/>
+      <mass value="8.0"/>
+      <inertia ixx="0.050" ixy="0.0" ixz="0.0" iyy="0.018" iyz="0.0" izz="0.055"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0.115" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.03 0.50 0.23"/>
+      </geometry>
+      <material name="drawer_body"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.115" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.03 0.50 0.23"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="0 -0.25 0.115" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.03 0.02 0.23"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="slide_drawer_3" type="prismatic">
+    <parent link="base"/>
+    <child link="drawer_3"/>
+    <origin xyz="0 0.03 0.655" rpy="0 0 0"/>
+    <axis xyz="0 -1 0"/>
+    <limit lower="0.0" upper="0.28" effort="50" velocity="1.5"/>
+  </joint>
+
+  <!-- Helper: ensure base doesn't double-count all panels by keeping it thin shell-ish in visual/collision; still has inertia and collision as requested -->
+</robot>

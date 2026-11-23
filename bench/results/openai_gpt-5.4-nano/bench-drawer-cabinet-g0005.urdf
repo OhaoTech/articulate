@@ -1,0 +1,303 @@
+<robot name="drawer_cabinet_109x125x60">
+  <!-- Dimensions (metres) -->
+  <!-- Cabinet: width(X)=1.09, height(Z)=1.25, depth(Y)=0.60 -->
+  <!-- Origin at floor under middle: X=0 at center, Y=0 at mid-depth, Z=0 on floor -->
+  <!-- Front faces -Y, so front is at Y=-0.30, back at Y=+0.30 -->
+
+  <material name="mat_wood">
+    <color rgba="0.7 0.45 0.25 1.0"/>
+  </material>
+  <material name="mat_metal">
+    <color rgba="0.2 0.2 0.2 1.0"/>
+  </material>
+
+  <!-- ========== Base cabinet parameters ========== -->
+  <!-- Wall thicknesses -->
+  <!-- We'll model: outer shell frame (top/bottom/side panels) and a bottom panel -->
+  <!-- Drawer opening: two compartments, each with bottom thickness and clearance -->
+
+  <!-- Key derived values -->
+  <!-- Outer panels thickness: 0.02 -->
+  <!-- Bottom panel thickness: 0.018 -->
+  <!-- Drawer slide thickness (drawer side/bottom walls): use simple solids -->
+  <!-- Drawer clearances: -->
+  <!-- Divider thickness between drawers: 0.02 -->
+  <!-- Heights: -->
+  <!-- Total height 1.25
+       Two drawer compartments + bottom panel + top panel + divider:
+       top panel: 0.02
+       bottom panel (cabinet bottom): 0.018
+       divider between drawers: 0.02
+       Remaining for drawer interiors: 1.25 - 0.02 - 0.018 - 0.02 = 1.192
+       Split equally: 0.596 each compartment.
+       Each drawer box internal height ~0.596 - (drawer bottom thickness 0.02) = 0.576.
+       But we will model drawer bodies with outer height slightly less to fit openings.
+  -->
+
+  <!-- Common extents -->
+  <!-- Half-width: 0.545 -->
+  <!-- Half-depth: 0.300 -->
+
+  <!-- Cabinet outer shell -->
+  <!-- Bottom panel: thickness 0.018, spans full width/depth minus outer walls thickness -->
+  <!-- Side panels: thickness 0.02, height 1.25-0.02 top? We'll span full height for simplicity -->
+  <!-- Back panel optional: include a thin back -->
+  <!-- Top panel: thickness 0.02 -->
+
+  <!-- Drawer boxes -->
+  <!-- Each drawer box will slide along Y. Joint axis: Y (translational) -->
+  <!-- Drawer body: front/back walls, side walls, bottom.
+       Depth: slides out so it extends from cabinet opening and moves within guide limits.
+       We'll place drawers at "fully retracted" at q=0 (centered within opening).
+       Joint origins are attached to cabinet body at the corresponding drawer center plane. -->
+
+  <!-- Drawer movement limits (approx): inside depth 0.60 with front panel thickness 0.02.
+       Allow slide of 0.22m out from cabinet interior. -->
+  <!-- Interior depth available from front inner face to back inner face:
+       outer depth 0.60
+       subtract back wall 0.02 and front panel 0.02 and drawer clearance 0.01 each side:
+       approximate interior ~0.56
+       Drawer depth along Y outer: 0.52 -->
+  <!-- We'll allow translation so drawer front can reach near cabinet front when extended. -->
+
+  <!-- ========== Base link: cabinet structure ========== -->
+  <link name="cabinet">
+    <inertial>
+      <!-- Approximate mass for cabinet shell -->
+      <mass value="45.0"/>
+      <!-- Approximate inertia as rectangular shell about origin (centered in X,Y,Z at mid of solid bounding box, Z~0.625).
+           We'll compute rough inertias for a dense assembly; values are reasonable for visualization/physics. -->
+      <inertia ixx="6.50" iyy="6.50" izz="4.20" ixy="0" ixz="0" iyz="0"/>
+    </inertial>
+
+    <!-- Bottom panel -->
+    <visual>
+      <origin xyz="0 0 0.009" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.09 0.60 0.018"/>
+      </geometry>
+      <material name="mat_wood"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.009" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.09 0.60 0.018"/>
+      </geometry>
+    </collision>
+
+    <!-- Back panel -->
+    <visual>
+      <origin xyz="0 0.29 0.625" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.09 0.02 1.232"/>
+      </geometry>
+      <material name="mat_wood"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0.29 0.625" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.09 0.02 1.232"/>
+      </geometry>
+    </collision>
+
+    <!-- Left side panel -->
+    <visual>
+      <origin xyz="-0.545+0.01 0 0.625" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.02 0.58 1.232"/>
+      </geometry>
+      <material name="mat_wood"/>
+    </visual>
+    <collision>
+      <origin xyz="-0.545+0.01 0 0.625" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.02 0.58 1.232"/>
+      </geometry>
+    </collision>
+
+    <!-- Right side panel -->
+    <visual>
+      <origin xyz="0.545-0.01 0 0.625" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.02 0.58 1.232"/>
+      </geometry>
+      <material name="mat_wood"/>
+    </visual>
+    <collision>
+      <origin xyz="0.545-0.01 0 0.625" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.02 0.58 1.232"/>
+      </geometry>
+    </collision>
+
+    <!-- Top panel -->
+    <visual>
+      <origin xyz="0 0 1.25-0.01" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.09 0.60 0.02"/>
+      </geometry>
+      <material name="mat_wood"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 1.25-0.01" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.09 0.60 0.02"/>
+      </geometry>
+    </collision>
+
+    <!-- Internal divider between drawers (cabinet-side panel) -->
+    <visual>
+      <origin xyz="0 0 0.625" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.05 0.58 0.02"/>
+      </geometry>
+      <material name="mat_wood"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.625" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.05 0.58 0.02"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- ========== Drawer 1 (lower) ========== -->
+  <link name="drawer_lower">
+    <inertial>
+      <mass value="12.0"/>
+      <inertia ixx="0.25" iyy="0.55" izz="0.32" ixy="0" ixz="0" iyz="0"/>
+    </inertial>
+
+    <!-- Drawer geometry (outer box) -->
+    <!-- Drawer outer size: width 1.05, height 0.56, depth 0.52 -->
+    <!-- Height placement: lower drawer sits above cabinet bottom panel and divider.
+         Cabinet bottom panel thickness 0.018 at Z=0.018/2=0.009 center.
+         Lower compartment interior top at divider bottom +? We'll approximate with centers:
+         Lower drawer center Z at 0.018 + 0.56/2 + 0.02/2 = 0.018 + 0.28 + 0.01 = 0.308
+         But actual divider at Z=0.625; lower drawer center below divider:
+         If divider thickness 0.02 at Z=0.625, its top at 0.635, bottom at 0.615.
+         Lower drawer center should be around Z=0.018 + 0.56/2 = 0.298; shift slightly upward to fit.
+         We'll set base (retracted) drawer origin at Z=0.30 (joint fixed).
+    -->
+    <!-- Drawer body in its local frame: assume link frame at drawer box center when joint q=0 -->
+    <!-- Local Y axis aligns with slide direction; moving along Y in parent frame via joint. -->
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.05 0.52 0.56"/>
+      </geometry>
+      <material name="mat_wood"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.05 0.52 0.56"/>
+      </geometry>
+    </collision>
+
+    <!-- Simplified internal bottom thickness (extra collision to improve contact) -->
+    <visual>
+      <origin xyz="0 0 -0.27" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.00 0.48 0.02"/>
+      </geometry>
+      <material name="mat_wood"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 -0.27" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.00 0.48 0.02"/>
+      </geometry>
+    </collision>
+
+    <!-- Handle block (metal) at front -->
+    <visual>
+      <origin xyz="0 -0.26 0.05" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.08 0.04 0.08"/>
+      </geometry>
+      <material name="mat_metal"/>
+    </visual>
+    <collision>
+      <origin xyz="0 -0.26 0.05" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.08 0.04 0.08"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- ========== Drawer 2 (upper) ========== -->
+  <link name="drawer_upper">
+    <inertial>
+      <mass value="12.0"/>
+      <inertia ixx="0.25" iyy="0.55" izz="0.32" ixy="0" ixz="0" iyz="0"/>
+    </inertial>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.05 0.52 0.56"/>
+      </geometry>
+      <material name="mat_wood"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.05 0.52 0.56"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 -0.27" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.00 0.48 0.02"/>
+      </geometry>
+      <material name="mat_wood"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 -0.27" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.00 0.48 0.02"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 -0.26 0.05" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.08 0.04 0.08"/>
+      </geometry>
+      <material name="mat_metal"/>
+    </visual>
+    <collision>
+      <origin xyz="0 -0.26 0.05" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.08 0.04 0.08"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- ========== Joints (slide out toward front i.e., toward -Y) ========== -->
+  <!-- Use prismatic joint along Y axis of parent frame.
+       Joint axis: 0 1 0 (Y). With axis pointing +Y (back), positive translation moves toward back.
+       Therefore, to slide out toward front (-Y), q should be negative for extension.
+       We'll set limits allowing negative extension. -->
+
+  <joint name="joint_drawer_lower" type="prismatic">
+    <parent link="cabinet"/>
+    <child link="drawer_lower"/>
+    <!-- Joint frame at cabinet coordinates where drawer center would be when retracted (q=0) -->
+    <!-- X=0 (center), Y=+0.10 (slightly back within opening), Z=0.30 -->
+    <origin xyz="0 0.10 0.30" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <limit effort="200" velocity="0.5" lower="-0.22" upper="0.06"/>
+  </joint>
+
+  <joint name="joint_drawer_upper" type="prismatic">
+    <parent link="cabinet"/>
+    <child link="drawer_upper"/>
+    <!-- X=0, Y=+0.10, Z=0.86 -->
+    <origin xyz="0 0.10 0.86" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <limit effort="200" velocity="0.5" lower="-0.22" upper="0.06"/>
+  </joint>
+</robot>

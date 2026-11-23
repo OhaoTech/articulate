@@ -1,0 +1,157 @@
+<robot name="cabinet_1_door">
+  <link name="base">
+    <inertial>
+      <origin xyz="0 0.0 0.05" rpy="0 0 0"/>
+      <mass value="25.0"/>
+      <inertia ixx="0.12" ixy="0.0" ixz="0.0" iyy="0.10" iyz="0.0" izz="0.08"/>
+    </inertial>
+    <collision>
+      <origin xyz="0 0 0.05" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.62 0.54 0.10"/>
+      </geometry>
+    </collision>
+    <visual>
+      <origin xyz="0 0 0.05" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.62 0.54 0.10"/>
+      </geometry>
+    </visual>
+  </link>
+
+  <link name="back_panel">
+    <inertial>
+      <origin xyz="0 0.245 0.79" rpy="0 0 0"/>
+      <mass value="8.0"/>
+      <inertia ixx="0.30" ixy="0.0" ixz="0.0" iyy="0.01" iyz="0.0" izz="0.29"/>
+    </inertial>
+    <collision>
+      <origin xyz="0 0.245 0.79" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.62 0.01 1.58"/>
+      </geometry>
+    </collision>
+    <visual>
+      <origin xyz="0 0.245 0.79" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.62 0.01 1.58"/>
+      </geometry>
+    </visual>
+  </link>
+
+  <link name="left_side_panel">
+    <inertial>
+      <origin xyz="-0.31 0 0.79" rpy="0 0 0"/>
+      <mass value="7.0"/>
+      <inertia ixx="0.21" ixy="0.0" ixz="0.0" iyy="0.01" iyz="0.0" izz="0.20"/>
+    </inertial>
+    <collision>
+      <origin xyz="-0.31 0 0.79" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.01 0.54 1.58"/>
+      </geometry>
+    </collision>
+    <visual>
+      <origin xyz="-0.31 0 0.79" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.01 0.54 1.58"/>
+      </geometry>
+    </visual>
+  </link>
+
+  <link name="right_side_panel">
+    <inertial>
+      <origin xyz="0.31 0 0.79" rpy="0 0 0"/>
+      <mass value="7.0"/>
+      <inertia ixx="0.21" ixy="0.0" ixz="0.0" iyy="0.01" iyz="0.0" izz="0.20"/>
+    </inertial>
+    <collision>
+      <origin xyz="0.31 0 0.79" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.01 0.54 1.58"/>
+      </geometry>
+    </collision>
+    <visual>
+      <origin xyz="0.31 0 0.79" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.01 0.54 1.58"/>
+      </geometry>
+    </visual>
+  </link>
+
+  <link name="top_panel">
+    <inertial>
+      <origin xyz="0 0 1.535" rpy="0 0 0"/>
+      <mass value="6.0"/>
+      <inertia ixx="0.10" ixy="0.0" ixz="0.0" iyy="0.08" iyz="0.0" izz="0.02"/>
+    </inertial>
+    <collision>
+      <origin xyz="0 0 1.535" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.62 0.54 0.05"/>
+      </geometry>
+    </collision>
+    <visual>
+      <origin xyz="0 0 1.535" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.62 0.54 0.05"/>
+      </geometry>
+    </visual>
+  </link>
+
+  <link name="door">
+    <inertial>
+      <origin xyz="0.30 0.245 0.79" rpy="0 0 0"/>
+      <mass value="12.0"/>
+      <inertia ixx="0.20" ixy="0.0" ixz="0.0" iyy="0.03" iyz="0.0" izz="0.20"/>
+    </inertial>
+
+    <collision>
+      <origin xyz="0.30 0.245 0.79" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.62 0.01 1.58"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0.30 0.245 0.79" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.62 0.01 1.58"/>
+      </geometry>
+    </visual>
+  </link>
+
+  <joint name="joint_base_fixed" type="fixed">
+    <parent link="base"/>
+    <child link="back_panel"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <joint name="joint_base_fixed_left" type="fixed">
+    <parent link="base"/>
+    <child link="left_side_panel"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <joint name="joint_base_fixed_right" type="fixed">
+    <parent link="base"/>
+    <child link="right_side_panel"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <joint name="joint_base_fixed_top" type="fixed">
+    <parent link="base"/>
+    <child link="top_panel"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <joint name="joint_door_hinge" type="revolute">
+    <parent link="base"/>
+    <child link="door"/>
+    <!-- Hinge along the vertical edge at X=+0.31 (right edge). Door swings outward toward +X -->
+    <origin xyz="0.31 0.245 0.79" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-1.5707963" upper="1.5707963" effort="50" velocity="2.0"/>
+    <dynamics damping="2.0" friction="0.2"/>
+  </joint>
+</robot>

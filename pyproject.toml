@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "niua-articulate"
+version = "0.1.0"
+description = "Articulated objects and scenes as code (URDF, MJCF, glTF, OpenUSD) with CPU physics validation."
+readme = "README.md"
+license = "Apache-2.0"
+authors = [{name = "Ohao", email = "hello@ohao.tech"}]
+requires-python = ">=3.10"
+dependencies = []
+
+[project.optional-dependencies]
+usd = ["usd-core>=24.8"]
+sim = [
+    "mujoco==3.16.0",
+    "numpy==2.5.1",
+    "simcheck==0.2.0",
+    "trimesh==5.1.1",
+    "rtree==1.4.1",
+    "pycollada==0.9.3",
+    "pillow==12.3.0",
+]
+dev = ["pytest>=8.0"]
+
+[project.scripts]
+niua-articulate = "articulate.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["articulate*"]
+
+[project.urls]
+Homepage = "https://ohao.tech"
+Repository = "https://github.com/OhaoTech/articulate"

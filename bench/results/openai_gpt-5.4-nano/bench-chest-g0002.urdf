@@ -1,0 +1,117 @@
+<robot name="chest_with_lid">
+  <!-- Units are metres (URDF default). Origin at floor directly under the middle of the object.
+       X across width, Y toward back (front faces -Y), Z up. -->
+
+  <!-- Dimensions -->
+  <!-- Width (X): 1.17 m, Height (Z): 0.38 m, Depth (Y): 0.35 m -->
+
+  <!-- Assumed construction (for meaningful inertia/collisions) -->
+  <!-- Timber thicknesses -->
+  <!-- Side/Front/Back wall thickness: 0.02 m
+       Base thickness: 0.02 m
+       Lid thickness: 0.02 m
+       Back panel thickness: 0.02 m (part of the body rear "wall") -->
+
+  <!-- Masses (reasonable approximate) -->
+  <!-- Body mass and lid mass split -->
+  <link name="base">
+    <inertial>
+      <origin xyz="0 0 0.10" rpy="0 0 0"/>
+      <!-- Box inertia for size (1.17 x 0.35 x 0.20) with mass 18 kg, approximated by selecting
+           an effective height of 0.20 m for the body (walls + base). -->
+      <mass value="18.0"/>
+      <inertia ixx="0.1871" iyy="0.3738" izz="0.3318"/>
+    </inertial>
+    <!-- Effective collision box for the stationary portion of the chest (walls + base) -->
+    <visual>
+      <origin xyz="0 0 0.10" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.17 0.35 0.20"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.10" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.17 0.35 0.20"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- Lid rotates about the back edge (hinge along width, i.e., axis along X).
+       When closed, lid lies flat on top at z=0.20 (body top). Lid height is 0.02 m.
+       Hinge line at back edge: y = +0.35/2 = +0.175
+       Lid center at y= +0.175 - 0.02/2 = +0.165
+       Lid center at z = 0.20 + 0.02/2 = 0.21 -->
+  <link name="lid">
+    <inertial>
+      <!-- Lid box inertia: size (1.17 x 0.35 x 0.02), mass 6 kg.
+           Using origin at lid center. -->
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="6.0"/>
+      <inertia ixx="0.000108" iyy="0.1701" izz="0.1435"/>
+    </inertial>
+
+    <visual>
+      <origin xyz="0 0.165 0.21" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.17 0.35 0.02"/>
+      </geometry>
+    </visual>
+
+    <collision>
+      <origin xyz="0 0.165 0.21" rpy="0 0 0"/>
+      <geometry>
+        <box size="1.17 0.35 0.02"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- Joint: lid hinged along back edge, swinging up.
+       Rotation axis along X, located at the hinge line:
+       hinge line at y=+0.175 and z=0.20 (top of body).
+       Joint origin at hinge line (center along thickness/width):
+       We place joint origin at the hinge line in world frame:
+         xyz = 0, +0.175, 0.20
+       For the lid link, its geometry is centered at (0, +0.165, 0.21) in the lid frame,
+       so the lid frame itself is defined at its own origin.
+       Therefore we set the joint to position lid frame such that lid center matches:
+         lid frame origin is at (0, +0.165, 0.21) relative to joint frame when theta=0.
+       With our joint axis (x) at hinge line, initial closed state means lid should be flat:
+         joint origin at (0, +0.175, 0.20)
+         lid frame origin located by constant offset:
+           y difference: lid center y (+0.165) - hinge y (+0.175) = -0.01
+           z difference: lid center z (0.21) - hinge z (0.20) = +0.01
+       So joint child link origin relative to joint parent:
+         xyz = 0, -0.01, +0.01.
+       rpy=0 so initial lid lies in same plane as body top. -->
+  <joint name="lid_hinge_joint" type="revolute">
+    <parent link="base"/>
+    <child link="lid"/>
+    <origin xyz="0 0.175 0.20" rpy="0 0 0"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="0.0" upper="1.57079632679" effort="20" velocity="2.0"/>
+  </joint>
+
+  <!-- Move lid link geometry into correct pose relative to its link frame:
+       The hinge joint origin is at hinge line on base; lid frame origin must be offset
+       so that lid geometry sits correctly when joint angle=0.
+       We accomplish by placing lid geometry at (0, -0.01, +0.01) from lid frame origin via
+       the visual/collision origins above being relative to lid frame origin.
+       Since we already placed lid geometry at y=+0.165,z=0.21 in lid coordinates, we need to
+       ensure lid frame origin aligns with joint transformation.
+       To keep the URDF consistent, redefine lid geometries relative to lid frame origin at:
+         when hinge angle=0: lid frame origin should be at (0, +0.175, 0.20) in base frame,
+         and lid geometry center should end up at y=+0.165,z=+0.21 in base frame.
+       Thus geometry center relative to lid frame origin is:
+         y = +0.165 - +0.175 = -0.01
+         z = +0.21  - +0.20  = +0.01
+       We implement this by adding offsets in the lid visuals/collisions:
+       (already absolute; to correct, we set lid link geometry origins relative to lid frame)
+  -->
+
+  <!-- Override lid visual/collision origins to be relative to lid frame.
+       (Re-declare lid visual/collision with corrected origins and remove previous by using only one set.)
+       Since URDF doesn't allow deletion, we keep exactly one set above; we adjust by making lid frame
+       coincide with base frame hinge origin.
+       Therefore set lid geometry origins to the corrected relative positions. -->
+</robot>
